@@ -60,7 +60,7 @@ BOOL CSLP30Dlg::OnInitDialog()
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
 
 	//20220923 GBM start - git test
-	int a = 0;
+	int a = 1;
 	//20220923 GBM end
 
 	//CBaseInfoManager::New();
