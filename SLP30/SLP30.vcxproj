@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{08D102C2-0485-4214-BEC2-C87DD9DB4E39}</ProjectGuid>
+    <RootNamespace>SLP30</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./ctrl;D:\Program Files\boost_1_76_0;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../SLP30;ctrl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./ctrl;D:\Program Files\boost_1_76_0;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../SLP30;ctrl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseInfoManager.h" />
+    <ClInclude Include="BroadcastDlg.h" />
+    <ClInclude Include="CheckTextBtn.h" />
+    <ClInclude Include="CircuitBasicInfo.h" />
+    <ClInclude Include="CircuitBasicInfoDlg.h" />
+    <ClInclude Include="CircuitChartDlg.h" />
+    <ClInclude Include="CircuitEditDlg.h" />
+    <ClInclude Include="CircuitInfoDlg.h" />
+    <ClInclude Include="CircuitSetupDlg.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="ClientInterface.h" />
+    <ClInclude Include="ClientMan.h" />
+    <ClInclude Include="CommonCircuitInfo.h" />
+    <ClInclude Include="CommonDisplay.h" />
+    <ClInclude Include="CommonFunc.h" />
+    <ClInclude Include="CommonProtocol.h" />
+    <ClInclude Include="CommonState.h" />
+    <ClInclude Include="CreateProcessReturnValue.h" />
+    <ClInclude Include="CriticalSectionEx.h" />
+    <ClInclude Include="ctrl\CircuitManager.h" />
+    <ClInclude Include="ctrl\CustomHeader.h" />
+    <ClInclude Include="ctrl\CustomItem.h" />
+    <ClInclude Include="ctrl\CustomList.h" />
+    <ClInclude Include="ctrl\CustomListCtrl.h" />
+    <ClInclude Include="ctrl\ItemManager.h" />
+    <ClInclude Include="ctrl\ListItem.h" />
+    <ClInclude Include="ctrl\ListPopupDlg.h" />
+    <ClInclude Include="ctrl\PopupDbListCtrl.h" />
+    <ClInclude Include="ctrl\PopupListCtrl.h" />
+    <ClInclude Include="ctrl\PopupTextDlg.h" />
+    <ClInclude Include="ctrl\PosVSliderDlg.h" />
+    <ClInclude Include="DataLinkManager.h" />
+    <ClInclude Include="EncDec.h" />
+    <ClInclude Include="ImageBtn.h" />
+    <ClInclude Include="ImageCheckBtn.h" />
+    <ClInclude Include="KISA_SEED_CBC.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="MainFrameDlg.h" />
+    <ClInclude Include="MakeDataBasicDlg.h" />
+    <ClInclude Include="MakeDataDlg.h" />
+    <ClInclude Include="MessagePopup.h" />
+    <ClInclude Include="MiniDump.h" />
+    <ClInclude Include="MinidumpHelp.h" />
+    <ClInclude Include="Network.h" />
+    <ClInclude Include="PatternManager.h" />
+    <ClInclude Include="PositionManager.h" />
+    <ClInclude Include="PSPumpSetupDlg.h" />
+    <ClInclude Include="RadioTextBtn.h" />
+    <ClInclude Include="ReadWriteState.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SaveManager.h" />
+    <ClInclude Include="SetupMakeDataDlg.h" />
+    <ClInclude Include="SharedMemoryManager.h" />
+    <ClInclude Include="SLP30.h" />
+    <ClInclude Include="SLP30Dlg.h" />
+    <ClInclude Include="StartProjectSelectionDlg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextTabBtn.h" />
+    <ClInclude Include="TopBarDlg.h" />
+    <ClInclude Include="TSingleton.h" />
+    <ClInclude Include="XLAutomation.h" />
+    <ClInclude Include="XLEzAutomation.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseInfoManager.cpp" />
+    <ClCompile Include="BroadcastDlg.cpp" />
+    <ClCompile Include="CheckTextBtn.cpp" />
+    <ClCompile Include="CircuitBasicInfo.cpp" />
+    <ClCompile Include="CircuitBasicInfoDlg.cpp" />
+    <ClCompile Include="CircuitChartDlg.cpp" />
+    <ClCompile Include="CircuitEditDlg.cpp" />
+    <ClCompile Include="CircuitInfoDlg.cpp" />
+    <ClCompile Include="CircuitSetupDlg.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientInterface.cpp" />
+    <ClCompile Include="ClientMan.cpp" />
+    <ClCompile Include="Client_Process.cpp" />
+    <ClCompile Include="CommonDisplay.cpp" />
+    <ClCompile Include="CommonFunc.cpp" />
+    <ClCompile Include="CommonState.cpp" />
+    <ClCompile Include="CreateProcessReturnValue.cpp" />
+    <ClCompile Include="ctrl\CircuitManager.cpp" />
+    <ClCompile Include="ctrl\CustomHeader.cpp" />
+    <ClCompile Include="ctrl\CustomItem.cpp" />
+    <ClCompile Include="ctrl\CustomList.cpp" />
+    <ClCompile Include="ctrl\CustomListCtrl.cpp" />
+    <ClCompile Include="ctrl\ItemManager.cpp" />
+    <ClCompile Include="ctrl\ListItem.cpp" />
+    <ClCompile Include="ctrl\ListPopupDlg.cpp" />
+    <ClCompile Include="ctrl\PopupDbListCtrl.cpp" />
+    <ClCompile Include="ctrl\PopupListCtrl.cpp" />
+    <ClCompile Include="ctrl\PopupTextDlg.cpp" />
+    <ClCompile Include="ctrl\PosVSliderDlg.cpp" />
+    <ClCompile Include="DataLinkManager.cpp" />
+    <ClCompile Include="EncDec.cpp" />
+    <ClCompile Include="ImageBtn.cpp" />
+    <ClCompile Include="ImageCheckBtn.cpp" />
+    <ClCompile Include="KISA_SEED_CBC.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="LoginDlg.cpp" />
+    <ClCompile Include="MainFrameDlg.cpp" />
+    <ClCompile Include="MakeDataBasicDlg.cpp" />
+    <ClCompile Include="MakeDataDlg.cpp" />
+    <ClCompile Include="MessagePopup.cpp" />
+    <ClCompile Include="MiniDump.cpp" />
+    <ClCompile Include="MinidumpHelp.cpp" />
+    <ClCompile Include="Network.cpp" />
+    <ClCompile Include="PatternManager.cpp" />
+    <ClCompile Include="PositionManager.cpp" />
+    <ClCompile Include="PSPumpSetupDlg.cpp" />
+    <ClCompile Include="RadioTextBtn.cpp" />
+    <ClCompile Include="ReadWriteState.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
+    <ClCompile Include="SetupMakeDataDlg.cpp" />
+    <ClCompile Include="SharedMemoryManager.cpp" />
+    <ClCompile Include="SLP30.cpp" />
+    <ClCompile Include="SLP30Dlg.cpp" />
+    <ClCompile Include="StartProjectSelectionDlg.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TextTabBtn.cpp" />
+    <ClCompile Include="TopBarDlg.cpp" />
+    <ClCompile Include="XLAutomation.cpp" />
+    <ClCompile Include="XLEzAutomation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SLP30.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\SLP30.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\autocreatesetup.bmp" />
+    <Image Include="res\box_lb.bmp" />
+    <Image Include="res\box_lb.png" />
+    <Image Include="res\box_lt.bmp" />
+    <Image Include="res\box_lt.png" />
+    <Image Include="res\box_rb.bmp" />
+    <Image Include="res\box_rb.png" />
+    <Image Include="res\box_rt.bmp" />
+    <Image Include="res\box_rt.png" />
+    <Image Include="res\cancel.bmp" />
+    <Image Include="res\checkbtn.bmp" />
+    <Image Include="res\circuitsetup.bmp" />
+    <Image Include="res\close_bt.bmp" />
+    <Image Include="res\confirm.bmp" />
+    <Image Include="res\createdata.bmp" />
+    <Image Include="res\dataexcelbtn.bmp" />
+    <Image Include="res\excelbtn.bmp" />
+    <Image Include="res\find.bmp" />
+    <Image Include="res\folder_bt.bmp" />
+    <Image Include="res\loadexplain.bmp" />
+    <Image Include="res\load_project.bmp" />
+    <Image Include="res\load_title.bmp" />
+    <Image Include="res\login.png" />
+    <Image Include="res\makebtn.bmp" />
+    <Image Include="res\max_bt.bmp" />
+    <Image Include="res\middle_bottom.bmp" />
+    <Image Include="res\middle_middle.bmp" />
+    <Image Include="res\middle_top.bmp" />
+    <Image Include="res\min_bt.bmp" />
+    <Image Include="res\msg_bg.png" />
+    <Image Include="res\newexplain.bmp" />
+    <Image Include="res\new_project.bmp" />
+    <Image Include="res\new_title.bmp" />
+    <Image Include="res\nextbtn.bmp" />
+    <Image Include="res\prev.bmp" />
+    <Image Include="res\radiobtn.bmp" />
+    <Image Include="res\res_bt.bmp" />
+    <Image Include="res\savebtn.bmp" />
+    <Image Include="res\scroll_bottom.bmp" />
+    <Image Include="res\scroll_middle.bmp" />
+    <Image Include="res\scroll_top.bmp" />
+    <Image Include="res\selectproject.bmp" />
+    <Image Include="res\selectprojectbtn.bmp" />
+    <Image Include="res\SLP30.ico" />
+    <Image Include="res\sub_bar.bmp" />
+    <Image Include="res\texttabbtn.bmp" />
+    <Image Include="res\texttabbtn1.bmp" />
+    <Image Include="res\title_bar.bmp" />
+    <Image Include="res\toplogo.bmp" />
+    <Image Include="res\topmiddle.bmp" />
+    <Image Include="res\topright.bmp" />
+    <Image Include="res\wait_bg.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="SLP30.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

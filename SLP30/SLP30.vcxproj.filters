@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{d758e9c9-005c-4d14-9416-ef2d28b435e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{d2c048b3-27d1-416b-8fed-7ab24cdb1688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control">
+      <UniqueIdentifier>{29fd54a7-dd3f-4d35-a766-45a9bcbe2732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control\input ctrl">
+      <UniqueIdentifier>{ff603d9f-fe30-4420-9d11-346d0e284d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control\circuit list">
+      <UniqueIdentifier>{e9a4d35e-38a6-4025-b637-e4889c1d8ab0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control\popup">
+      <UniqueIdentifier>{b6f27860-f760-4ae6-a1a0-48574c05d5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dialog">
+      <UniqueIdentifier>{30b95337-1979-479b-95de-79b66710f41c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control\etc">
+      <UniqueIdentifier>{b1988da9-1b60-40b5-9341-4ef864bbca51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\socket">
+      <UniqueIdentifier>{6fdde946-203b-4f41-807b-d827a792168d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\excel">
+      <UniqueIdentifier>{04ddfdeb-e059-43c0-a443-9c4957d1b016}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SLP30.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SLP30Dlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonDisplay.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonFunc.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonState.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="CriticalSectionEx.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="TSingleton.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\ItemManager.h">
+      <Filter>control\input ctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\ListItem.h">
+      <Filter>control\input ctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\PopupDbListCtrl.h">
+      <Filter>control\input ctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\PopupListCtrl.h">
+      <Filter>control\input ctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\PosVSliderDlg.h">
+      <Filter>control\input ctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\CustomHeader.h">
+      <Filter>control\circuit list</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\CustomItem.h">
+      <Filter>control\circuit list</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\CustomList.h">
+      <Filter>control\circuit list</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\CustomListCtrl.h">
+      <Filter>control\circuit list</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\ListPopupDlg.h">
+      <Filter>control\popup</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\PopupTextDlg.h">
+      <Filter>control\popup</Filter>
+    </ClInclude>
+    <ClInclude Include="ctrl\CircuitManager.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="TopBarDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageBtn.h">
+      <Filter>control\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="MessagePopup.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadWriteState.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="StartProjectSelectionDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitInfoDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageCheckBtn.h">
+      <Filter>control\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="RadioTextBtn.h">
+      <Filter>control\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckTextBtn.h">
+      <Filter>control\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrameDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitBasicInfoDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="TextTabBtn.h">
+      <Filter>control\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitSetupDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitBasicInfo.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseInfoManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="KISA_SEED_CBC.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemoryManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonCircuitInfo.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitEditDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="CircuitChartDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="PSPumpSetupDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="BroadcastDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientInterface.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientMan.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonProtocol.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="EncDec.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Network.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="MakeDataDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="XLAutomation.h">
+      <Filter>source\excel</Filter>
+    </ClInclude>
+    <ClInclude Include="XLEzAutomation.h">
+      <Filter>source\excel</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateProcessReturnValue.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupMakeDataDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="MakeDataBasicDlg.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="DataLinkManager.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniDump.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="MinidumpHelp.h">
+      <Filter>common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SLP30.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SLP30Dlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonDisplay.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonFunc.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonState.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\ItemManager.cpp">
+      <Filter>control\input ctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\ListItem.cpp">
+      <Filter>control\input ctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\PopupDbListCtrl.cpp">
+      <Filter>control\input ctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\PopupListCtrl.cpp">
+      <Filter>control\input ctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\PosVSliderDlg.cpp">
+      <Filter>control\input ctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\CustomHeader.cpp">
+      <Filter>control\circuit list</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\CustomItem.cpp">
+      <Filter>control\circuit list</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\CustomList.cpp">
+      <Filter>control\circuit list</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\CustomListCtrl.cpp">
+      <Filter>control\circuit list</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\ListPopupDlg.cpp">
+      <Filter>control\popup</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\PopupTextDlg.cpp">
+      <Filter>control\popup</Filter>
+    </ClCompile>
+    <ClCompile Include="ctrl\CircuitManager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="TopBarDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageBtn.cpp">
+      <Filter>control\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="MessagePopup.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadWriteState.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="StartProjectSelectionDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="CircuitInfoDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCheckBtn.cpp">
+      <Filter>control\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="RadioTextBtn.cpp">
+      <Filter>control\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckTextBtn.cpp">
+      <Filter>control\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrameDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="CircuitBasicInfoDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="TextTabBtn.cpp">
+      <Filter>control\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="CircuitSetupDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="CircuitBasicInfo.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseInfoManager.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="KISA_SEED_CBC.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemoryManager.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionManager.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="CircuitEditDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="CircuitChartDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="PSPumpSetupDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="BroadcastDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveManager.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Client_Process.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientInterface.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientMan.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="EncDec.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="MakeDataDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="XLAutomation.cpp">
+      <Filter>source\excel</Filter>
+    </ClCompile>
+    <ClCompile Include="XLEzAutomation.cpp">
+      <Filter>source\excel</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateProcessReturnValue.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="SetupMakeDataDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="MakeDataBasicDlg.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternManager.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLinkManager.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniDump.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="MinidumpHelp.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SLP30.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\SLP30.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\SLP30.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\middle_bottom.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\middle_middle.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\middle_top.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\scroll_bottom.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\scroll_middle.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\scroll_top.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\toplogo.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\topmiddle.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\topright.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\close_bt.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\max_bt.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\min_bt.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\res_bt.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\cancel.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\confirm.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\msg_bg.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\find.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\login.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_lb.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_lt.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_rb.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_rt.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_lb.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_lt.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_rb.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\box_rt.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\sub_bar.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\title_bar.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\load_project.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\new_project.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\selectproject.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\loadexplain.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\newexplain.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\load_title.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\new_title.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\autocreatesetup.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\radiobtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\checkbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\circuitsetup.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\createdata.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\selectprojectbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\nextbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\texttabbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\prev.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\wait_bg.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\savebtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\excelbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\folder_bt.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\makebtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\dataexcelbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\texttabbtn1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
