@@ -43,7 +43,13 @@ END_MESSAGE_MAP()
 // CCircuitChartDlg 메시지 처리기입니다.
 const TCHAR* g_editHeader[] = { _T("중계기No"), _T("회로No"), _T("설비명"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("실명"), _T("설비번호"), NULL };
 const int g_editSize[] = { 80, 70, 200, 80, 120, 90, 90, 100, 75, 0 }; // pixel
-const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_EDIT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
+//20221022 GBM start - 층 정보를 편집 가능하도록 수정 (옥탑 표시를 위함), 연동데이터의 영향 관계는 차후 확인 필요
+#if 1
+	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_EDIT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_ADD, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
+#else
+	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_EDIT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
+#endif
+//20221022 GBM end
 const int g_editAlign[] = { DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, -1 }; // option, row align text, default: DT_LEFT
 const int g_editLimit[] = { 10, 10, 0, 0, 0, 20, 20, 10, -1 }; // 0: 무제한, > 0 : 텍스트 사이즈 제한
 

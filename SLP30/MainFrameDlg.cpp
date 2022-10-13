@@ -305,6 +305,8 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 		m_pSelectionDlg->ShowWindow(SW_HIDE);
 		m_pMakeDataDlg->ShowWindow(SW_HIDE);
 		break;
+	case 20:
+		break;
 	default: break;
 	}
 }
@@ -386,6 +388,21 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		break;
 	case 13:
 		SetTabButton(13);
+		break;
+	case 20:
+		if (m_pCircuitDlg) {
+			// 1. 기존 작업과 비교
+			// 2. 존재하는 것은 그대로, 없는 것은 삭제, 추가된 것은 추가하는 함수 생성
+			// 3. 화면 이동
+			SetTabButton(20);
+		}
+		break;
+	case 21:
+		// 1. 기존 작업과 비교
+		// 2. 존재하는 것은 그대로, 없는 것은 삭제, 추가된 것은 추가하는 함수 생성
+			// 3. 화면 이동
+		break;
+	case 22:
 		break;
 	default:
 		break;

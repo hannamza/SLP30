@@ -339,6 +339,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	}
 
 	if (!m_bFirstWork) {
+		//20221011 GBM start
 		if (bChange || CCircuitBasicInfo::Instance()->m_sBuildingName != sBD || CCircuitBasicInfo::Instance()->m_nStair != _ttoi(sStair.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nFloor != _ttoi(sFloor.GetBuffer()) || CCircuitBasicInfo::Instance()->m_nBasement != _ttoi(sBase.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nBlock != _ttoi(sBlock.GetBuffer()) || !bCompare) {
@@ -351,6 +352,16 @@ void CCircuitBasicInfoDlg::OnNextClick()
 				bChange = false;
 			}
 		}
+			//CMessagePopup popup(L"회로 기본 입력", L"\n\n\n새로운 정보를 반영하시겠습니까?\n\n(확인: 새작업 / 취소: 기존작업추가)", MB_YESNO, this);
+			//UINT nResult = popup.DoModal();
+			//if (nResult == IDOK) {
+			//	bChange = true;
+			//}
+			//else {
+			//	bChange = false;
+			//	GetParent()->PostMessage(SELECTION_PROJECT, 20, bChange);
+			//}
+		//20221011 GBM end
 	}
 
 	if (m_bFirstWork || bChange) {
@@ -377,7 +388,13 @@ void CCircuitBasicInfoDlg::OnNextClick()
 void CCircuitBasicInfoDlg::InfoInit()
 {
 	m_pListCtrl->SetItemText(0, 0, L"");
+	//20221012 GBM start - 건물 기본 값을 1로 변경해서 기존 0일 경우 프로젝트 내용 로드 시 설비 개수 초기화 되는 오류 수정
+#if 1
+	m_pListCtrl->SetItemText(0, 1, L"1");
+#else
 	m_pListCtrl->SetItemText(0, 1, L"0");
+#endif
+	//20221012 GBM end
 	m_pListCtrl->SetItemText(0, 2, L"101");
 	m_pListCtrl->SetItemText(0, 3, L"1");
 	m_pListCtrl->SetItemText(0, 4, L"2");

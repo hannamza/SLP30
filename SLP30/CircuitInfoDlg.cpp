@@ -277,6 +277,7 @@ void CCircuitInfoDlg::OnNextClick()
 	bool bResult1 = m_pSetupDlg[0]->CompareNewCircuitInfo(0);
 	bool bResult2 = m_pSetupDlg[1]->CompareNewCircuitInfo(1);
 	if (!bResult1 || !bResult2) {
+		//20221011 GBM start
 		if (!CCommonState::ie()->m_bInitCircuit) {
 			CMessagePopup popup(L"중계기 일람표", L"\n변경사항으로 인하여\n\n중계기 일람표가 초기화 됩니다.\n\n계속하시겠습니까?\n\n(확인: 새작업 / 취소: 기존작업)", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
@@ -289,6 +290,18 @@ void CCircuitInfoDlg::OnNextClick()
 			else {
 				GetParent()->PostMessage(SELECTION_PROJECT, 13, 0);
 			}
+			//CMessagePopup popup(L"중계기 일람표", L"\n변경사항이 존재합니다.\n새로 구성하시겠습니까?\n\n(확인: 새구성, 취소: 기존구성 변경)", MB_YESNO, this);
+			//UINT nResult = popup.DoModal();
+			//if (nResult == IDOK) {
+			//	if (!CheckCircuitCount()) {
+			//		return;
+			//	}
+			//	GetParent()->PostMessage(SELECTION_PROJECT, 21, 0);
+			//}
+			//else {
+			//	GetParent()->PostMessage(SELECTION_PROJECT, 22, 0);
+			//}
+			//20221011 GBM end
 		}
 		else {
 			if (!CheckCircuitCount()) {

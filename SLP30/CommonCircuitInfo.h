@@ -3,6 +3,7 @@
 #define		CIRCUIT_PARENT	19
 #define		CIRCUIT_CNT		53
 
+//20220929 GBM - 아래 각 enum 정의가 문서 [연동 로직, 입출력 타입 정리_Ver 3(2022.05.19).xlsx] 내용과 불일치, enum 7 ~ 8, 12 ~ 13, 16 ~ 19, 26 ~ 29 추가, enum 42 ~ 45 삭제
 enum {
 	설비명_소화전 = 0,		// 0
 	설비명_발신기,			// 1

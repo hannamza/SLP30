@@ -8,7 +8,14 @@ CCircuitBasicInfo::CCircuitBasicInfo()
 	m_nStair = 1;
 	m_nFloor = 2;
 	m_nBasement = 0;
+
+	//20221012 GBM start - 건물 기본 값을 1로 변경해서 기존 0일 경우 프로젝트 내용 로드 시 설비 개수 초기화 되는 오류 수정
+#if 1
+	m_nBlock = 1;
+#else
 	m_nBlock = 0;
+#endif
+	//20221012 GBM end
 
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
 		m_bCheck[nIndex] = false;
