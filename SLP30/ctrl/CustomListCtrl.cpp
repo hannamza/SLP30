@@ -520,6 +520,7 @@ LRESULT CCustomListCtrl::OnSelectionNotify(WPARAM wParam, LPARAM lParam)
 	if (rect.Width() == 0 || rect.Height() == 0) {
 		return 0;
 	}
+
 	int nType = m_nHeaderType.GetAt(nSelCol);
 	switch (nType)
 	{
@@ -1177,3 +1178,10 @@ void CCustomListCtrl::InsertListItemDown(int nRowIndex)
 		m_pList->InsertItem(nRowIndex, 1);
 	}
 }
+
+//20221013 GBM start - ReadOnly 주기 위한 추가
+void CCustomListCtrl::SetReadOnly(bool bReadOnly)
+{
+	m_pList->SetReadOnly(bReadOnly);
+}
+//20221013 GBM end

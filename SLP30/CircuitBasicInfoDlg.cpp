@@ -35,6 +35,8 @@ CCircuitBasicInfoDlg::CCircuitBasicInfoDlg(CWnd* pParent /*=NULL*/)
 
 	m_bFirstWork = true;
 	m_bInit = false;
+
+	m_bBuildingInfoComplate = false;
 }
 
 CCircuitBasicInfoDlg::~CCircuitBasicInfoDlg()
@@ -365,6 +367,34 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	}
 
 	if (m_bFirstWork || bChange) {
+		
+		//20221013 GBM start - 건물 정보는 한번 입력하면 고정
+#if 1
+		if (!m_bBuildingInfoComplate)
+		{
+			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물정보는 한번 결정되면 편집이 불가능합니다.\n\n반영하시겠습니까?\n\n(이후에 [회로 정보 입력]은 변경 가능)", MB_YESNO, this);
+			UINT nResult = popup.DoModal();
+			if (nResult == IDOK) {
+				CCircuitBasicInfo::Instance()->m_sBuildingName = sBD;
+				CCircuitBasicInfo::Instance()->m_nStair = nStair;
+				CCircuitBasicInfo::Instance()->m_nFloor = nFloor;
+				CCircuitBasicInfo::Instance()->m_nBasement = nBase;
+				CCircuitBasicInfo::Instance()->m_nBlock = nBlock;
+				CCircuitBasicInfo::Instance()->m_sBlockName = sBlockName;
+
+				CCircuitBasicInfo::Instance()->m_arrayBlockName.RemoveAll();
+				CCircuitBasicInfo::Instance()->m_arrayBlockName.Copy(arrayBlock);
+
+				m_bBuildingInfoComplate = true;
+
+				m_pListCtrl->SetReadOnly(true);
+			}
+			else {
+				return;
+			}
+		}
+
+#else
 		CCircuitBasicInfo::Instance()->m_sBuildingName = sBD;
 		CCircuitBasicInfo::Instance()->m_nStair = nStair;
 		CCircuitBasicInfo::Instance()->m_nFloor = nFloor;
@@ -374,6 +404,8 @@ void CCircuitBasicInfoDlg::OnNextClick()
 
 		CCircuitBasicInfo::Instance()->m_arrayBlockName.RemoveAll();
 		CCircuitBasicInfo::Instance()->m_arrayBlockName.Copy(arrayBlock);
+#endif
+		//20221013 GBM end
 
 		for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
 			CCircuitBasicInfo::Instance()->m_bCheck[nIndex] = m_pCheck[nIndex]->GetCheck();
@@ -426,6 +458,11 @@ void CCircuitBasicInfoDlg::LoadInfo()
 		m_pCheck[nIndex]->SetCheck(CCircuitBasicInfo::Instance()->m_bCheck[nIndex]);
 	}
 	m_bFirstWork = false;
+
+	//20221013 GBM start - 프로젝트 파일이 로드됐다는 건 건물 정보과 확정되었다는 의미
+	m_bBuildingInfoComplate = true;		
+	m_pListCtrl->SetReadOnly(true);
+	//20221013 GBM end
 
 	GetParent()->PostMessage(SELECTION_PROJECT, 11, false);
 }

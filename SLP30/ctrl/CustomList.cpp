@@ -1404,3 +1404,16 @@ void CCustomList::OnRButtonUp(UINT nFlags, CPoint point)
 
 	CScrollView::OnRButtonUp(nFlags, point);
 }
+
+//20221013 GBM start - ReadOnly 주기 위한 추가
+void CCustomList::SetReadOnly(bool bReadOnly)
+{
+	Redisplay();
+	POSITION pos = m_listItem.GetHeadPosition();
+	CCustomItem* pItem;
+	while (pos) {
+		pItem = m_listItem.GetNext(pos);
+		pItem->SetReadOnly(bReadOnly);
+	}
+}
+//20221013 GBM end

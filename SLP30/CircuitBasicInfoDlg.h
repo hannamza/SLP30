@@ -34,6 +34,7 @@ private:
 	CImageBtn m_btnNext;
 	bool m_bFirstWork;
 	bool m_bInit;
+	bool m_bBuildingInfoComplate;		//20221013 GBM - 최초 건물 정보는 한번 세팅되면 변경할 수 없도록 수정하기 위한 플래그
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.

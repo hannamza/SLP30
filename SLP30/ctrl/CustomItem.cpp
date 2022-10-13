@@ -6,6 +6,8 @@
 #include "CustomItem.h"
 #include "afxdialogex.h"
 
+#include "MessagePopup.h"	//20221013 GBM - 건물 정보 확정 시 ReadOnly주기 위한 추가
+
 // CCustomItem 대화 상자입니다.
 
 IMPLEMENT_DYNAMIC(CCustomItem, CDialogEx)
@@ -74,6 +76,8 @@ CCustomItem::CCustomItem(CWnd* pParent)
 	m_textColor = RGB(30, 30, 30);
 	m_textSelColor = RGB(255, 255, 255);
 	m_lineColor = RGB(255, 255, 255);
+
+	m_bReadOnlyState = false;	//20221013 GBM - ReadOnly 주기 위한 추가
 }
 
 CCustomItem::~CCustomItem()
@@ -133,6 +137,15 @@ BOOL CCustomItem::PreTranslateMessage(MSG* pMsg)
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	if (pMsg->message == WM_KEYDOWN)
 	{
+		//20221013 GBM start - ReadOnly 주기 위한 추가
+		if (m_bReadOnlyState)
+		{	
+			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물정보는 이미 결정되었으므로 변경할 수 없습니다.", MB_OK, this);
+			UINT nResult = popup.DoModal();
+			return TRUE;
+		}
+		//20221013 GBM end
+
 		if (pMsg->wParam == VK_ESCAPE) {
 			return TRUE;
 		}
@@ -855,4 +868,9 @@ void CCustomItem::SetRowInfo(CUIntArray & arraySize, CUIntArray & arrayType, CUI
 void CCustomItem::OnEnKillfocusItemEdit()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+void CCustomItem::SetReadOnly(bool bReadOnly)
+{
+	m_bReadOnlyState = bReadOnly;
 }

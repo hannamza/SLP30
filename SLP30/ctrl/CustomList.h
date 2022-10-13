@@ -61,6 +61,7 @@ public:
 	void ReleaseListItem();
 	void SetDisableMenu(bool bDisable);
 	void EnableLastInsertRow(bool bLast, bool bFirst = false);
+	void SetReadOnly(bool bReadOnly);	//20221013 GBM - ReadOnly 주기 위한 추가
 
 private:
 	CWnd* m_pParent;

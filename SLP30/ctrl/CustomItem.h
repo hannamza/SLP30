@@ -66,6 +66,8 @@ public:
 	void CheckLimitEditText();
 	void GetItemRect(int nCol, CRect & rect);
 
+	void SetReadOnly(bool bReadOnly);	//20221013 GBM - ReadOnly 주기 위한 추가
+
 private:
 	void Redisplay();
 	void CheckEditItem(int nCol);
@@ -88,6 +90,8 @@ private:
 	CUIntArray	m_arraySize, m_arrayType, m_arrayAlign, m_arrayLimit;
 	CCriticalSectionEx m_sizeSync, m_textSync;
 	CList<pItemValue, pItemValue> m_listItemValue;
+
+	bool m_bReadOnlyState;	//20221013 GBM - ReadOnly 주기 위한 추가
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
