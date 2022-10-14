@@ -199,8 +199,15 @@ LRESULT CCircuitInfoDlg::OnResetValue(WPARAM wParam, LPARAM lParam)
 
 void CCircuitInfoDlg::InitCircuitInfo()
 {
+	//20221013 GBM start - 계통 정보를 넘겨서 기존 설비 개수 정보는 가져오고 새로 추가된 종류의 설비는 0으로 초기화
+#if 1
+	m_pSetupDlg[0]->InitCircuitInfo(0);
+	m_pSetupDlg[1]->InitCircuitInfo(1);
+#else
 	m_pSetupDlg[0]->InitCircuitInfo();
 	m_pSetupDlg[1]->InitCircuitInfo();
+#endif
+	//20221013 GBM end
 	m_pSetupDlg[0]->ShowWindow(SW_SHOW);
 	m_pSetupDlg[1]->ShowWindow(SW_HIDE);
 	PostMessage(TEXTTAB_BUTTON_CLICK, 0, 0);
@@ -263,8 +270,8 @@ bool CCircuitInfoDlg::CheckCircuitCount()
 
 void CCircuitInfoDlg::LoadInfo()
 {
-	m_pSetupDlg[0]->InitCircuitInfo();
-	m_pSetupDlg[1]->InitCircuitInfo();
+	m_pSetupDlg[0]->InitCircuitInfo(0);
+	m_pSetupDlg[1]->InitCircuitInfo(1);
 
 	m_pSetupDlg[0]->LoadInfo(0);
 	m_pSetupDlg[1]->LoadInfo(1);
@@ -317,6 +324,11 @@ void CCircuitInfoDlg::OnNextClick()
 
 void CCircuitInfoDlg::OnPrevClick()
 {
+	//20221014 GBM start - 현재 회로 개수 작업 내용 메모리에 저장
+	m_pSetupDlg[0]->SaveCircuitInfo(0);
+	m_pSetupDlg[1]->SaveCircuitInfo(1);
+	//20221014 GBM end
+
 	GetParent()->PostMessage(SELECTION_PROJECT, 0, 0);
 }
 

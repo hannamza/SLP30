@@ -191,7 +191,151 @@ CCustomListCtrl* CCircuitSetupDlg::NewCircuitListCtrl(CCustomListCtrl* pListCtrl
 	return pListCtrl;
 }
 
-void CCircuitSetupDlg::InitCircuitInfo()
+//20221013 GBM start - 메모리에 저장되어 있는 기존 설비 개수 정보를 리스트에 표현
+void CCircuitSetupDlg::FillDataInCircuitListCtrl(int nSystem)
+{
+	CString sSystem = L"0 계통";
+	if (nSystem == 1) {
+		sSystem = L"1 계통";
+	}
+	CString sBlock, sStair, sTemp, sFloor;
+	pSelectCircuit pCircuit = NULL;
+	CCustomListCtrl* pList = NULL;
+	CStringArray header;
+	int nCount = 0;
+	MakeHeader(header);
+
+	int nBlockIndex = 0, nStairIndex = 0;
+	bool bExit = false;
+	while (true)
+	{
+		if (bExit) {
+			break;
+		}
+		if (CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount() > 0
+			&& CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount() < nBlockIndex + 1) {
+			break;
+		}
+		if (CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount() == 0) {
+			bExit = true;
+		}
+		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
+			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+			sBlock += L"동";
+		}
+		++nBlockIndex;
+
+		for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) {
+			sStair.Format(L"%d계단", nIndex + 1);
+
+			pList = m_p_List[nStairIndex];
+			++nStairIndex;
+			for (int i = 0; i < pList->GetItemCount(); i++) {
+				for (int ii = 0; ii < header.GetCount(); ii++) {
+					pList->GetItemText(i, ii, sTemp);
+					nCount = _ttoi(sTemp.GetBuffer(0));
+					if (ii == 0) {
+						pList->GetItemText(i, 0, sFloor);
+						continue;
+					}
+					//else if (nCount == 0) {
+					//	continue;
+					//}
+
+					pList->SetItemText(i, ii, L"0");
+
+					CString sCircuitName = L"";
+					if (nSystem == 0)
+					{
+						for (int j = 0; j < CCommonState::ie()->m_selectCircuit_0.GetCount(); j++)
+						{
+							pSelectCircuit pCircuit = NULL;
+							pCircuit = CCommonState::ie()->m_selectCircuit_0.GetAt(CCommonState::ie()->m_selectCircuit_0.FindIndex(j));
+
+							//계통, 동, 계단, 층, 설비명이 일치하는 기존 정보가 있다면 그 개수를 채움							
+							sCircuitName = header.GetAt(ii);
+							if((sSystem.Compare(pCircuit->sSystem) == 0) 
+								&& (sBlock.Compare(pCircuit->sBlock) == 0) 
+								&& (sStair.Compare(pCircuit->sStair) == 0) 
+								&& (sFloor.Compare(pCircuit->sFloor) == 0) 
+								&& (sCircuitName.Compare(pCircuit->sCircuitName) == 0))
+							{
+								CString strNum = L"";
+								strNum.Format(L"%d", pCircuit->nCount);
+								pList->SetItemText(i, ii, strNum);
+							}
+						}						
+					}
+					else
+					{
+						for (int j = 0; j < CCommonState::ie()->m_selectCircuit_1.GetCount(); j++)
+						{
+							pSelectCircuit pCircuit = NULL;
+							pCircuit = CCommonState::ie()->m_selectCircuit_1.GetAt(CCommonState::ie()->m_selectCircuit_1.FindIndex(j));
+
+							//계통, 동, 계단, 층, 설비명이 일치하는 기존 정보가 있다면 그 개수를 채움
+							sCircuitName = header.GetAt(ii);
+							if ((sSystem.Compare(pCircuit->sSystem) == 0)
+								&& (sBlock.Compare(pCircuit->sBlock) == 0)
+								&& (sStair.Compare(pCircuit->sStair) == 0)
+								&& (sFloor.Compare(pCircuit->sFloor) == 0)
+								&& (sCircuitName.Compare(pCircuit->sCircuitName) == 0))
+							{
+								CString strNum = L"";
+								strNum.Format(L"%d", pCircuit->nCount);
+								pList->SetItemText(i, ii, strNum);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//if (pListCtrl) {
+	//	pListCtrl->ShowWindow(SW_HIDE);
+	//	pListCtrl->DestroyWindow();
+	//}
+	//pListCtrl = CreateListCtrl();
+
+	//int nFloor = CCircuitBasicInfo::Instance()->m_nBasement;
+	//nFloor += CCircuitBasicInfo::Instance()->m_nFloor;
+	//pListCtrl->AddItem(nFloor);
+	//int nItemIndex = 0;
+	//CString sText;
+	//for (int nIndex = CCircuitBasicInfo::Instance()->m_nBasement; nIndex > 0; nIndex--)
+	//{
+	//	sText.Format(L"B%dF", nIndex);
+	//	pListCtrl->SetItemText(nItemIndex, 0, sText);
+	//	for (int i = 1; i < m_arrayHeaderName.GetCount(); i++) {
+	//		CString strHeaderName = L"";
+	//		strHeaderName = m_arrayHeaderName.GetAt(i);
+	//		
+	//		for (int j = 0; j < CCommonState::ie()->m_selectCircuit_0.GetCount(); j++)
+	//		{
+	//			pSelectCircuit pCircuit = NULL;
+	//			pCircuit = CCommonState::ie()->m_selectCircuit_0.GetAt(CCommonState::ie()->m_selectCircuit_0.FindIndex(j));
+	//			if(sText.Compare(pCircuit.))
+	//		}
+
+	//		pListCtrl->SetItemText(nItemIndex, i, L"0");
+	//	}
+	//	++nItemIndex;
+	//}
+	//for (int nIndex = 1; nIndex <= CCircuitBasicInfo::Instance()->m_nFloor; nIndex++)
+	//{
+	//	sText.Format(L"%dF", nIndex);
+	//	pListCtrl->SetItemText(nItemIndex, 0, sText);
+	//	for (int i = 1; i < m_arrayHeaderName.GetCount(); i++) {
+	//		pListCtrl->SetItemText(nItemIndex, i, L"0");
+	//	}
+	//	++nItemIndex;
+	//}
+	//return pListCtrl;
+}
+//20221013 GBM end
+
+void CCircuitSetupDlg::InitCircuitInfo(int nSystem)
 {
 	for (int i = 0; i < STAIR_TAB_COUNT; i++) {
 		m_pTabButton[i]->SetCheck(false);
@@ -227,6 +371,18 @@ void CCircuitSetupDlg::InitCircuitInfo()
 			m_p_List[nIndex]->ShowWindow(SW_HIDE);
 			break;
 		}
+	}
+
+	int nCircuitCnt = 0;
+	if (nSystem == 0)
+	{
+		nCircuitCnt = CCommonState::ie()->m_selectCircuit_0.GetCount();
+		FillDataInCircuitListCtrl(0);
+	}
+	else
+	{
+		nCircuitCnt = CCommonState::ie()->m_selectCircuit_1.GetCount();
+		FillDataInCircuitListCtrl(1);
 	}
 
 	m_sync.Leave();

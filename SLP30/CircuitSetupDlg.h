@@ -22,7 +22,13 @@ public:
 
 public:
 	bool LoadInfo(int nSystem);
+	//20221013 GBM start - 계통 정보를 넘겨서 기존 설비 개수 정보는 가져오고 새로 추가된 종류의 설비는 0으로 초기화
+#if 1
+	void InitCircuitInfo(int nSystem);
+#else
 	void InitCircuitInfo();
+#endif
+	//20221013 GBM end
 	bool SaveCircuitInfo(int nIndex);
 	bool CompareNewCircuitInfo(int nSystem);
 
@@ -34,6 +40,7 @@ private:
 	void MakeHeaderAlign(CUIntArray & arrayList);
 	void MakeHeaderLimit(CUIntArray & arrayList);
 	CCustomListCtrl* NewCircuitListCtrl(CCustomListCtrl* pListCtrl);
+	void FillDataInCircuitListCtrl(int nSystem);
 	bool CompareCircuit(pSelectCircuit pCircuit1, pSelectCircuit pCircuit2);
 	void Redisplay();
 

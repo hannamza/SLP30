@@ -345,7 +345,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 		if (bChange || CCircuitBasicInfo::Instance()->m_sBuildingName != sBD || CCircuitBasicInfo::Instance()->m_nStair != _ttoi(sStair.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nFloor != _ttoi(sFloor.GetBuffer()) || CCircuitBasicInfo::Instance()->m_nBasement != _ttoi(sBase.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nBlock != _ttoi(sBlock.GetBuffer()) || !bCompare) {
-			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n새로운 정보를 반영하시겠습니까?\n\n기존 작업은 삭제됩니다.\n\n(확인: 새작업 / 취소: 기존작업)", MB_YESNO, this);
+			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n새로운 [회로 정보 선택]을 반영하시겠습니까?\n\n(확인: 편집 적용 / 취소: 편집 취소)", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				bChange = true;
@@ -372,7 +372,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 #if 1
 		if (!m_bBuildingInfoComplate)
 		{
-			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물정보는 한번 결정되면 편집이 불가능합니다.\n\n반영하시겠습니까?\n\n(이후에 [회로 정보 입력]은 변경 가능)", MB_YESNO, this);
+			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물정보는 한번 결정되면 편집이 불가능합니다.\n\n반영하시겠습니까?\n\n(이후에 [회로 정보 선택]은 변경 가능)", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				CCircuitBasicInfo::Instance()->m_sBuildingName = sBD;
@@ -412,6 +412,14 @@ void CCircuitBasicInfoDlg::OnNextClick()
 		}
 		m_bFirstWork = false;
 		bChange = true;
+	}
+	else
+	{
+		//20221014 GBM start - 편집 내용 미적용 시 체크박스 컨트롤 내용을 기존 내용으로 회귀
+		for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+			m_pCheck[nIndex]->SetCheck(CCircuitBasicInfo::Instance()->m_bCheck[nIndex]);
+		}
+		//20221014 GBM end
 	}
 
 	GetParent()->PostMessage(SELECTION_PROJECT, 11, bChange);
