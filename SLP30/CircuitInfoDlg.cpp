@@ -265,6 +265,7 @@ bool CCircuitInfoDlg::CheckCircuitCount()
 		CCommonState::ie()->ReleaseCircuit(1);
 		return false;
 	}*/
+
 	return true;
 }
 
@@ -289,9 +290,16 @@ void CCircuitInfoDlg::OnNextClick()
 			CMessagePopup popup(L"중계기 일람표", L"\n변경사항으로 인하여\n\n중계기 일람표가 초기화 됩니다.\n\n계속하시겠습니까?\n\n(확인: 새작업 / 취소: 기존작업)", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
+
 				if (!CheckCircuitCount()) {
 					return;
 				}
+
+				//20221014 GBM start - 기존 설비 개수를 백업해둔다.
+				m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
+				m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
+				//20221014 GBM end
+
 				GetParent()->PostMessage(SELECTION_PROJECT, 12, 0);
 			}
 			else {
@@ -314,6 +322,12 @@ void CCircuitInfoDlg::OnNextClick()
 			if (!CheckCircuitCount()) {
 				return;
 			}
+
+			//20221014 GBM start - 기존 설비 개수를 백업해둔다.
+			m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
+			m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
+			//20221014 GBM end
+
 			GetParent()->PostMessage(SELECTION_PROJECT, 12, 0);
 		}
 	}
@@ -324,9 +338,15 @@ void CCircuitInfoDlg::OnNextClick()
 
 void CCircuitInfoDlg::OnPrevClick()
 {
+
 	//20221014 GBM start - 현재 회로 개수 작업 내용 메모리에 저장
 	m_pSetupDlg[0]->SaveCircuitInfo(0);
 	m_pSetupDlg[1]->SaveCircuitInfo(1);
+	//20221014 GBM end
+
+	//20221014 GBM start - 기존 설비 개수를 백업해둔다.
+	m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
+	m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
 	//20221014 GBM end
 
 	GetParent()->PostMessage(SELECTION_PROJECT, 0, 0);

@@ -388,6 +388,10 @@ void CCircuitBasicInfoDlg::OnNextClick()
 				m_bBuildingInfoComplate = true;
 
 				m_pListCtrl->SetReadOnly(true);
+
+				//건물 정보가 확정이 되면 회로 설정 비교 정보를 초기화 해둔다.
+				CCommonState::ie()->InitSelectCircuitCompInfo(0);
+				CCommonState::ie()->InitSelectCircuitCompInfo(1);
 			}
 			else {
 				return;

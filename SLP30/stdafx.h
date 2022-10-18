@@ -52,6 +52,7 @@ using namespace Gdiplus; //네임스페이스 설정
 #include "CreateProcessReturnValue.h"
 
 #include <string>
+
 using namespace std;
 
 #define		SELECTION_PROJECT		(WM_USER+1501)

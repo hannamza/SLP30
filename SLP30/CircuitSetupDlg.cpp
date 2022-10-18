@@ -291,47 +291,6 @@ void CCircuitSetupDlg::FillDataInCircuitListCtrl(int nSystem)
 			}
 		}
 	}
-
-	//if (pListCtrl) {
-	//	pListCtrl->ShowWindow(SW_HIDE);
-	//	pListCtrl->DestroyWindow();
-	//}
-	//pListCtrl = CreateListCtrl();
-
-	//int nFloor = CCircuitBasicInfo::Instance()->m_nBasement;
-	//nFloor += CCircuitBasicInfo::Instance()->m_nFloor;
-	//pListCtrl->AddItem(nFloor);
-	//int nItemIndex = 0;
-	//CString sText;
-	//for (int nIndex = CCircuitBasicInfo::Instance()->m_nBasement; nIndex > 0; nIndex--)
-	//{
-	//	sText.Format(L"B%dF", nIndex);
-	//	pListCtrl->SetItemText(nItemIndex, 0, sText);
-	//	for (int i = 1; i < m_arrayHeaderName.GetCount(); i++) {
-	//		CString strHeaderName = L"";
-	//		strHeaderName = m_arrayHeaderName.GetAt(i);
-	//		
-	//		for (int j = 0; j < CCommonState::ie()->m_selectCircuit_0.GetCount(); j++)
-	//		{
-	//			pSelectCircuit pCircuit = NULL;
-	//			pCircuit = CCommonState::ie()->m_selectCircuit_0.GetAt(CCommonState::ie()->m_selectCircuit_0.FindIndex(j));
-	//			if(sText.Compare(pCircuit.))
-	//		}
-
-	//		pListCtrl->SetItemText(nItemIndex, i, L"0");
-	//	}
-	//	++nItemIndex;
-	//}
-	//for (int nIndex = 1; nIndex <= CCircuitBasicInfo::Instance()->m_nFloor; nIndex++)
-	//{
-	//	sText.Format(L"%dF", nIndex);
-	//	pListCtrl->SetItemText(nItemIndex, 0, sText);
-	//	for (int i = 1; i < m_arrayHeaderName.GetCount(); i++) {
-	//		pListCtrl->SetItemText(nItemIndex, i, L"0");
-	//	}
-	//	++nItemIndex;
-	//}
-	//return pListCtrl;
 }
 //20221013 GBM end
 
@@ -848,6 +807,92 @@ void CCircuitSetupDlg::Redisplay()
 		for (int i = 0; i < STAIR_TAB_COUNT; i++) {
 			if (m_p_List[i]) {
 				m_p_List[i]->MoveWindow(rect);
+			}
+		}
+	}
+}
+
+void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
+{
+	std::vector<selectCircuitComp*>::iterator iter;
+	POSITION pos;
+	pSelectCircuit pSC;
+	CString sBlock, sStair, sFloor, sCircuitName;
+
+	CString sSystem = L"0 계통";
+	if (nSystem == 1) {
+		sSystem = L"1 계통";
+	}
+
+	if (nSystem == 0)
+	{	
+		//기존 현재 값을 이전 값에 적용
+		iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
+		{
+			(*iter)->nPreviousCount = (*iter)->nCurrentCount;
+		}
+
+		//현재 리스트에서 편집된 현재 값을 비교를 위한 현재 값에 적용
+		pos = CCommonState::ie()->m_selectCircuit_0.GetHeadPosition();
+
+		while (pos)
+		{
+			pSC = CCommonState::ie()->m_selectCircuit_0.GetNext(pos);
+			
+			iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+			for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
+			{
+				sBlock = (*iter)->sBlock;
+				sStair = (*iter)->sStair;
+				sFloor = (*iter)->sFloor;
+				sCircuitName = (*iter)->sCircuitName;
+
+				if ((sSystem.Compare(pSC->sSystem) == 0)
+					&& (sBlock.Compare(pSC->sBlock) == 0)
+					&& (sStair.Compare(pSC->sStair) == 0)
+					&& (sFloor.Compare(pSC->sFloor) == 0)
+					&& (sCircuitName.Compare(pSC->sCircuitName) == 0)
+					)
+				{
+					(*iter)->nCurrentCount = pSC->nCount;
+				}
+			}
+		}
+	}
+	else
+	{
+		//기존 현재 값을 이전 값에 적용
+		iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
+		{
+			(*iter)->nPreviousCount = (*iter)->nCurrentCount;
+		}
+
+		//현재 리스트에서 편집된 현재 값을 비교를 위한 현재 값에 적용
+		pos = CCommonState::ie()->m_selectCircuit_1.GetHeadPosition();
+
+		while (pos)
+		{
+			pSC = CCommonState::ie()->m_selectCircuit_1.GetNext(pos);
+
+			iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+			for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
+			{
+				sBlock = (*iter)->sBlock;
+				sStair = (*iter)->sStair;
+				sFloor = (*iter)->sFloor;
+				sCircuitName = (*iter)->sCircuitName;
+
+				if ((sSystem.Compare(pSC->sSystem) == 0)
+					&& (sBlock.Compare(pSC->sBlock) == 0)
+					&& (sStair.Compare(pSC->sStair) == 0)
+					&& (sFloor.Compare(pSC->sFloor) == 0)
+					&& (sCircuitName.Compare(pSC->sCircuitName) == 0)
+					)
+				{
+					(*iter)->nCurrentCount = pSC->nCount;
+				}
 			}
 		}
 	}

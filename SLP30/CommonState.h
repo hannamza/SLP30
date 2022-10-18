@@ -2,6 +2,7 @@
 
 #include "TSingleton.h"
 #include "CriticalSectionEx.h"
+#include <vector>
 
 typedef struct UPLOAD_INFO
 {
@@ -22,6 +23,16 @@ typedef struct SELECT_CIRCUIT {
 	int nCount;
 }selectCircuit, *pSelectCircuit;
 
+typedef struct SELECT_CIRCUIT_COMP {
+	CString sSystem;
+	CString sBlock;
+	CString sStair;
+	CString sFloor;
+	CString sCircuitName;
+	int nPreviousCount;
+	int nCurrentCount;
+}selectCircuitComp;
+
 class CCommonState : public TSingleton<CCommonState>
 {
 public:
@@ -32,6 +43,7 @@ public:
 	void ReleaseCircuit(int nType);
 	void SetResult(int nIndex, bool bValue);
 	bool GetResult(int nIndex);
+	void InitSelectCircuitCompInfo(int nSystem);			//20221017 GBM - 회로 설정 비교 정보 초기화
 
 public:
 	CWnd* m_pWnd;
@@ -48,6 +60,11 @@ public:
 
 	CList<pSelectCircuit, pSelectCircuit> m_selectCircuit_0;
 	CList<pSelectCircuit, pSelectCircuit> m_selectCircuit_1;
+
+	//20221014 GBM start - 현재 설비 구성과 기존 설비 구성 비교를 위한 추가
+	std::vector<selectCircuitComp*> m_vecCalSelectCircuit_0;
+	std::vector<selectCircuitComp*> m_vecCalSelectCircuit_1;
+	//20221014 GBM end
 
 private:
 	bool m_bResult[ProtocolHeader::DefineEndProtocol];
