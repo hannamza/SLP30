@@ -615,9 +615,11 @@ bool CCircuitSetupDlg::CompareNewCircuitInfo(int nSystem)
 						pList->GetItemText(i, 0, sFloor);
 						continue;
 					}
-					else if (nCount == 0) {
-						continue;
-					}
+					//20221020 GBM start -  이어도 비교하도록 수정
+// 					else if (nCount == 0) {
+// 						continue;
+// 					}
+					//20221020 GBM end
 					temp.sSystem = sSystem;
 					temp.sStair = sStair;
 					temp.sBlock = sBlock;
@@ -721,9 +723,10 @@ bool CCircuitSetupDlg::SaveCircuitInfo(int nSystem)
 						pList->GetItemText(i, 0, sFloor);
 						continue;
 					}
-					else if (nCount == 0) {
-						continue;
-					}
+					//기존 설비 개수 체크를 위해 개수가 0이라도 추가
+// 					else if (nCount == 0) {
+// 						continue;
+// 					}
 					pCircuit = new selectCircuit;
 					pCircuit->sSystem = sSystem;
 					pCircuit->sBlock = sBlock;
@@ -818,6 +821,7 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 	POSITION pos;
 	pSelectCircuit pSC;
 	CString sBlock, sStair, sFloor, sCircuitName;
+	bool bFind;
 
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
@@ -825,24 +829,22 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 	}
 
 	if (nSystem == 0)
-	{	
-		//기존 현재 값을 이전 값에 적용
+	{
 		iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
 		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
 		{
+			bFind = false;
+
+			//기존 현재 값을 이전 값에 적용
 			(*iter)->nPreviousCount = (*iter)->nCurrentCount;
-		}
 
-		//현재 리스트에서 편집된 현재 값을 비교를 위한 현재 값에 적용
-		pos = CCommonState::ie()->m_selectCircuit_0.GetHeadPosition();
+			//현재 리스트에서 편집된 현재 값을 비교를 위한 현재 값에 적용
+			pos = CCommonState::ie()->m_selectCircuit_0.GetHeadPosition();
 
-		while (pos)
-		{
-			pSC = CCommonState::ie()->m_selectCircuit_0.GetNext(pos);
-			
-			iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
-			for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
+			while (pos)
 			{
+				pSC = CCommonState::ie()->m_selectCircuit_0.GetNext(pos);
+
 				sBlock = (*iter)->sBlock;
 				sStair = (*iter)->sStair;
 				sFloor = (*iter)->sFloor;
@@ -856,29 +858,37 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 					)
 				{
 					(*iter)->nCurrentCount = pSC->nCount;
+					bFind = true;
+					break;
+				}
+			}
+
+			if (!bFind)
+			{
+				if ((*iter)->nCurrentCount > 0)
+				{
+					(*iter)->nCurrentCount = 0;
 				}
 			}
 		}
 	}
 	else
 	{
-		//기존 현재 값을 이전 값에 적용
 		iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
 		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
 		{
+			bFind = false;
+
+			//기존 현재 값을 이전 값에 적용
 			(*iter)->nPreviousCount = (*iter)->nCurrentCount;
-		}
 
-		//현재 리스트에서 편집된 현재 값을 비교를 위한 현재 값에 적용
-		pos = CCommonState::ie()->m_selectCircuit_1.GetHeadPosition();
+			//현재 리스트에서 편집된 현재 값을 비교를 위한 현재 값에 적용
+			pos = CCommonState::ie()->m_selectCircuit_1.GetHeadPosition();
 
-		while (pos)
-		{
-			pSC = CCommonState::ie()->m_selectCircuit_1.GetNext(pos);
-
-			iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
-			for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
+			while (pos)
 			{
+				pSC = CCommonState::ie()->m_selectCircuit_1.GetNext(pos);
+
 				sBlock = (*iter)->sBlock;
 				sStair = (*iter)->sStair;
 				sFloor = (*iter)->sFloor;
@@ -892,8 +902,138 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 					)
 				{
 					(*iter)->nCurrentCount = pSC->nCount;
+					bFind = true;
+					break;
+				}
+			}
+
+			if (!bFind)
+			{
+				if ((*iter)->nCurrentCount > 0)
+				{
+					(*iter)->nCurrentCount = 0;
 				}
 			}
 		}
 	}
 }
+
+void CCircuitSetupDlg::MakeAddCircuitInfoAndDeleteCircuitInfo(int nSystem)
+{
+	CString sSystem = L"0 계통";
+	if (nSystem == 1) {
+		sSystem = L"1 계통";
+	}
+
+	std::vector<selectCircuitCompRet> vecAddSelectCircuit;
+	std::vector<selectCircuitCompRet> vecDeleteSelectCircuit;
+
+	std::vector<selectCircuitComp*>::iterator iter;
+	bool bDetector;
+
+	if (nSystem == 0)
+	{
+		iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
+		{
+			int nCurrentCount = 0;
+			int nPrivousCount = 0;
+
+			nCurrentCount = (*iter)->nCurrentCount;
+			nPrivousCount = (*iter)->nPreviousCount;
+
+			bDetector = false;
+
+			if (nCurrentCount != nPrivousCount)
+			{
+				int nDiffCount = nCurrentCount - nPrivousCount;
+				selectCircuitCompRet sccr;
+				sccr.sSystem = sSystem;
+				sccr.sBlock = (*iter)->sBlock;
+				sccr.sStair = (*iter)->sStair;
+				sccr.sFloor = (*iter)->sFloor;
+				sccr.sCircuitName = (*iter)->sCircuitName;
+				sccr.nDiffCount = nDiffCount;
+				sccr.nLastCircuitNo = nPrivousCount;
+				sccr.vecSystemName.clear();
+
+				//설비에 해당하는 회로 리스트 작성-> 감지기가 아니면 설비명, 감지기이면 회로명을 넣는다.
+				bDetector = CCircuitBasicInfo::Instance()->IsDetector(sccr.sCircuitName);
+				if (!bDetector)
+				{
+					CStringArray strArr;
+					strArr.RemoveAll();
+					CCircuitBasicInfo::Instance()->GetCircuitChild(sccr.sCircuitName, strArr);
+					
+					for (int i = 0; i < strArr.GetSize(); i++)
+					{
+						sccr.vecSystemName.push_back(strArr[i]);
+					}
+				}
+
+				//회로 갯수에 따라 분기
+				if (nDiffCount > 0)
+				{
+					CCommonState::ie()->m_vecAddCircuit.push_back(sccr);
+				}
+				else
+				{
+					CCommonState::ie()->m_vecDeleteCircuit.push_back(sccr);
+				}
+			}
+		}
+	}
+	else
+	{
+		iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
+		{
+			int nCurrentCount = 0;
+			int nPrivousCount = 0;
+
+			nCurrentCount = (*iter)->nCurrentCount;
+			nPrivousCount = (*iter)->nPreviousCount;
+
+			if (nCurrentCount != nPrivousCount)
+			{
+				int nDiffCount = nCurrentCount - nPrivousCount;
+				selectCircuitCompRet sccr;
+				sccr.sSystem = sSystem;
+				sccr.sBlock = (*iter)->sBlock;
+				sccr.sStair = (*iter)->sStair;
+				sccr.sFloor = (*iter)->sFloor;
+				sccr.sCircuitName = (*iter)->sCircuitName;
+				sccr.nDiffCount = nDiffCount;
+				sccr.nLastCircuitNo = nPrivousCount;
+				sccr.vecSystemName.clear();
+
+				//설비에 해당하는 회로 리스트 작성-> 감지기가 아니면 설비명, 감지기이면 회로명을 넣는다.
+				bDetector = CCircuitBasicInfo::Instance()->IsDetector(sccr.sCircuitName);
+				if (!bDetector)
+				{
+					CStringArray strArr;
+					strArr.RemoveAll();
+					CCircuitBasicInfo::Instance()->GetCircuitChild(sccr.sCircuitName, strArr);
+
+					for (int i = 0; i < strArr.GetSize(); i++)
+					{
+						sccr.vecSystemName.push_back(strArr[i]);
+					}
+				}
+
+				//회로 갯수에 따라 분기
+				if (nDiffCount > 0)
+				{
+					CCommonState::ie()->m_vecAddCircuit.push_back(sccr);
+				}
+				else
+				{
+					CCommonState::ie()->m_vecDeleteCircuit.push_back(sccr);
+				}
+			}
+		}
+	}
+
+}
+
+

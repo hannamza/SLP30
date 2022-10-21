@@ -36,6 +36,7 @@ public:
 
 	bool GetCircuitChild(CString sName, CStringArray & arrayList);
 	int  GetCircuitParentIndex(CString sName);
+	bool IsDetector(CString sCircuitName);		//20221021 GBM - 해당 회로가 감지기인지 여부
 
 	static CCircuitBasicInfo* Instance();
 

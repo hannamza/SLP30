@@ -276,6 +276,43 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 		m_pMakeDataDlg->ShowWindow(SW_HIDE);
 		break;
 	case 12:
+
+		//20221019 GBM start - 중계기 일람표가 기작성된 상태에서 회로 편집 후 중계기 일람표로 돌아오는 상황이라면 리스트 UI와 데이터를 삭제하지 않고 추가/삭제 분을 적용하도록 한다.
+#if 1
+		// 중계기 일람표가 최초 작성되는 것이라면 기존 루틴 태운다.
+		if (CCommonState::ie()->m_bInitCircuit)
+		{
+			nValue = m_pCircuitEditDlg->DisplayListItem();
+			if (nValue != 0)
+			{
+				CString sText;
+				sText.Format(L"\n\n%d계통 최대 입력 개수(%d개)를 초과하였습니다.\n\n다시 입력하여 주시기 바랍니다.", nValue - 1, MAX_CIRCUIT);
+				CMessagePopup popup(L"중계기 일람표", sText, MB_OK, this);
+				UINT nResult = popup.DoModal();
+				CCommonState::ie()->ReleaseCircuit(0);
+				CCommonState::ie()->ReleaseCircuit(1);
+				//CCommonState::ie()->m_bInitCircuit = true;
+				return;
+			}
+			CCommonState::ie()->m_bInitCircuit = false;
+		}
+		else
+		{
+			// 4. 회로 데이터 리스트를 초기화 하지 않도록 한다.
+
+			// 5. 삭제되어야할 설비 리스트의 회로 리스트를 토대로 매칭된 기존 중계기 일람표 회로 리스트에서 역순으로 찾아 동,계단,층,회로명이 매칭된 회로를 삭제해야할 회로 개수만큼을 지운다.
+			CSaveManager::ie()->DeleteSystemInfo();
+
+			// 6. 새 회로 데이터 리스트를 기존 회로 데이터 리스트 뒤에 추가한다.
+			CSaveManager::ie()->AddSystemInfo();
+
+			CCommonState::ie()->m_bInitCircuit = false;
+
+			// 7. 새로 편집된 회로 데이터 리스트를 UI로 표출한다.
+			m_pCircuitEditDlg->LoadInfo();
+		}
+
+#else
 		nValue = m_pCircuitEditDlg->DisplayListItem();
 		if (nValue != 0)
 		{
@@ -289,8 +326,10 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 			return;
 		}
 		CCommonState::ie()->m_bInitCircuit = false;
+#endif
+		//20221019 GBM end
+
 		m_btnCircuit.SetCheckEx(true);
-		
 		m_pCircuitEditDlg->ShowWindow(SW_SHOW);
 		m_pCircuitDlg->ShowWindow(SW_HIDE);
 		m_pCircuitBasicDlg->ShowWindow(SW_HIDE);
@@ -304,8 +343,6 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 		m_pCircuitBasicDlg->ShowWindow(SW_HIDE);
 		m_pSelectionDlg->ShowWindow(SW_HIDE);
 		m_pMakeDataDlg->ShowWindow(SW_HIDE);
-		break;
-	case 20:
 		break;
 	default: break;
 	}
@@ -388,21 +425,6 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		break;
 	case 13:
 		SetTabButton(13);
-		break;
-	case 20:
-		if (m_pCircuitDlg) {
-			// 1. 기존 작업과 비교
-			// 2. 존재하는 것은 그대로, 없는 것은 삭제, 추가된 것은 추가하는 함수 생성
-			// 3. 화면 이동
-			SetTabButton(20);
-		}
-		break;
-	case 21:
-		// 1. 기존 작업과 비교
-		// 2. 존재하는 것은 그대로, 없는 것은 삭제, 추가된 것은 추가하는 함수 생성
-			// 3. 화면 이동
-		break;
-	case 22:
 		break;
 	default:
 		break;

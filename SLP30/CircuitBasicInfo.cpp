@@ -278,3 +278,16 @@ int CCircuitBasicInfo::GetCircuitParentIndex(CString sName)
 
 	return -1; 
 }
+
+bool CCircuitBasicInfo::IsDetector(CString sCircuitName)
+{
+	for (int i = 설비명_계단감지기; i <= 설비명_주소형연기ELEV감지기; i++)
+	{
+		if (sCircuitName.Compare(g_lpszCircuitName[i]) == 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

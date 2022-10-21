@@ -341,7 +341,6 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	}
 
 	if (!m_bFirstWork) {
-		//20221011 GBM start
 		if (bChange || CCircuitBasicInfo::Instance()->m_sBuildingName != sBD || CCircuitBasicInfo::Instance()->m_nStair != _ttoi(sStair.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nFloor != _ttoi(sFloor.GetBuffer()) || CCircuitBasicInfo::Instance()->m_nBasement != _ttoi(sBase.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nBlock != _ttoi(sBlock.GetBuffer()) || !bCompare) {
@@ -354,16 +353,6 @@ void CCircuitBasicInfoDlg::OnNextClick()
 				bChange = false;
 			}
 		}
-			//CMessagePopup popup(L"회로 기본 입력", L"\n\n\n새로운 정보를 반영하시겠습니까?\n\n(확인: 새작업 / 취소: 기존작업추가)", MB_YESNO, this);
-			//UINT nResult = popup.DoModal();
-			//if (nResult == IDOK) {
-			//	bChange = true;
-			//}
-			//else {
-			//	bChange = false;
-			//	GetParent()->PostMessage(SELECTION_PROJECT, 20, bChange);
-			//}
-		//20221011 GBM end
 	}
 
 	if (m_bFirstWork || bChange) {

@@ -33,6 +33,18 @@ typedef struct SELECT_CIRCUIT_COMP {
 	int nCurrentCount;
 }selectCircuitComp;
 
+typedef struct SELECT_CIRCUIT_COMP_RET {
+	CString sSystem;
+	CString sBlock;
+	CString sStair;
+	CString sFloor;
+	CString sCircuitName;
+	int nDiffCount;
+	int nLastCircuitNo;
+	//CStringArray strArrSystem;
+	std::vector<CString> vecSystemName;
+}selectCircuitCompRet;
+
 class CCommonState : public TSingleton<CCommonState>
 {
 public:
@@ -44,6 +56,8 @@ public:
 	void SetResult(int nIndex, bool bValue);
 	bool GetResult(int nIndex);
 	void InitSelectCircuitCompInfo(int nSystem);			//20221017 GBM - 회로 설정 비교 정보 초기화
+	int CalculateCircuitAddressCount(CString strCircuitName);
+	int CalculateTotalCircuitCount(int nSystem);	// 최초 중계기 일람표가 확정되면 현재 회로 갯수를 저장
 
 public:
 	CWnd* m_pWnd;
@@ -64,6 +78,12 @@ public:
 	//20221014 GBM start - 현재 설비 구성과 기존 설비 구성 비교를 위한 추가
 	std::vector<selectCircuitComp*> m_vecCalSelectCircuit_0;
 	std::vector<selectCircuitComp*> m_vecCalSelectCircuit_1;
+
+	std::vector<selectCircuitCompRet> m_vecAddCircuit;
+	std::vector<selectCircuitCompRet> m_vecDeleteCircuit;
+
+	int m_nTotalCountCircuit_0;
+	int m_nTotalCountCircuit_1;
 	//20221014 GBM end
 
 private:

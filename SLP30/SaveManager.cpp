@@ -607,3 +607,326 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	::DeleteFile(sPath + L".tmp");
 	return true;
 }
+
+void CSaveManager::DeleteSystemInfo()
+{
+	std::vector<selectCircuitCompRet>::iterator iterSCCR;
+	std::vector<CString>::iterator iterCircuitName;
+	std::vector<selectCircuitComp*>::iterator iterSCC;
+
+	POSITION pos;
+	SYSTEM_INFO_* pSI;
+
+	CString sSystem, sBDName, sBlock, sStair, sFloor, sCircuitName, sRoomName;
+	int nNo, nSystemNo, nSystem, nStair, nFloor, nCircuitNo, nFindIndex;
+	bool bDetector;
+
+	if (CCommonState::ie()->m_vecDeleteCircuit.size() > 0)
+	{
+		iterSCCR = CCommonState::ie()->m_vecDeleteCircuit.begin();
+		for (; iterSCCR != CCommonState::ie()->m_vecDeleteCircuit.end(); iterSCCR++)
+		{
+			bDetector = false;
+
+			int nCircuitCnt = abs(iterSCCR->nDiffCount);
+			for (int i = 0; i < nCircuitCnt; i++)
+			{
+				//감지기류인지 판단
+				bDetector = CCircuitBasicInfo::Instance()->IsDetector(iterSCCR->sCircuitName);
+				if (!bDetector)
+				{
+					iterCircuitName = iterSCCR->vecSystemName.begin();
+					for (; iterCircuitName != iterSCCR->vecSystemName.end(); iterCircuitName++)
+					{
+						pos = CSaveManager::ie()->m_listSystem.GetTailPosition();
+						while (pos)
+						{
+							pSI = CSaveManager::ie()->m_listSystem.GetPrev(pos);
+
+							//회로명
+							sCircuitName = pSI->szCircuitName;
+
+							//회로명이 없으면 아래 과정이 필요없음
+							if (sCircuitName.IsEmpty())
+								continue;
+
+							//계통
+							sSystem.Format(L"%d 계통", pSI->nSystem);
+
+							//동
+							sBlock.Format(L"%s동", pSI->szBlock);
+
+							//계단
+							sStair.Format(L"%d계단", pSI->nStair);
+
+							//층
+							if (pSI->nFloor < 0)
+							{
+								sFloor.Format(L"B%dF", abs(pSI->nFloor));
+							}
+							else
+							{
+								sFloor.Format(L"%dF", pSI->nFloor);
+							}
+
+							//비교
+							if ((sSystem.Compare(iterSCCR->sSystem) == 0)
+								&& (sBlock.Compare(iterSCCR->sBlock) == 0)
+								&& (sStair.Compare(iterSCCR->sStair) == 0)
+								&& (sFloor.Compare(iterSCCR->sFloor) == 0)
+								&& (sCircuitName.Compare(*iterCircuitName) == 0)
+								)
+							{
+								//일치하는 회로정보 초기화
+								wcscpy_s(pSI->szBDName, L"");
+								wcscpy_s(pSI->szCircuitName, L"");
+								wcscpy_s(pSI->szRoomName, L"");
+								wcscpy_s(pSI->szBlock, L"");
+								pSI->nSystemNo = 0;
+								//회로No는 일단 남겨둠
+								//pSI->nNo = 0;
+								pSI->nStair = 0;
+								pSI->nFloor = 0;
+								pSI->nCircuitNo = 0;
+
+								//찾았으니 break;
+								break;
+							}
+						}
+					}
+				}
+				else
+				{
+					pos = CSaveManager::ie()->m_listSystem.GetTailPosition();
+					while (pos)
+					{
+						pSI = CSaveManager::ie()->m_listSystem.GetPrev(pos);
+
+						//회로명
+						sCircuitName = pSI->szCircuitName;
+
+						//회로명이 없으면 아래 과정이 필요없음
+						if (sCircuitName.IsEmpty())
+							continue;
+
+						//계통
+						sSystem.Format(L"%d 계통", pSI->nSystem);
+
+						//동
+						sBlock.Format(L"%s동", pSI->szBlock);
+
+						//계단
+						sStair.Format(L"%d계단", pSI->nStair);
+
+						//층
+						if (pSI->nFloor < 0)
+						{
+							sFloor.Format(L"B%dF", abs(pSI->nFloor));
+						}
+						else
+						{
+							sFloor.Format(L"%dF", pSI->nFloor);
+						}
+
+						//비교
+						if ((sSystem.Compare(iterSCCR->sSystem) == 0)
+							&& (sBlock.Compare(iterSCCR->sBlock) == 0)
+							&& (sStair.Compare(iterSCCR->sStair) == 0)
+							&& (sFloor.Compare(iterSCCR->sFloor) == 0)
+							&& (sCircuitName.Compare(iterSCCR->sCircuitName) == 0)
+							)
+						{
+							//일치하는 회로정보 초기화
+							wcscpy_s(pSI->szBDName, L"");
+							wcscpy_s(pSI->szCircuitName, L"");
+							wcscpy_s(pSI->szRoomName, L"");
+							wcscpy_s(pSI->szBlock, L"");
+							pSI->nSystemNo = 0;
+							//회로No는 일단 남겨둠
+							//pSI->nNo = 0;
+							pSI->nStair = 0;
+							pSI->nFloor = 0;
+							pSI->nCircuitNo = 0;
+
+							//찾았으니 break;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void CSaveManager::AddSystemInfo()
+{
+	std::vector<selectCircuitCompRet>::iterator iterSCCR;
+	std::vector<CString>::iterator iterCircuitName;
+	std::vector<selectCircuitComp*>::iterator iterSCC;
+
+	POSITION pos;
+	SYSTEM_INFO_* pSI;
+
+	CString sSystem, sBDName, sBlock, sStair, sFloor, sCircuitName, sRoomName;
+	int nNo, nSystemNo, nSystem, nStair, nFloor, nCircuitNo, nFindIndex, nCircuitNoAcc;
+	bool bDetector;
+
+	if (CCommonState::ie()->m_vecAddCircuit.size() > 0)
+	{
+		bDetector = false;
+		iterSCCR = CCommonState::ie()->m_vecAddCircuit.begin();
+		for (; iterSCCR != CCommonState::ie()->m_vecAddCircuit.end(); iterSCCR++)
+		{
+			nCircuitNoAcc = 0;
+			int nCircuitCount = iterSCCR->nDiffCount;
+			for (int i = 0; i < nCircuitCount; i++)
+			{
+				nCircuitNoAcc++;
+	
+				//감지기류인지 판단
+				bDetector = CCircuitBasicInfo::Instance()->IsDetector(iterSCCR->sCircuitName);
+				if (!bDetector)
+				{
+					iterCircuitName = iterSCCR->vecSystemName.begin();
+					for (; iterCircuitName != iterSCCR->vecSystemName.end(); iterCircuitName++)
+					{
+						sBDName = CCircuitBasicInfo::Instance()->m_sBuildingName;
+						sCircuitName = *iterCircuitName;
+						sRoomName = L"";
+						sBlock = iterSCCR->sBlock;
+
+						if (iterSCCR->sSystem.Compare(L"0 계통") == 0)
+						{
+							nSystem = 0;
+						}
+						else
+						{
+							nSystem = 1;
+						}
+
+						if (nSystem == 0)
+						{
+							nNo = CCommonState::ie()->m_nTotalCountCircuit_0 + 1;
+							nSystemNo = nNo;
+							nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_0;
+
+							int nCircuitSize = CCommonState::ie()->CalculateCircuitAddressCount(sCircuitName);
+							CCommonState::ie()->m_nTotalCountCircuit_0 += nCircuitSize;
+						}
+						else
+						{
+							nNo = CCommonState::ie()->m_nTotalCountCircuit_1 + 1;
+							nSystemNo = nNo;
+							nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_1 + MAX_CIRCUIT_ADDRESS;		// 1회로는 앞에 0회로 다음에 순차적으로 붙기 때문에 0회로분의 256개 이후에 회로 개수만큼 후에 붙인다.
+
+							int nCircuitSize = CCommonState::ie()->CalculateCircuitAddressCount(sCircuitName);
+							CCommonState::ie()->m_nTotalCountCircuit_1 += nCircuitSize;
+						}
+
+						sStair = iterSCCR->sStair;
+						sStair.Replace(L"계단", L"");
+						nStair = _wtoi(sStair.GetBuffer(0));
+						sBlock.Replace(L"동", L"");
+
+						sFloor = iterSCCR->sFloor;
+						if (sFloor.Find(L"B") >= 0) {
+							sFloor.Replace(L"B", L"");
+							sFloor.Replace(L"F", L"");
+							nFloor = -_wtoi(sFloor.GetBuffer(0));
+						}
+						else {
+							sFloor.Replace(L"F", L"");
+							nFloor = _wtoi(sFloor.GetBuffer(0));
+						}
+
+						nCircuitNo = iterSCCR->nLastCircuitNo + nCircuitNoAcc;
+
+						//회로인덱스로 위치를 찾는다.
+						pSI = CSaveManager::ie()->m_listSystem.GetAt(CSaveManager::ie()->m_listSystem.FindIndex(nFindIndex));
+
+						//회로 정보를 찾은 위치에 채워 넣는다.
+						wcscpy_s(pSI->szBDName, sBDName);
+						wcscpy_s(pSI->szCircuitName, sCircuitName);
+						wcscpy_s(pSI->szRoomName, sRoomName);
+						wcscpy_s(pSI->szBlock, sBlock);
+						pSI->nNo = nNo;
+						pSI->nSystemNo = nSystemNo;
+						pSI->nSystem = nSystem;
+						pSI->nStair = nStair;
+						pSI->nFloor = nFloor;
+						pSI->nCircuitNo = nCircuitNo;
+					}
+				}
+				else
+				{
+					sBDName = CCircuitBasicInfo::Instance()->m_sBuildingName;
+					sCircuitName = iterSCCR->sCircuitName;
+					sRoomName = L"";
+					sBlock = iterSCCR->sBlock;
+
+					if (iterSCCR->sSystem.Compare(L"0 계통") == 0)
+					{
+						nSystem = 0;
+					}
+					else
+					{
+						nSystem = 1;
+					}
+
+					if (nSystem == 0)
+					{
+						nNo = CCommonState::ie()->m_nTotalCountCircuit_0 + 1;
+						nSystemNo = nNo;
+						nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_0;
+
+						int nCircuitSize = CCommonState::ie()->CalculateCircuitAddressCount(sCircuitName);
+						CCommonState::ie()->m_nTotalCountCircuit_0 += nCircuitSize;
+					}
+					else
+					{
+						nNo = CCommonState::ie()->m_nTotalCountCircuit_1 + 1;
+						nSystemNo = nNo;
+						nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_1 + MAX_CIRCUIT_ADDRESS;		// 1회로는 앞에 0회로 다음에 순차적으로 붙기 때문에 0회로분의 256개 이후에 회로 개수만큼 후에 붙인다.
+
+						int nCircuitSize = CCommonState::ie()->CalculateCircuitAddressCount(sCircuitName);
+						CCommonState::ie()->m_nTotalCountCircuit_1 += nCircuitSize;
+					}
+
+					sStair = iterSCCR->sStair;
+					sStair.Replace(L"계단", L"");
+					nStair = _wtoi(sStair.GetBuffer(0));
+					sBlock.Replace(L"동", L"");
+
+					sFloor = iterSCCR->sFloor;
+					if (sFloor.Find(L"B") >= 0) {
+						sFloor.Replace(L"B", L"");
+						sFloor.Replace(L"F", L"");
+						nFloor = -_wtoi(sFloor.GetBuffer(0));
+					}
+					else {
+						sFloor.Replace(L"F", L"");
+						nFloor = _wtoi(sFloor.GetBuffer(0));
+					}
+
+					nCircuitNo = iterSCCR->nLastCircuitNo + nCircuitNoAcc;
+
+					//회로인덱스로 위치를 찾는다.
+					pSI = CSaveManager::ie()->m_listSystem.GetAt(CSaveManager::ie()->m_listSystem.FindIndex(nFindIndex));
+
+					//회로 정보를 찾은 위치에 채워 넣는다.
+					wcscpy_s(pSI->szBDName, sBDName);
+					wcscpy_s(pSI->szCircuitName, sCircuitName);
+					wcscpy_s(pSI->szRoomName, sRoomName);
+					wcscpy_s(pSI->szBlock, sBlock);
+					pSI->nNo = nNo;
+					pSI->nSystemNo = nSystemNo;
+					pSI->nSystem = nSystem;
+					pSI->nStair = nStair;
+					pSI->nFloor = nFloor;
+					pSI->nCircuitNo = nCircuitNo;
+				}
+
+			}
+		}
+	}
+}

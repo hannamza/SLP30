@@ -288,6 +288,27 @@ void CCircuitEditDlg::OnNextClick()
 
 void CCircuitEditDlg::OnPrevClick()
 {
+	//20221018 GBM start - 한번 중계기 일람표 설정 후 이전으로 돌아가 설비 개수 바뀌었을 때 추가/삭제를 위해 현재 설비 구성 정보를 저장해 둠
+	// release
+	CSaveManager::ie()->ReleaseInfo();
+	if (m_pCircuitChartDlg[0] && m_pCircuitChartDlg[1]) {
+		m_pCircuitChartDlg[0]->SaveInformation(0);
+		m_pCircuitChartDlg[1]->SaveInformation(1);
+	}
+	if (m_pPSPumpDlg) {
+		m_pPSPumpDlg->SaveInformation();
+	}
+	if (m_pBroadcastDlg) {
+		m_pBroadcastDlg->SaveInformation();
+	}
+
+	int nStairCount = CCircuitBasicInfo::Instance()->m_nStair;
+	int nBasement = CCircuitBasicInfo::Instance()->m_nBasement;
+	int nFloor = CCircuitBasicInfo::Instance()->m_nFloor;
+	CPatternManager::ie()->ReleasePattern();
+	MakePattern();
+	//20221018 GBM end
+
 	/*CMessagePopup popup(L"이전 화면", L"\n이전화면으로 이동하시면\n\n중계기 일람표에서 작업한 내용이 초기화됩니다.\n\n이전 화면으로 돌아가시겠습니까?", MB_YESNO, this);
 	UINT nResult = popup.DoModal();
 	if (nResult == IDOK) {

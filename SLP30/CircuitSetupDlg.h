@@ -33,6 +33,7 @@ public:
 	bool CompareNewCircuitInfo(int nSystem);
 
 	void CopyNewCircuitInfoToOldCircuitInfo(int nSystem);	//20221014 GBM - 중계기 일람표 화면으로 넘어가기 전에 기존 설비 정보를 복사해둬 중계기 일람표 상에서 설비 정보의 변경에 따라 추가/삭제를 위한 기반 정보를 만든다.
+	void MakeAddCircuitInfoAndDeleteCircuitInfo(int nSystem);
 
 private:
 	CCustomListCtrl* CreateListCtrl();
