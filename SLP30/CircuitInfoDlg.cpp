@@ -297,7 +297,11 @@ void CCircuitInfoDlg::OnNextClick()
 
 	bool bResult1 = m_pSetupDlg[0]->CompareNewCircuitInfo(0);
 	bool bResult2 = m_pSetupDlg[1]->CompareNewCircuitInfo(1);
-	if (!bResult1 || !bResult2) 
+
+	//20221021 GBM start - 중계기 일람표 확정 전에 회로 기본 화면으로 돌아갔다가 아무 편집도 하지 않은 경우 중계기 일람표가 작성되어 있지 않음에도 불구하고 회로 개수의 변화가 없어 중계기 일람표를 작성하지 않는 오류 수정
+	//if (!bResult1 || !bResult2) 
+	if (!bResult1 || !bResult2 || CCommonState::ie()->m_bInitCircuit)
+	//20221021 GBM end
 	{
 
 		//20221018 GBM start - 중계기 일람표가 미작성 / 기작성 되었을 때 분기될 내용 변경

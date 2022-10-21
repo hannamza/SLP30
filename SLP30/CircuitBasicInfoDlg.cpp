@@ -361,7 +361,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 #if 1
 		if (!m_bBuildingInfoComplate)
 		{
-			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물정보는 한번 결정되면 편집이 불가능합니다.\n\n반영하시겠습니까?\n\n(이후에 [회로 정보 선택]은 변경 가능)", MB_YESNO, this);
+			CMessagePopup popup(L"건물 정보 확정", L"\n\n\n건물 정보는 한번 결정되면 편집이 불가능합니다.\n\n반영하시겠습니까?\n\n(이후에 [회로 정보 선택]은 변경 가능)", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				CCircuitBasicInfo::Instance()->m_sBuildingName = sBD;
