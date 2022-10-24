@@ -277,6 +277,15 @@ void CCircuitInfoDlg::LoadInfo()
 	m_pSetupDlg[0]->LoadInfo(0);
 	m_pSetupDlg[1]->LoadInfo(1);
 
+	//20221024 GBM start - 회로 개수 정보가 로드되었으므로 추후 비교를 위해 현재 비교 데이터에 넣는다.
+	m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
+	m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
+
+	//중계기 일람표가 일단 확정되는 순간 전체 회로 갯수를 구하고 추가분에 대해서는 따로 추가해서 현재 최종 회로 갯수를 항상 알고 있도록 함
+	CCommonState::ie()->m_nTotalCountCircuit_0 = CCommonState::ie()->CalculateTotalCircuitCount(0);
+	CCommonState::ie()->m_nTotalCountCircuit_1 = CCommonState::ie()->CalculateTotalCircuitCount(1);
+	//20221024 GBM end
+
 	CCommonState::ie()->m_bInitCircuit = false;
 }
 

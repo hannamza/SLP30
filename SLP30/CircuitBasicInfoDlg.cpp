@@ -460,9 +460,13 @@ void CCircuitBasicInfoDlg::LoadInfo()
 	}
 	m_bFirstWork = false;
 
-	//20221013 GBM start - 프로젝트 파일이 로드됐다는 건 건물 정보과 확정되었다는 의미
-	m_bBuildingInfoComplate = true;		
+	//20221013 GBM start - 프로젝트 파일이 로드됐다는 건 건물 정보가 확정되었다는 의미
+	m_bBuildingInfoComplate = true;
 	m_pListCtrl->SetReadOnly(true);
+
+	//건물 정보가 확정이 되면 회로 설정 비교 정보를 초기화 해둔다.
+	CCommonState::ie()->InitSelectCircuitCompInfo(0);
+	CCommonState::ie()->InitSelectCircuitCompInfo(1);
 	//20221013 GBM end
 
 	GetParent()->PostMessage(SELECTION_PROJECT, 11, false);
