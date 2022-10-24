@@ -518,3 +518,10 @@ void CCircuitBasicInfoDlg::Redisplay()
 		m_btnNext.MoveWindow(rect.right - 87, 0, 83, 48);
 	}
 }
+
+bool CCircuitBasicInfoDlg::IsBuildingInfoComplete()
+{
+	bool bRet = false;
+	bRet = m_bBuildingInfoComplate;
+	return bRet;
+}

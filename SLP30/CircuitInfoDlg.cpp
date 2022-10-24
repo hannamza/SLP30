@@ -300,7 +300,6 @@ void CCircuitInfoDlg::OnNextClick()
 		if (nResult != IDOK) {
 			return;
 		}
-		
 	}
 	//20221018 GBM end
 

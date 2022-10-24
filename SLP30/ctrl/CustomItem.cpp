@@ -140,7 +140,7 @@ BOOL CCustomItem::PreTranslateMessage(MSG* pMsg)
 		//20221013 GBM start - ReadOnly 주기 위한 추가
 		if (m_bReadOnlyState)
 		{	
-			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물정보는 이미 결정되었으므로 변경할 수 없습니다.", MB_OK, this);
+			CMessagePopup popup(L"건물 정보 변경 불가", L"\n\n\n건물 정보는 이미 결정되었으므로 변경할 수 없습니다.", MB_OK, this);
 			UINT nResult = popup.DoModal();
 			return TRUE;
 		}

@@ -44,6 +44,9 @@ private:
 
 	bool m_bInitialize;
 
+	CFont m_font;	//20221024 GBM - 현재 건물 / 중계기 설정을 나타내기 위한 문자열 폰트
+	CString m_strCurrentConfigMsg;	//20221024 GBM - 현재 건물 / 중계기 설정을 나타내기 위한 문자열
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 

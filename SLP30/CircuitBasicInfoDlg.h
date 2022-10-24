@@ -23,6 +23,7 @@ public:
 	void InfoInit();
 	void LoadInfo();
 	void GetCircuitInfo(CString & sName, int & nStair, int & nFloor, int & nBasement);
+	bool IsBuildingInfoComplete();
 
 private:
 	void Redisplay();

@@ -26,6 +26,25 @@ CMainFrameDlg::CMainFrameDlg(CWnd* pParent /*=NULL*/)
 	m_nStair = 1;
 	m_nFloor = 2;
 	m_nBasement = 0;
+
+	//20221024 GBM start - 현재 건물 / 중계기 설정을 나타내기 위한 문자열 폰트
+	m_font.CreateFont(16, // nHeight 
+		0, // nWidth 
+		0, // nEscapement 
+		0, // nOrientation 
+		FW_BOLD, // nWeight 
+		0, // bItalic 
+		0, // bUnderline 
+		0, // cStrikeOut 
+		0, // nCharSet 
+		OUT_DEFAULT_PRECIS, // nOutPrecision 
+		0,                              // nClipPrecision 
+		ANTIALIASED_QUALITY,       // nQuality
+		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
+		_T("굴림")); // lpszFacename 
+	//20221024 GBM end
+
+	m_strCurrentConfigMsg = L"";
 }
 
 CMainFrameDlg::~CMainFrameDlg()
@@ -294,6 +313,10 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 				//CCommonState::ie()->m_bInitCircuit = true;
 				return;
 			}
+
+			//중계기 일람표 확정 메세지 추가
+			m_strCurrentConfigMsg += L" / 중계기 일람표 확정 완료  ";
+
 			CCommonState::ie()->m_bInitCircuit = false;
 		}
 		else
@@ -353,6 +376,9 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 	int nResult = (int)wParam;
 	int nValue = (int)lParam;
 	m_btnData.EnableWindow(false);
+
+	bool bBuildingComplete = false;
+
 	switch (nResult) {
 	case 0: // new (circuit 1)
 		if (nValue == 1) {
@@ -381,6 +407,17 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		SetTabButton(10);
 		break;
 	case 11: // circuit 2
+		//20221024 GBM start - 건물 확정 메세지 추가
+		bBuildingComplete = m_pCircuitBasicDlg->IsBuildingInfoComplete();
+		if (bBuildingComplete)
+		{
+			if (m_strCurrentConfigMsg.Compare(L"") == 0)
+			{
+				m_strCurrentConfigMsg = L"건물 정보 확정 완료  ";
+			}
+		}
+		//20221024 GBM end
+
 		if (nValue != 0) {
 			if (m_pCircuitBasicDlg) {
 				m_pCircuitBasicDlg->GetCircuitInfo(m_sBuildName, m_nStair, m_nFloor, m_nBasement);
@@ -435,18 +472,18 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 void CMainFrameDlg::OnSelectClick()
 {
 	m_btnData.EnableWindow(false);
-	SetTabButton(0);
+	//SetTabButton(0);	//20221024 GBM - [이전] / [다음] 버튼으로만 단계 이동할 수 있도록 비활성화
 }
 
 void CMainFrameDlg::OnCircuitClick()
 {
 	m_btnData.EnableWindow(false);
-	SetTabButton(1);
+	//SetTabButton(1);	//20221024 GBM - [이전] / [다음] 버튼으로만 단계 이동할 수 있도록 비활성화
 }
 
 void CMainFrameDlg::OnDataClick()
 {
-	SetTabButton(2);
+	//SetTabButton(2);	//20221024 GBM - [이전] / [다음] 버튼으로만 단계 이동할 수 있도록 비활성화
 }
 
 void CMainFrameDlg::Redisplay()
@@ -480,6 +517,10 @@ void CMainFrameDlg::Redisplay()
 	//CCommonDisplay::DrawImage(&memDC, IDB_BMP_TITLEBAR, rt.left + 40, rt.top + 48);
 
 	//CCommonDisplay::DrawImage(&memDC, IDB_BMP_AUTOTITLE, 60, 30);
+
+	//20221024 GBM start - 현재 건물/중계기 일람표 설정 상태를 알려주는 문자열 추가
+	CCommonDisplay::DrawCaption(&memDC, m_strCurrentConfigMsg, RGB(80, 80, 80), m_font, false, 0, rt, DT_RIGHT | DT_TOP | DT_SINGLELINE);
+	//20221024 GBM end
 
 	_pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
 
