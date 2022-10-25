@@ -469,7 +469,10 @@ void CCircuitBasicInfoDlg::LoadInfo()
 	CCommonState::ie()->InitSelectCircuitCompInfo(1);
 	//20221013 GBM end
 
-	GetParent()->PostMessage(SELECTION_PROJECT, 11, false);
+	//20221025 GBM start - 프로젝트 로드 첫화면이 설비 개수 설정화면이 아니라 기본 설비 설정화면이 나오도록 수정
+	//GetParent()->PostMessage(SELECTION_PROJECT, 11, false);
+	GetParent()->PostMessage(SELECTION_PROJECT, 0, 0);
+	//20221025 GBM end
 }
 
 void CCircuitBasicInfoDlg::GetCircuitInfo(CString & sName, int & nStair, int & nFloor, int & nBasement)

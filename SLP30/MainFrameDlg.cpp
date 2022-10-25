@@ -401,6 +401,7 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		m_btnData.EnableWindow(false);
 		break;
 	case 10: // load
+		m_strCurrentConfigMsg = L"건물 정보 확정 완료 / 중계기 일람표 확정 완료";
 		m_pCircuitBasicDlg->LoadInfo();
 		m_pCircuitDlg->LoadInfo();
 		m_pCircuitEditDlg->LoadInfo();

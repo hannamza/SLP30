@@ -821,7 +821,7 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 	POSITION pos;
 	pSelectCircuit pSC;
 	CString sBlock, sStair, sFloor, sCircuitName;
-	bool bFind;
+	bool bFind = false;
 
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
@@ -916,6 +916,7 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 			}
 		}
 	}
+
 }
 
 void CCircuitSetupDlg::MakeAddCircuitInfoAndDeleteCircuitInfo(int nSystem)
@@ -1036,4 +1037,90 @@ void CCircuitSetupDlg::MakeAddCircuitInfoAndDeleteCircuitInfo(int nSystem)
 
 }
 
+bool CCircuitSetupDlg::CheckMaxCircuitCount(int nSystem, int* nTotalCount)
+{
+	bool bRet = true;
 
+	*nTotalCount = CCommonState::ie()->CalculateTotalCircuitCount(nSystem);
+	if (*nTotalCount > MAX_CIRCUIT)
+		bRet = false;
+
+	return bRet;
+}
+
+void CCircuitSetupDlg::RollbackCircuitCount(int nSystem)
+{
+	std::vector<selectCircuitComp*>::iterator iter;
+	POSITION pos;
+	pSelectCircuit pSC;
+	CString sSystem, sBlock, sStair, sFloor, sCircuitName;
+
+	if (nSystem == 0)
+	{
+		//기존 값을 현재 값에 대입
+		iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
+		{
+			pos = CCommonState::ie()->m_selectCircuit_0.GetHeadPosition();
+			while (pos)
+			{
+				pSC = CCommonState::ie()->m_selectCircuit_0.GetNext(pos);
+				sSystem = pSC->sSystem;
+				sBlock = pSC->sBlock;
+				sStair = pSC->sStair;
+				sFloor = pSC->sFloor;
+				sCircuitName = pSC->sCircuitName;
+
+				//기존 값을 현재 값에 대입
+				iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+				for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
+				{
+					if ((sSystem.Compare((*iter)->sSystem) == 0)
+						&& (sBlock.Compare((*iter)->sBlock) == 0)
+						&& (sStair.Compare((*iter)->sStair) == 0)
+						&& (sFloor.Compare((*iter)->sFloor) == 0)
+						&& (sCircuitName.Compare((*iter)->sCircuitName) == 0)
+						)
+					{
+						pSC->nCount = (*iter)->nCurrentCount;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		//기존 값을 현재 값에 대입
+		iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+		for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
+		{
+			pos = CCommonState::ie()->m_selectCircuit_1.GetHeadPosition();
+			while (pos)
+			{
+				pSC = CCommonState::ie()->m_selectCircuit_1.GetNext(pos);
+				sSystem = pSC->sSystem;
+				sBlock = pSC->sBlock;
+				sStair = pSC->sStair;
+				sFloor = pSC->sFloor;
+				sCircuitName = pSC->sCircuitName;
+
+				//기존 값을 현재 값에 대입
+				iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+				for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
+				{
+					if ((sSystem.Compare((*iter)->sSystem) == 0)
+						&& (sBlock.Compare((*iter)->sBlock) == 0)
+						&& (sStair.Compare((*iter)->sStair) == 0)
+						&& (sFloor.Compare((*iter)->sFloor) == 0)
+						&& (sCircuitName.Compare((*iter)->sCircuitName) == 0)
+						)
+					{
+						pSC->nCount = (*iter)->nCurrentCount;
+						break;
+					}
+				}
+			}
+		}
+	}
+}

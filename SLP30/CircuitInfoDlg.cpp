@@ -291,6 +291,9 @@ void CCircuitInfoDlg::LoadInfo()
 
 void CCircuitInfoDlg::OnNextClick()
 {
+	bool bCheckMaxCircuit1 = false;
+	bool bCheckMaxCircuit2 = false;
+
 	//20221018 GBM start - 중계기 일람표가 회로정보가 확정되어 처음 작성될 때 사용자에게 이후의 설비 변경 사항은 추가일 경우 현재 중계기 일람표 아래에 추가되고 삭제일 경우 기존 요소가 공란으로 대체됨을 알려야 함
 	if (CCommonState::ie()->m_bInitCircuit)
 	{
@@ -326,6 +329,46 @@ void CCircuitInfoDlg::OnNextClick()
 					return;
 				}
 
+				int nTotalCircuit0 = 0;
+				int nTotalCircuit1 = 0;
+
+				//최대 회로 개수 초과여부 확인
+				bCheckMaxCircuit1 = m_pSetupDlg[0]->CheckMaxCircuitCount(0, &nTotalCircuit0);
+				bCheckMaxCircuit2 = m_pSetupDlg[1]->CheckMaxCircuitCount(1, &nTotalCircuit1);
+
+				if (!bCheckMaxCircuit1 || !bCheckMaxCircuit2)
+				{
+					// 현재/과거 설비 비교 데이터 , 현재 회로 정보 롤백
+					m_pSetupDlg[0]->RollbackCircuitCount(0);
+					m_pSetupDlg[1]->RollbackCircuitCount(1);
+
+					CString strMsg = L"";
+
+					if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
+					{
+						strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
+					}
+					else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
+					{
+						strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit1, MAX_CIRCUIT);
+					}
+					else
+					{
+						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+					}
+
+					CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
+					popup.DoModal();
+
+					m_pSetupDlg[0]->InitCircuitInfo(0);
+					m_pSetupDlg[1]->InitCircuitInfo(1);
+
+					m_pSetupDlg[0]->LoadInfo(0);
+					m_pSetupDlg[1]->LoadInfo(1);
+
+					return;
+				}
+
 				// 2. 설비 비교 구조체 내 기존 설비 개수에 현재 설비 개수를 대입
 
 				//20221014 GBM start - 기존 설비 개수를 백업해둔다.
@@ -349,7 +392,48 @@ void CCircuitInfoDlg::OnNextClick()
 		}
 		else
 		{
+			// 1. 현재 설비 리스트의 개수를 m_selectciruit에 적용
 			if (!CheckCircuitCount()) {
+				return;
+			}
+
+			int nTotalCircuit0 = 0;
+			int nTotalCircuit1 = 0;
+
+			//최대 회로 개수 초과여부 확인
+			bCheckMaxCircuit1 = m_pSetupDlg[0]->CheckMaxCircuitCount(0, &nTotalCircuit0);
+			bCheckMaxCircuit2 = m_pSetupDlg[1]->CheckMaxCircuitCount(1, &nTotalCircuit1);
+
+			if (!bCheckMaxCircuit1 || !bCheckMaxCircuit2)
+			{
+				// 현재/과거 설비 비교 데이터 , 현재 회로 정보 롤백
+				m_pSetupDlg[0]->RollbackCircuitCount(0);
+				m_pSetupDlg[1]->RollbackCircuitCount(1);
+
+				CString strMsg = L"";
+
+				if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
+				{
+					strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
+				}
+				else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
+				{
+					strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit1, MAX_CIRCUIT);
+				}
+				else
+				{
+					strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+				}
+
+				CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
+				popup.DoModal();
+
+				m_pSetupDlg[0]->InitCircuitInfo(0);
+				m_pSetupDlg[1]->InitCircuitInfo(1);
+
+				m_pSetupDlg[0]->LoadInfo(0);
+				m_pSetupDlg[1]->LoadInfo(1);
+
 				return;
 			}
 
@@ -422,11 +506,53 @@ void CCircuitInfoDlg::OnNextClick()
 
 void CCircuitInfoDlg::OnPrevClick()
 {
+	bool bCheckMaxCircuit1 = false;
+	bool bCheckMaxCircuit2 = false;
 
 	//20221014 GBM start - 현재 회로 개수 작업 내용 메모리에 저장
 	m_pSetupDlg[0]->SaveCircuitInfo(0);
 	m_pSetupDlg[1]->SaveCircuitInfo(1);
 	//20221014 GBM end
+
+	int nTotalCircuit0 = 0;
+	int nTotalCircuit1 = 0;
+
+	//최대 회로 개수 초과여부 확인
+	bCheckMaxCircuit1 = m_pSetupDlg[0]->CheckMaxCircuitCount(0, &nTotalCircuit0);
+	bCheckMaxCircuit2 = m_pSetupDlg[1]->CheckMaxCircuitCount(1, &nTotalCircuit1);
+
+	if (!bCheckMaxCircuit1 || !bCheckMaxCircuit2)
+	{
+		// 현재/과거 설비 비교 데이터 , 현재 회로 정보 롤백
+		m_pSetupDlg[0]->RollbackCircuitCount(0);
+		m_pSetupDlg[1]->RollbackCircuitCount(1);
+
+		CString strMsg = L"";
+
+		if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
+		{
+			strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
+		}
+		else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
+		{
+			strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit1, MAX_CIRCUIT);
+		}
+		else
+		{
+			strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+		}
+
+		CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
+		popup.DoModal();
+
+		m_pSetupDlg[0]->InitCircuitInfo(0);
+		m_pSetupDlg[1]->InitCircuitInfo(1);
+
+		m_pSetupDlg[0]->LoadInfo(0);
+		m_pSetupDlg[1]->LoadInfo(1);
+
+		return;
+	}
 
 	//20221014 GBM start - 기존 설비 개수를 백업해둔다.
 	m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
