@@ -131,7 +131,7 @@ void CTopBarDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 	}
 	else {
 		CCommonState::ie()->m_bMax = true;
-		CPositionManager::ie()->SavePosition(GetParent(), CCommonState::ie()->m_bMax);
+		//CPositionManager::ie()->SavePosition(GetParent(), CCommonState::ie()->m_bMax);	//20221026 GBM - 싱글<->듀얼모니터 번갈아 가면서 사용시 좌표계 꼬이면 화면에서 안보이는 경우도 있어서 굳이 위치저장 기능 사용하지 않도록 함
 		::ShowWindow(GetParent()->m_hWnd, SW_MAXIMIZE);
 		m_btnMaximize.ChangeBitmap(IDB_BMP_RESTORE);
 	}
@@ -185,7 +185,7 @@ void CTopBarDlg::OnMaximizeClick()
 	}
 	else {
 		CCommonState::ie()->m_bMax = true;
-		CPositionManager::ie()->SavePosition(GetParent(), CCommonState::ie()->m_bMax);
+		//CPositionManager::ie()->SavePosition(GetParent(), CCommonState::ie()->m_bMax);	//20221026 GBM - 싱글<->듀얼모니터 번갈아 가면서 사용시 좌표계 꼬이면 화면에서 안보이는 경우도 있어서 굳이 위치저장 기능 사용하지 않도록 함
 		::ShowWindow(GetParent()->m_hWnd, SW_MAXIMIZE);
 		m_btnMaximize.ChangeBitmap(IDB_BMP_RESTORE);
 	}

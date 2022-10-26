@@ -95,9 +95,12 @@ BOOL CSLP30Dlg::OnInitDialog()
 	GetClientRect(&rect);
 
 	bool bMax = false, bResult = false;
-	if (bResult = CPositionManager::ie()->LoadPosition(this, rt, bMax)) {
-		CCommonState::ie()->m_bMax = bMax;
-	}
+
+	//20221026 GBM start - 싱글<->듀얼모니터 번갈아 가면서 사용시 좌표계 꼬이면 화면에서 안보이는 경우도 있어서 굳이 위치저장 기능 사용하지 않도록 함
+// 	if (bResult = CPositionManager::ie()->LoadPosition(this, rt, bMax)) {
+// 		CCommonState::ie()->m_bMax = bMax;
+// 	}
+	//20221026 GBM end
 
 	m_pTopBarDlg = new CTopBarDlg(this);
 	m_pTopBarDlg->Create(IDD_COMMON_CHILD_DIALOG, this);
@@ -193,7 +196,7 @@ void CSLP30Dlg::OnDestroy()
 	SAFE_DELETE(m_pMainFrameDlg);
 
 	if (!CCommonState::ie()->m_bMax) {
-		CPositionManager::ie()->SavePosition(this, CCommonState::ie()->m_bMax);
+		//CPositionManager::ie()->SavePosition(this, CCommonState::ie()->m_bMax);	//20221026 GBM - 싱글<->듀얼모니터 번갈아 가면서 사용시 좌표계 꼬이면 화면에서 안보이는 경우도 있어서 굳이 위치저장 기능 사용하지 않도록 함
 	}
 
 	CString sLog;
