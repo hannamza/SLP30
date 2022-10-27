@@ -1071,20 +1071,15 @@ void CCircuitSetupDlg::RollbackCircuitCount(int nSystem)
 				sFloor = pSC->sFloor;
 				sCircuitName = pSC->sCircuitName;
 
-				//기존 값을 현재 값에 대입
-				iter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
-				for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); iter++)
+				if ((sSystem.Compare((*iter)->sSystem) == 0)
+					&& (sBlock.Compare((*iter)->sBlock) == 0)
+					&& (sStair.Compare((*iter)->sStair) == 0)
+					&& (sFloor.Compare((*iter)->sFloor) == 0)
+					&& (sCircuitName.Compare((*iter)->sCircuitName) == 0)
+					)
 				{
-					if ((sSystem.Compare((*iter)->sSystem) == 0)
-						&& (sBlock.Compare((*iter)->sBlock) == 0)
-						&& (sStair.Compare((*iter)->sStair) == 0)
-						&& (sFloor.Compare((*iter)->sFloor) == 0)
-						&& (sCircuitName.Compare((*iter)->sCircuitName) == 0)
-						)
-					{
-						pSC->nCount = (*iter)->nCurrentCount;
-						break;
-					}
+					pSC->nCount = (*iter)->nCurrentCount;
+					break;
 				}
 			}
 		}
@@ -1105,20 +1100,15 @@ void CCircuitSetupDlg::RollbackCircuitCount(int nSystem)
 				sFloor = pSC->sFloor;
 				sCircuitName = pSC->sCircuitName;
 
-				//기존 값을 현재 값에 대입
-				iter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
-				for (; iter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); iter++)
+				if ((sSystem.Compare((*iter)->sSystem) == 0)
+					&& (sBlock.Compare((*iter)->sBlock) == 0)
+					&& (sStair.Compare((*iter)->sStair) == 0)
+					&& (sFloor.Compare((*iter)->sFloor) == 0)
+					&& (sCircuitName.Compare((*iter)->sCircuitName) == 0)
+					)
 				{
-					if ((sSystem.Compare((*iter)->sSystem) == 0)
-						&& (sBlock.Compare((*iter)->sBlock) == 0)
-						&& (sStair.Compare((*iter)->sStair) == 0)
-						&& (sFloor.Compare((*iter)->sFloor) == 0)
-						&& (sCircuitName.Compare((*iter)->sCircuitName) == 0)
-						)
-					{
-						pSC->nCount = (*iter)->nCurrentCount;
-						break;
-					}
+					pSC->nCount = (*iter)->nCurrentCount;
+					break;
 				}
 			}
 		}

@@ -817,7 +817,8 @@ void CSaveManager::AddSystemInfo()
 						{
 							nNo = CCommonState::ie()->m_nTotalCountCircuit_1 + 1;
 							nSystemNo = nNo;
-							nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_1 + MAX_CIRCUIT_ADDRESS;		// 1회로는 앞에 0회로 다음에 순차적으로 붙기 때문에 0회로분의 256개 이후에 회로 개수만큼 후에 붙인다.
+							int nMaxCircuitAddress = MAX_CIRCUIT_ADDRESS;
+							nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_1 + nMaxCircuitAddress;		// 1회로는 앞에 0회로 다음에 순차적으로 붙기 때문에 0회로분의 256개 이후에 회로 개수만큼 후에 붙인다.
 
 							int nCircuitSize = CCommonState::ie()->CalculateCircuitAddressCount(sCircuitName);
 							CCommonState::ie()->m_nTotalCountCircuit_1 += nCircuitSize;
@@ -886,7 +887,8 @@ void CSaveManager::AddSystemInfo()
 					{
 						nNo = CCommonState::ie()->m_nTotalCountCircuit_1 + 1;
 						nSystemNo = nNo;
-						nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_1 + MAX_CIRCUIT_ADDRESS;		// 1회로는 앞에 0회로 다음에 순차적으로 붙기 때문에 0회로분의 256개 이후에 회로 개수만큼 후에 붙인다.
+						int nMaxCircuitAddress = MAX_CIRCUIT_ADDRESS;
+						nFindIndex = CCommonState::ie()->m_nTotalCountCircuit_1 + nMaxCircuitAddress;		// 1회로는 앞에 0회로 다음에 순차적으로 붙기 때문에 0회로분의 256개 이후에 회로 개수만큼 후에 붙인다.
 
 						int nCircuitSize = CCommonState::ie()->CalculateCircuitAddressCount(sCircuitName);
 						CCommonState::ie()->m_nTotalCountCircuit_1 += nCircuitSize;
