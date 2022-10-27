@@ -34,6 +34,7 @@ public:
 	CImageBtn m_btnConfirm;
 	CImageBtn m_btnCancel;
 	int m_nNewCircuitNum;
+	CFont m_font;
 
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();

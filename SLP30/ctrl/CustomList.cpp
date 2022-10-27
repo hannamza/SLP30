@@ -6,6 +6,7 @@
 #include "CustomList.h"
 #include "MessagePopup.h"
 #include "CircuitNoMoveDlg.h"
+#include "MessagePopup.h"
 
 int g_nItemTerm = 1;
 int g_nItemHeight = LIST_ITEM_HEIGHT;
@@ -1448,6 +1449,14 @@ void CCustomList::OnListCircuitNoChange()
 
 		int nNewCircuitNum = -1;
 		wchar_t szNewCircuitNum[32];
+
+		if (dlg.m_strNewCircuitNo.Compare(L"") == 0)
+		{
+			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호가 입력되지 않았습니다.", MB_OK, this);
+			popup.DoModal();
+			return;
+		}
+
 		wcscpy_s(szNewCircuitNum, dlg.m_strNewCircuitNo.GetBuffer(0));
 		nNewCircuitNum = CCommonFunc::utoi(szNewCircuitNum);
 		m_nCircuitMoveNum[0] = m_nSelectItem;

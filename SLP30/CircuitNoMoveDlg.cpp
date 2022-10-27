@@ -15,6 +15,7 @@ CCircuitNoMoveDlg::CCircuitNoMoveDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_CIRCUIT_NO_CHANGE, pParent)
 {
 	m_nNewCircuitNum = -1;
+	m_font.CreatePointFont(200, TEXT("±¼¸²"));
 }
 
 CCircuitNoMoveDlg::~CCircuitNoMoveDlg()
@@ -47,7 +48,9 @@ BOOL CCircuitNoMoveDlg::OnInitDialog()
 	m_brush.CreateSolidBrush(RGB(255, 255, 255));
 	this->SetWindowPos(NULL, 0, 0, 420, 380, SWP_NOMOVE);
 
-	m_ctrlEditNewCircuitNo.MoveWindow(115, 118, 194, 30);
+	//m_ctrlEditNewCircuitNo.MoveWindow(115, 118, 194, 30);
+	m_ctrlEditNewCircuitNo.MoveWindow(110, 170, 194, 30);
+	m_ctrlEditNewCircuitNo.SetFont(&m_font);
 
 	m_btnConfirm.Create(IDB_BMP_CONFIRM, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON10);
 	m_btnCancel.Create(IDB_BMP_CANCEL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON11);
