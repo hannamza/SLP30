@@ -80,6 +80,8 @@ private:
 	CCriticalSectionEx m_listSync, m_sizeSync;
 	CList<pItemData, pItemData> m_listData;
 
+	int m_nCircuitMoveNum[2];
+
 private:
 	CList<CCustomItem*, CCustomItem*> m_listItem;
 	CList<pStateString, pStateString> m_stateString;
@@ -142,6 +144,7 @@ public:
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnListCircuitNoChange();
 };
 
 

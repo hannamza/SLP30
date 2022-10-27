@@ -138,11 +138,11 @@ BOOL CCircuitEditDlg::OnInitDialog()
 	m_btnSave.ShowWindow(SW_HIDE);
 	m_btnExcel.Create(IDB_BMP_EXCEL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON4);
 
-	m_pCircuitChartDlg[0] = new CCircuitChartDlg(this);
+	m_pCircuitChartDlg[0] = new CCircuitChartDlg(this, 0);
 	m_pCircuitChartDlg[0]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pCircuitChartDlg[0]->ShowWindow(SW_SHOW);
 
-	m_pCircuitChartDlg[1] = new CCircuitChartDlg(this);
+	m_pCircuitChartDlg[1] = new CCircuitChartDlg(this, 1);
 	m_pCircuitChartDlg[1]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pCircuitChartDlg[1]->ShowWindow(SW_HIDE);
 

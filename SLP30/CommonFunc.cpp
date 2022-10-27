@@ -1623,3 +1623,26 @@ BOOL CCommonFunc::CheckDigit(WCHAR* szValue)
 	}
 	return TRUE;
 }
+
+int	CCommonFunc::utoi(wchar_t* s)
+{
+	int i, n;
+
+	n = 0;
+	for (i = 0; s[i] >= L'0' && s[i] <= L'9'; ++i)
+		n = 10 * n + (s[i] - L'0');
+
+	return n;
+}
+
+std::wstring CCommonFunc::itou(int number)
+{
+	char multibyte_string[32];
+	itoa(number, multibyte_string, 10);
+
+	wchar_t szResultString[32];
+	MultiByteToWideChar(CP_ACP, 0, (LPSTR)multibyte_string, -1, szResultString, 32);
+
+	std::wstring returnString = szResultString;
+	return returnString;
+}

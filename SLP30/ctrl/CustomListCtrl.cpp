@@ -477,7 +477,7 @@ LRESULT CCustomListCtrl::OnListControl(WPARAM wParam, LPARAM lParam)
 {
 	GetParent()->PostMessage(LIST_CONTROL, wParam, lParam);
 
-	//wParam: 1: delete, 2: insert up, 3: insert down
+	//wParam: 1: delete, 2: insert up, 3: insert down, 4: circuit no move
 
 	return 0;
 }

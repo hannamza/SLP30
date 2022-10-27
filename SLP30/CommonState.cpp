@@ -75,7 +75,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 				{
 					sFloor.Format(L"B%dF", nIndexBasement);
 
-					//20221021 GBM - 감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
+					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
 					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++) 
 					{
 						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];
@@ -127,7 +127,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 				{
 					sFloor.Format(L"%dF", nIndexFloor);
 
-					//20221021 GBM - 감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
+					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
 					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++)
 					{
 						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];

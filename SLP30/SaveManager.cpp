@@ -930,3 +930,49 @@ void CSaveManager::AddSystemInfo()
 		}
 	}
 }
+
+bool CSaveManager::IsVacantCircuit(int nCircuitNum)
+{
+	SYSTEM_INFO_* pInfo;
+	pInfo = CSaveManager::ie()->m_listSystem.GetAt(CSaveManager::ie()->m_listSystem.FindIndex(nCircuitNum));
+	CString strCircuitName = L"";
+	strCircuitName = pInfo->szCircuitName;
+
+	if (strCircuitName.Compare(L"") == 0)
+		return true;
+	else
+		return false;
+	
+	return false;
+}
+
+bool CSaveManager::MoveCircuitInfo(int nCurrentCircuitNum, int nNewCircuitNum)
+{
+	SYSTEM_INFO_ *pInfoNew, *pInfoOld;
+	int nSystem, nNewCircuit, nOldCircuit;
+
+	if (!IsVacantCircuit(nNewCircuitNum))
+		return false;
+
+	pInfoOld = m_listSystem.GetAt(m_listSystem.FindIndex(nCurrentCircuitNum));
+	nSystem = pInfoOld->nSystem;	//계통은 같음
+	nOldCircuit = pInfoOld->nNo;
+
+	pInfoNew = m_listSystem.GetAt(m_listSystem.FindIndex(nNewCircuitNum));
+	nNewCircuit = pInfoNew->nNo;
+
+	memcpy(pInfoNew, pInfoOld, sizeof(SYSTEM_INFO_));
+
+	//중계기 번호는 없앰
+	pInfoNew->nSystemNo = 0;
+	
+	memset(pInfoOld, 0, sizeof(SYSTEM_INFO_));
+
+	//나중에 디버깅 위해 게통과 회로번호 넣음
+	pInfoNew->nNo = nNewCircuit;
+	pInfoNew->nSystem = nSystem;
+	pInfoOld->nNo = nOldCircuit;
+	pInfoOld->nSystem = nSystem;
+
+	return true;
+}

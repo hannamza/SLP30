@@ -9,13 +9,16 @@ class CCircuitChartDlg : public CDialogEx
 	DECLARE_DYNAMIC(CCircuitChartDlg)
 
 public:
-	CCircuitChartDlg(CWnd* pParent = NULL);   // 표준 생성자입니다.
+	CCircuitChartDlg(CWnd* pParent = NULL, int nCircuit = 0);   // 표준 생성자입니다.
 	virtual ~CCircuitChartDlg();
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_COMMON_CHILD_DIALOG };
 #endif
+
+private:
+	int m_nCircuit;
 
 public:
 	bool DisplayListItem(int nChartIndex);

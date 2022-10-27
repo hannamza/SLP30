@@ -205,6 +205,7 @@
     <ClInclude Include="CircuitChartDlg.h" />
     <ClInclude Include="CircuitEditDlg.h" />
     <ClInclude Include="CircuitInfoDlg.h" />
+    <ClInclude Include="CircuitNoMoveDlg.h" />
     <ClInclude Include="CircuitSetupDlg.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientInterface.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="CircuitChartDlg.cpp" />
     <ClCompile Include="CircuitEditDlg.cpp" />
     <ClCompile Include="CircuitInfoDlg.cpp" />
+    <ClCompile Include="CircuitNoMoveDlg.cpp" />
     <ClCompile Include="CircuitSetupDlg.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientInterface.cpp" />
@@ -346,6 +348,7 @@
     <Image Include="res\box_rt.png" />
     <Image Include="res\cancel.bmp" />
     <Image Include="res\checkbtn.bmp" />
+    <Image Include="res\CircuitNoChange.png" />
     <Image Include="res\circuitsetup.bmp" />
     <Image Include="res\close_bt.bmp" />
     <Image Include="res\confirm.bmp" />
@@ -369,6 +372,7 @@
     <Image Include="res\new_project.bmp" />
     <Image Include="res\new_title.bmp" />
     <Image Include="res\nextbtn.bmp" />
+    <Image Include="res\png1.png" />
     <Image Include="res\prev.bmp" />
     <Image Include="res\radiobtn.bmp" />
     <Image Include="res\res_bt.bmp" />

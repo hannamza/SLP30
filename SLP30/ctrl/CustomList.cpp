@@ -5,6 +5,7 @@
 #include "SLP30.h"
 #include "CustomList.h"
 #include "MessagePopup.h"
+#include "CircuitNoMoveDlg.h"
 
 int g_nItemTerm = 1;
 int g_nItemHeight = LIST_ITEM_HEIGHT;
@@ -38,6 +39,9 @@ CCustomList::CCustomList()
 	m_nFontSize = 15;
 	m_nFontBold = FW_NORMAL;
 	m_sFontName = _T("굴림");
+
+	m_nCircuitMoveNum[0] = -1;
+	m_nCircuitMoveNum[1] = -1;
 }
 
 CCustomList::~CCustomList()
@@ -89,6 +93,7 @@ BEGIN_MESSAGE_MAP(CCustomList, CScrollView)
 	ON_WM_RBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_RBUTTONUP()
+	ON_COMMAND(ID_LIST_CIRCUIT_NO_CHANGE, &CCustomList::OnListCircuitNoChange)
 END_MESSAGE_MAP()
 
 
@@ -1027,6 +1032,18 @@ LRESULT CCustomList::OnListRButtonClick(WPARAM wParam, LPARAM lParam)
 	GetCursorPos(&pt);
 
 	CMenu muTemp, *pContextMenu;
+
+	//20221026 GBM start - 회로번호 이동 메뉴로 대체
+#if 1
+	muTemp.LoadMenu(IDR_MENU_MOVE);				// 메뉴는 정의해 놓은 것 중 원하는 것
+	pContextMenu = muTemp.GetSubMenu(0);
+	pContextMenu->EnableMenuItem(ID_LIST_CIRCUIT_NO_CHANGE, MF_BYCOMMAND | MF_ENABLED);
+	if (!m_bDisable) {
+		CCommonState::ie()->m_bMenu = true;
+		pContextMenu->TrackPopupMenu(TPM_LEFTALIGN, pt.x, pt.y, this);
+		CCommonState::ie()->m_bMenu = false;
+	}
+#else
 	muTemp.LoadMenu(IDR_MENU_LIST);				// 메뉴는 정의해 놓은 것 중 원하는 것
 	pContextMenu = muTemp.GetSubMenu(0);
 
@@ -1039,7 +1056,7 @@ LRESULT CCustomList::OnListRButtonClick(WPARAM wParam, LPARAM lParam)
 	else if (0 >= m_nSelectItem) {
 		pContextMenu->EnableMenuItem(ID_LIST_UP, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 		/*if (m_bFirstInsertRow) {
-			pContextMenu->EnableMenuItem(ID_LIST_UPADD, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
+		pContextMenu->EnableMenuItem(ID_LIST_UPADD, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 		}*/
 	}
 
@@ -1058,13 +1075,15 @@ LRESULT CCustomList::OnListRButtonClick(WPARAM wParam, LPARAM lParam)
 	}
 
 	/*if (m_nSelectItem >= 0 && m_nSelectItem < m_listData.GetCount() && m_nSelCol >= 0 && m_nSelCol < m_arrayType.GetCount()) {
-		for (int i = 0; i < m_arraySize.GetCount(); i++) {
-			if (i == m_nSelCol) {
-				break;
-			}
-		}
-		m_pParent->PostMessage(LIST_SELECTION, m_nSelectItem, m_nSelCol);
+	for (int i = 0; i < m_arraySize.GetCount(); i++) {
+	if (i == m_nSelCol) {
+	break;
+	}
+	}
+	m_pParent->PostMessage(LIST_SELECTION, m_nSelectItem, m_nSelCol);
 	}*/
+#endif
+	//20221026 GBM end
 
 	return 0;
 }
@@ -1417,3 +1436,26 @@ void CCustomList::SetReadOnly(bool bReadOnly)
 	}
 }
 //20221013 GBM end
+
+void CCustomList::OnListCircuitNoChange()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CCircuitNoMoveDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		m_nCircuitMoveNum[0] = -1;
+		m_nCircuitMoveNum[1] = -1;
+
+		int nNewCircuitNum = -1;
+		wchar_t szNewCircuitNum[32];
+		wcscpy_s(szNewCircuitNum, dlg.m_strNewCircuitNo.GetBuffer(0));
+		nNewCircuitNum = CCommonFunc::utoi(szNewCircuitNum);
+		m_nCircuitMoveNum[0] = m_nSelectItem;
+		m_nCircuitMoveNum[1] = nNewCircuitNum - 1;		//위치는 제로베이스
+		GetParent()->PostMessage(LIST_CONTROL, 4, (LPARAM)m_nCircuitMoveNum);
+	}
+	else
+	{
+		return;
+	}		
+}

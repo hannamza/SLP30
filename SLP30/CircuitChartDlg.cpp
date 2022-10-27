@@ -12,10 +12,11 @@
 
 IMPLEMENT_DYNAMIC(CCircuitChartDlg, CDialogEx)
 
-CCircuitChartDlg::CCircuitChartDlg(CWnd* pParent /*=NULL*/)
+CCircuitChartDlg::CCircuitChartDlg(CWnd* pParent /*=NULL*/, int nCircuit)
 	: CDialogEx(IDD_COMMON_CHILD_DIALOG, pParent)
 {
 	m_pListCtrl = NULL;
+	m_nCircuit = nCircuit;
 }
 
 CCircuitChartDlg::~CCircuitChartDlg()
@@ -43,13 +44,15 @@ END_MESSAGE_MAP()
 // CCircuitChartDlg 메시지 처리기입니다.
 const TCHAR* g_editHeader[] = { _T("중계기No"), _T("회로No"), _T("설비명"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("실명"), _T("설비번호"), NULL };
 const int g_editSize[] = { 80, 70, 200, 80, 120, 90, 90, 100, 75, 0 }; // pixel
-//20221022 GBM start - 층 정보를 편집 가능하도록 수정 (옥탑 표시를 위함), 연동데이터의 영향 관계는 차후 확인 필요
+
+//20221026 GBM start - 중계기No, 실명만 수정가능하도록 함
 #if 1
-	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_EDIT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_ADD, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
+	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_LIST_ADD, POPUP_TYPE_NONE, 0 };
 #else
 	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_EDIT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
 #endif
-//20221022 GBM end
+//20221026 GBM end
+
 const int g_editAlign[] = { DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, -1 }; // option, row align text, default: DT_LEFT
 const int g_editLimit[] = { 10, 10, 0, 0, 0, 20, 20, 10, -1 }; // 0: 무제한, > 0 : 텍스트 사이즈 제한
 
@@ -219,6 +222,62 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
+	//20221027 GBM start - 회로번호 이동 케이스 추가
+	case 4:
+	{
+		int* nCircuitMoveNum = (int*)lParam;
+		int nCurrentIndex = nCircuitMoveNum[0];
+		int nNewIndex = nCircuitMoveNum[1];
+		int nMaxCircuitAddress = MAX_CIRCUIT_ADDRESS;
+
+		bool bIsVacantCircuit = false;
+
+		// 이 시점에 한번도 중계기 일람표 회로 정보가 저장된 적이 없다면 저장
+		int nSystemInfo = 0;
+		nSystemInfo = CSaveManager::ie()->m_listSystem.GetSize();
+		if (nSystemInfo <= 0)
+		{
+			SaveInformation(0);
+			SaveInformation(1);
+		}
+
+		if (m_nCircuit == 1)
+		{
+			nCurrentIndex += nMaxCircuitAddress;
+			nNewIndex += nMaxCircuitAddress;
+		}
+
+		bIsVacantCircuit = CSaveManager::ie()->MoveCircuitInfo(nCurrentIndex, nNewIndex);
+
+		if (!bIsVacantCircuit)
+		{
+			int nNewCircuitNum = 0;
+			if (m_nCircuit == 0)
+				nNewCircuitNum = nNewIndex + 1;
+			else
+				nNewCircuitNum = nNewIndex + 1 - nMaxCircuitAddress;
+
+			CString strMsg = L"";
+			strMsg.Format(L"\n\n새 회로번호(%d)에는 기존 회로가 존재합니다.\n다시 선택해 주세요.", nNewCircuitNum);
+
+			CMessagePopup popup(L"기존 회로 있음", strMsg, MB_OK, this);
+			popup.DoModal();
+			break;
+		}
+
+		if (m_nCircuit == 0)
+		{
+			DisplayLoadFile(0);
+		}
+		else
+		{
+			DisplayLoadFile(1);
+		}
+
+		// 가장 마지막 회로번호 저장 (추후 고려)
+	}
+		break;
+	//20221027 GBM end
 	default:
 		break;
 

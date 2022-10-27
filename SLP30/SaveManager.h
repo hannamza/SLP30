@@ -152,6 +152,9 @@ public:
 	void DeleteSystemInfo();	//20221020 GBM - 중계기 일람표 확정 후 다시 회로 설정에서 특정 회로가 삭제되었을 경우
 	void AddSystemInfo();		//20221020 GBM - 중계기 일람표 확정 후 다시 회로 설정에서 특정 회로가 추가되었을 경우
 
+	bool IsVacantCircuit(int nCircuitNum);
+	bool MoveCircuitInfo(int nCurrentCircuitNum, int nNewCircuitNum);
+
 	CList <SYSTEM_INFO_*, SYSTEM_INFO_*> m_listSystem;
 	CList <BC_INFO*, BC_INFO*> m_listBC;
 	circuitPumpInfo m_pumpInfo;

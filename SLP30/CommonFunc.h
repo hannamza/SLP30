@@ -156,4 +156,7 @@ public:
 	static BOOL		RegistryDisableHighDpiAware(WCHAR* szPath=NULL);
 
 	static BOOL		CheckDigit(WCHAR* szValue);
+
+	static int		utoi(wchar_t* s);
+	static std::wstring		itou(int number);
 };
