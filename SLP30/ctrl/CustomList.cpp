@@ -43,6 +43,8 @@ CCustomList::CCustomList()
 
 	m_nCircuitMoveNum[0] = -1;
 	m_nCircuitMoveNum[1] = -1;
+
+	m_nChartIndex = -1;
 }
 
 CCustomList::~CCustomList()
@@ -1279,12 +1281,62 @@ void CCustomList::Redisplay()
 		}
 		SendSizeTypeInfo(pItem);
 
+		//20221028 GBM start - 최대 회로 번호 이후 리스트 배경 색을 다른 색으로 표시
+#if 1
+		if (m_nChartIndex == 0)
+		{
+			if (CCommonState::ie()->m_nTotalCountCircuit_0 > nIndex)
+			{
+				if (nIndex % 2 == 0) {
+					pItem->SetRowColor(m_bkColor, m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+				}
+				else {
+					pItem->SetRowColor(m_bkColor - RGB(15, 15, 15), m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+				}
+			}
+			else
+			{
+				COLORREF bkColor = RGB(0, 0, 0);
+				pItem->SetRowColor(bkColor, m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+			}
+		}
+		else if (m_nChartIndex == 1)
+		{
+			if (CCommonState::ie()->m_nTotalCountCircuit_1 > nIndex)
+			{
+				if (nIndex % 2 == 0) {
+					pItem->SetRowColor(m_bkColor, m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+				}
+				else {
+					pItem->SetRowColor(m_bkColor - RGB(15, 15, 15), m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+				}
+			}
+			else
+			{
+				COLORREF bkColor = RGB(0, 0, 0);
+				pItem->SetRowColor(bkColor, m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+			}
+		}
+		else
+		{
+			if (nIndex % 2 == 0) {
+				pItem->SetRowColor(m_bkColor, m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+			}
+			else {
+				pItem->SetRowColor(m_bkColor - RGB(15, 15, 15), m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
+			}
+		}
+		
+#else
 		if (nIndex % 2 == 0) {
 			pItem->SetRowColor(m_bkColor, m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
-		}
+	}
 		else {
 			pItem->SetRowColor(m_bkColor - RGB(15, 15, 15), m_bkSelColor, m_textColor, m_textSelColor, m_lineColor);
 		}
+#endif
+		//20221028 GBM end
+
 		pItem->SetItemText(pData->listText);
 		pItem->SetItemIndex(nIndex);
 		pItem->MoveWindow(0, nTop, rect.Width(), g_nItemHeight);
@@ -1467,4 +1519,9 @@ void CCustomList::OnListCircuitNoChange()
 	{
 		return;
 	}		
+}
+
+void CCustomList::SetBackgroundColorAfterMaxCircuit(int nChartIndex)
+{
+	m_nChartIndex = nChartIndex;
 }

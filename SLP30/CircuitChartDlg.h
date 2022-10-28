@@ -26,6 +26,8 @@ public:
 	void DisplayLoadFile(int nChartIndex);
 	bool SaveInformation(int nChartIndex);
 
+	void SetBackgroundColorAfterMaxCircuit(int nChartIndex);
+
 private:
 	void Redisplay();
 	void SetupPopupList();

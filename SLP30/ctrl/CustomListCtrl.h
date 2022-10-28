@@ -66,6 +66,7 @@ public:
 	void InsertListItemUp(int nRowIndex);
 	void InsertListItemDown(int nRowIndex);
 	void SetReadOnly(bool bReadOnly);	//20221013 GBM - ReadOnly 속성이 되도록 플래그 추가
+	void SetBackgroundColorAfterMaxCircuit(int nChartIndex);
 private:
 	void Redisplay();
 

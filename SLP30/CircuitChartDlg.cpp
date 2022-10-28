@@ -68,6 +68,7 @@ BOOL CCircuitChartDlg::OnInitDialog()
 			m_pListCtrl->Create(NULL, NULL, WS_CHILD | WS_VISIBLE/* | WS_BORDER*/, CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL);
 		}
 	}
+
 	m_pListCtrl->SetListIndex(0);
 	m_pListCtrl->SetHeaderInfo((TCHAR**)g_editHeader, (int*)g_editSize, (int*)g_editType, (int*)g_editAlign); // Align: option, row align text, default: DT_LEFT
 	m_pListCtrl->SetColumnLimit((int*)g_editLimit);
@@ -231,6 +232,31 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		int nMaxCircuitAddress = MAX_CIRCUIT_ADDRESS;
 
 		bool bIsVacantCircuit = false;
+		CString strMsg = L"";
+
+		//현재 설정된 전체 회로 갯수의 마지막 회로 번호를 초과하는지 검사
+		if (m_nCircuit == 0)
+		{
+			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
+			{
+				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]에서 설비 개수를 늘려주세요.",
+					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
+				CMessagePopup popup(L"최대 회로번호 초과", strMsg, MB_OK, this);
+				popup.DoModal();
+				break;
+			}
+		}
+		else
+		{
+			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
+			{
+				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]에서 설비 개수를 늘려주세요.",
+					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
+				CMessagePopup popup(L"최대 회로번호 초과", strMsg, MB_OK, this);
+				popup.DoModal();
+				break;
+			}
+		}
 
 		// 이 시점에 한번도 중계기 일람표 회로 정보가 저장된 적이 없다면 저장
 		int nSystemInfo = 0;
@@ -257,7 +283,6 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 			else
 				nNewCircuitNum = nNewIndex + 1 - nMaxCircuitAddress;
 
-			CString strMsg = L"";
 			strMsg.Format(L"\n\n새 회로번호(%d)에는 기존 회로가 존재합니다.", nNewCircuitNum);
 
 			CMessagePopup popup(L"기존 회로 있음", strMsg, MB_OK, this);
@@ -273,8 +298,6 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			DisplayLoadFile(1);
 		}
-
-		// 가장 마지막 회로번호 저장 (추후 고려)
 	}
 		break;
 	//20221027 GBM end
@@ -378,6 +401,8 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 {
 	m_pListCtrl->ReleaseListItem();
 
+	SetBackgroundColorAfterMaxCircuit(m_nCircuit);		//20221028 GBM - 리스트가 자신의 계통 정보를 알 수 있도록 추가
+
 	SetupPopupList();
 
 	CString sTemp;
@@ -427,6 +452,7 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 			sTemp.Format(L"%d", (int)pInfo->nCircuitNo);
 		}
 		m_pListCtrl->SetItemText(nValue, 8, sTemp);
+
 		++nValue;
 	}
 }
@@ -434,6 +460,8 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 {
 	m_pListCtrl->ReleaseListItem();
+
+	SetBackgroundColorAfterMaxCircuit(m_nCircuit);		//20221028 GBM - 리스트가 자신의 계통 정보를 알 수 있도록 추가
 
 	SetupPopupList();
 
@@ -633,4 +661,9 @@ void CCircuitChartDlg::Redisplay()
 		m_pListCtrl->ShowWindow(SW_SHOW);
 		m_pListCtrl->Invalidate();
 	}
+}
+
+void CCircuitChartDlg::SetBackgroundColorAfterMaxCircuit(int nChartIndex)
+{
+	m_pListCtrl->SetBackgroundColorAfterMaxCircuit(nChartIndex);
 }

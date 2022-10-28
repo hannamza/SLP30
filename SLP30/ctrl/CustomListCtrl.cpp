@@ -1185,3 +1185,8 @@ void CCustomListCtrl::SetReadOnly(bool bReadOnly)
 	m_pList->SetReadOnly(bReadOnly);
 }
 //20221013 GBM end
+
+void CCustomListCtrl::SetBackgroundColorAfterMaxCircuit(int nChartIndex)
+{
+	m_pList->SetBackgroundColorAfterMaxCircuit(nChartIndex);
+}

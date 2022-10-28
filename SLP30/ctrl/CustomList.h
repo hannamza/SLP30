@@ -62,6 +62,7 @@ public:
 	void SetDisableMenu(bool bDisable);
 	void EnableLastInsertRow(bool bLast, bool bFirst = false);
 	void SetReadOnly(bool bReadOnly);	//20221013 GBM - ReadOnly 주기 위한 추가
+	void SetBackgroundColorAfterMaxCircuit(int nChartIndex);
 
 private:
 	CWnd* m_pParent;
@@ -81,6 +82,7 @@ private:
 	CList<pItemData, pItemData> m_listData;
 
 	int m_nCircuitMoveNum[2];
+	int m_nChartIndex;
 
 private:
 	CList<CCustomItem*, CCustomItem*> m_listItem;
