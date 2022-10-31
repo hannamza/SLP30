@@ -42,6 +42,7 @@ private:
 	CPSPumpSetupDlg* m_pPSPumpDlg;
 	CBroadcastDlg* m_pBroadcastDlg;
 	thread* m_pThread;
+	bool m_bExcelSaved;		// 중계기 일람표를 한번은 저장해야만 연동데이터 쪽으로 넘어가도록 하는 플래그
 
 public:
 	CString m_sExcelPath;

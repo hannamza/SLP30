@@ -58,6 +58,8 @@ CCircuitEditDlg::CCircuitEditDlg(CWnd* pParent /*=NULL*/)
 	m_pBroadcastDlg = NULL;
 
 	m_pThread = NULL;
+
+	m_bExcelSaved = false;
 }
 
 CCircuitEditDlg::~CCircuitEditDlg()
@@ -264,6 +266,14 @@ void CCircuitEditDlg::MakePattern()
 
 void CCircuitEditDlg::OnNextClick()
 {
+	//중계기 일람표를 한번이라도 저장했는지 여부
+	if (!m_bExcelSaved)
+	{
+		CMessagePopup popup(L"중계기 일람표 Excel 저장\n미실행", L"\n\n\n중계기 일람표 Excel 저장을 해야만\n\n연동데이터 생성 편집단계로\n\n진행이 가능합니다.", MB_OK, this);
+		UINT nResult = popup.DoModal();
+		return;
+	}
+
 	// release
 	CSaveManager::ie()->ReleaseInfo();
 	if (m_pCircuitChartDlg[0] && m_pCircuitChartDlg[1]) {
@@ -378,6 +388,9 @@ void CCircuitEditDlg::OnExcelClick()
 {
 	int nResult = ExcelSave();
 	if (nResult == 0) {
+		//엑셀 저장이 성공했을 경우
+		if (!m_bExcelSaved)
+			m_bExcelSaved = true;
 	}
 	else if (nResult == -2) {
 		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장에 실패하였습니다.", MB_OK, this);

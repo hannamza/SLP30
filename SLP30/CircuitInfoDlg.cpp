@@ -319,7 +319,7 @@ void CCircuitInfoDlg::OnNextClick()
 #if 1
 		if (!CCommonState::ie()->m_bInitCircuit) 
 		{
-			CMessagePopup popup(L"중계기 일람표 수정", L"\n회로 설정 변경으로 중계기 일람표가 수정됩니다.\n(회로 추가 시: 중계기 일람표 하단 추가,\n회로 삭제 시: 중계기 일람표에서 회로 삭제)\n\n계속하시겠습니까?", MB_YESNO, this);
+			CMessagePopup popup(L"중계기 일람표 수정", L"\n회로 설정 수정이 중계기 일람표에 적용됩니다.\n(회로 추가 시: 중계기 일람표 하단 추가,\n회로 삭제 시: 회로 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 회로 삭제)\n\n계속하시겠습니까?\n(확인: 수정 사항 적용, 취소: 수정 사항 미적용)", MB_YESNO, this);
 
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK)
@@ -387,7 +387,14 @@ void CCircuitInfoDlg::OnNextClick()
 			}
 			else
 			{
-				return;
+				//수정 사항을 반영하지 않을 것이므로 이전 값으로 돌아감
+				m_pSetupDlg[0]->InitCircuitInfo(0);
+				m_pSetupDlg[1]->InitCircuitInfo(1);
+
+				m_pSetupDlg[0]->LoadInfo(0);
+				m_pSetupDlg[1]->LoadInfo(1);
+
+				GetParent()->PostMessage(SELECTION_PROJECT, 13, 0);
 			}
 		}
 		else
