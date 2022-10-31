@@ -1511,6 +1511,14 @@ void CCustomList::OnListCircuitNoChange()
 
 		wcscpy_s(szNewCircuitNum, dlg.m_strNewCircuitNo.GetBuffer(0));
 		nNewCircuitNum = CCommonFunc::utoi(szNewCircuitNum);
+
+		if (nNewCircuitNum <= 0 || nNewCircuitNum > MAX_CIRCUIT)
+		{
+			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호는 1 ~ 250번까지\n입력할 수 있습니다.", MB_OK, this);
+			popup.DoModal();
+			return;
+		}
+
 		m_nCircuitMoveNum[0] = m_nSelectItem;
 		m_nCircuitMoveNum[1] = nNewCircuitNum - 1;		//위치는 제로베이스
 		GetParent()->PostMessage(LIST_CONTROL, 4, (LPARAM)m_nCircuitMoveNum);

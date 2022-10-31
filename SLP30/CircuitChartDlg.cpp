@@ -239,7 +239,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
 			{
-				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]에서 설비 개수를 늘려주세요.",
+				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
 				CMessagePopup popup(L"최대 회로번호 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -250,7 +250,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
-				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]에서 설비 개수를 늘려주세요.",
+				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
 				CMessagePopup popup(L"최대 회로번호 초과", strMsg, MB_OK, this);
 				popup.DoModal();
