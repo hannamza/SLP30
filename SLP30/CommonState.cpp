@@ -57,14 +57,12 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 	}
 	CString sBlock, sStair, sTemp, sFloor, sCircuitName;
 	int nCount = 0;
-
-	int nBlockIndex = 0, nStairIndex = 0;
 	bool bExit = false;
 
 	for (int nIndexBlock = 0; nIndexBlock < CCircuitBasicInfo::Instance()->m_nBlock; nIndexBlock++)
 	{
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
-			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndexBlock);
 			sBlock += L"µ¿";
 
 			for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) 
