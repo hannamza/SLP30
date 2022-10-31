@@ -28,7 +28,7 @@ CMainFrameDlg::CMainFrameDlg(CWnd* pParent /*=NULL*/)
 	m_nBasement = 0;
 
 	//20221024 GBM start - 현재 건물 / 중계기 설정을 나타내기 위한 문자열 폰트
-	m_font.CreateFont(16, // nHeight 
+	m_font.CreateFont(32, // nHeight 
 		0, // nWidth 
 		0, // nEscapement 
 		0, // nOrientation 
@@ -41,7 +41,7 @@ CMainFrameDlg::CMainFrameDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
-		_T("굴림")); // lpszFacename 
+		_T("맑은고딕")); // lpszFacename 
 	//20221024 GBM end
 
 	m_strCurrentConfigMsg = L"";
@@ -315,7 +315,7 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 			}
 
 			//중계기 일람표 확정 메세지 추가
-			m_strCurrentConfigMsg += L" / 중계기 일람표 확정 완료  ";
+			m_strCurrentConfigMsg += L"▶ 중계기 일람표 확정 완료  ";
 
 			CCommonState::ie()->m_bInitCircuit = false;
 		}
@@ -401,7 +401,7 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		m_btnData.EnableWindow(false);
 		break;
 	case 10: // load
-		m_strCurrentConfigMsg = L"건물 정보 확정 완료 / 중계기 일람표 확정 완료";
+		m_strCurrentConfigMsg = L"▶ 건물 정보 확정 완료 ▶ 중계기 일람표 확정 완료";
 		m_pCircuitBasicDlg->LoadInfo();
 		m_pCircuitDlg->LoadInfo();
 		m_pCircuitEditDlg->LoadInfo();
@@ -414,7 +414,7 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		{
 			if (m_strCurrentConfigMsg.Compare(L"") == 0)
 			{
-				m_strCurrentConfigMsg = L"건물 정보 확정 완료  ";
+				m_strCurrentConfigMsg = L"▶ 건물 정보 확정 완료 ";
 			}
 		}
 		//20221024 GBM end
@@ -520,7 +520,7 @@ void CMainFrameDlg::Redisplay()
 	//CCommonDisplay::DrawImage(&memDC, IDB_BMP_AUTOTITLE, 60, 30);
 
 	//20221024 GBM start - 현재 건물/중계기 일람표 설정 상태를 알려주는 문자열 추가
-	CCommonDisplay::DrawCaption(&memDC, m_strCurrentConfigMsg, RGB(80, 80, 80), m_font, false, 0, rt, DT_RIGHT | DT_TOP | DT_SINGLELINE);
+	CCommonDisplay::DrawCaption(&memDC, m_strCurrentConfigMsg, RGB(255, 127, 39), m_font, false, 0, rt, DT_RIGHT | DT_TOP | DT_SINGLELINE);
 	//20221024 GBM end
 
 	_pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);

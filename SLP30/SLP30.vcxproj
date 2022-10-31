@@ -350,6 +350,7 @@
     <Image Include="res\box_rb.png" />
     <Image Include="res\box_rt.bmp" />
     <Image Include="res\box_rt.png" />
+    <Image Include="res\buiding_info_complete_btn.bmp" />
     <Image Include="res\cancel.bmp" />
     <Image Include="res\checkbtn.bmp" />
     <Image Include="res\CircuitNoChange.png" />
@@ -361,6 +362,7 @@
     <Image Include="res\excelbtn.bmp" />
     <Image Include="res\find.bmp" />
     <Image Include="res\folder_bt.bmp" />
+    <Image Include="res\list_complete_btn.bmp" />
     <Image Include="res\loadexplain.bmp" />
     <Image Include="res\load_project.bmp" />
     <Image Include="res\load_title.bmp" />

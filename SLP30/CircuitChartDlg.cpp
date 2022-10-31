@@ -301,9 +301,9 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 			else
 				nNewCircuitNum = nNewIndex + 1 - nMaxCircuitAddress;
 
-			strMsg.Format(L"\n\n새 회로번호(%d)에는 기존 회로가 존재합니다.", nNewCircuitNum);
+			strMsg.Format(L"\n\n새 회로번호(%d)에는 이미 회로가 존재합니다.\n\n회로번호 변경은\n회로정보가 없는 회로번호만 가능합니다.", nNewCircuitNum);
 
-			CMessagePopup popup(L"기존 회로 있음", strMsg, MB_OK, this);
+			CMessagePopup popup(L"이미 회로 있음", strMsg, MB_OK, this);
 			popup.DoModal();
 			break;
 		}
