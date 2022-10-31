@@ -851,7 +851,8 @@ void CSaveManager::AddSystemInfo()
 						wcscpy_s(pSI->szRoomName, sRoomName);
 						wcscpy_s(pSI->szBlock, sBlock);
 						pSI->nNo = nNo;
-						pSI->nSystemNo = nSystemNo;
+						if (iterCircuitName == iterSCCR->vecSystemName.begin())		//감지기 류 아니면 첫번째 회로 들어갈 때만 중계기 번호 넣음
+							pSI->nSystemNo = nSystemNo;
 						pSI->nSystem = nSystem;
 						pSI->nStair = nStair;
 						pSI->nFloor = nFloor;

@@ -234,14 +234,23 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		bool bIsVacantCircuit = false;
 		CString strMsg = L"";
 
-		//현재 설정된 전체 회로 갯수의 마지막 회로 번호를 초과하는지 검사
+		//새 회로번호 혹은 기존 회로번호가 현재 설정된 전체 회로 갯수의 마지막 회로 번호를 초과하는지 검사
 		if (m_nCircuit == 0)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
 			{
-				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
+				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없습니다.\n총 회로번호 개수(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
-				CMessagePopup popup(L"최대 회로번호 초과", strMsg, MB_OK, this);
+				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
+				popup.DoModal();
+				break;
+			}
+
+			if (nCurrentIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
+			{
+				strMsg.Format(L"\n\n옮기려는 회로번호(%d)는\n현재 구성된 총 회로번호 개수(%d)보다 큰 수이므로\n옮길 수 없습니다.",
+					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
+				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
 				break;
 			}
@@ -250,9 +259,18 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
-				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 최대 회로번호(%d)를 초과할 수 없습니다.\n최대 회로번호(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
+				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없습니다.\n총 회로번호 개수(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
-				CMessagePopup popup(L"최대 회로번호 초과", strMsg, MB_OK, this);
+				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
+				popup.DoModal();
+				break;
+			}
+
+			if (nCurrentIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
+			{
+				strMsg.Format(L"\n\n옮기려는 회로번호(%d)는\n현재 구성된 총 회로번호 개수(%d)보다 큰 수이므로\n옮길 수 없습니다.",
+					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
+				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
 				break;
 			}
