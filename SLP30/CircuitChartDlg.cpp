@@ -581,7 +581,7 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 			case 6: // 전실제연 배기 2
 			case 15: // 저수위 감시 2
 			case 3: // 프리액션 밸브 4
-			case 7: // 상가제연 4
+			//case 7: // 상가제연 4
 			case 8: // 방화셔터 4
 				if (nValue % 2 == 1) {
 					++nValue;

@@ -54,8 +54,8 @@ CCircuitBasicInfo::CCircuitBasicInfo()
 		case 7: // 상가제연
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_제연수동기동]);
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_SMD확인]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_급기팬]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_배기팬]);
+			//pInfo->arrayChild.Add(g_lpszCircuitName[설비명_급기팬]);
+			//pInfo->arrayChild.Add(g_lpszCircuitName[설비명_배기팬]);
 			break;
 		case 8: // 방화셔터
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_셔터연감지기]);
