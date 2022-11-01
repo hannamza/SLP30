@@ -199,8 +199,8 @@ LRESULT CSetupMakeDataDlg::ChangeCheckButtonState(WPARAM wParam, LPARAM lParam)
 		break;
 	case 연동_밸브_교차:
 	case 연동_밸브_아날로그:
-		m_pCheck[연동_밸브_교차]->SetCheck(true);
-		m_pCheck[연동_밸브_아날로그]->SetCheck(true);
+// 		m_pCheck[연동_밸브_교차]->SetCheck(true);
+// 		m_pCheck[연동_밸브_아날로그]->SetCheck(true);
 		break;
 	case 연동_싸이렌_작동연동:
 		break;

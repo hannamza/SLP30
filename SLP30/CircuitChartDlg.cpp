@@ -496,7 +496,7 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 	else if (nChartIndex == 1) {
 		nCount = CCommonState::ie()->m_selectCircuit_1.GetCount();
 	}
-	bool bFan = false;
+	//bool bFan = false;
 	for (int nIndex = 0; nIndex < nCount; nIndex++) {
 		if (nChartIndex == 0) {
 			pCircuit = CCommonState::ie()->m_selectCircuit_0.GetAt(CCommonState::ie()->m_selectCircuit_0.FindIndex(nIndex));
@@ -528,12 +528,13 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 			}
 		}
 		if (bFind) {
-			if (bFan) {
-				if (nValue % 2 == 1) {
-					nValue++;
-				}
-				bFan = false;
-			}
+			//아래 코드 의미 없음
+// 			if (bFan) {
+// 				if (nValue % 2 == 1) {
+// 					nValue++;
+// 				}
+// 				bFan = false;
+// 			}
 			nCircuitCount = 0;
 			for (int ii = 0; ii < pCircuit->nCount; ii++) {
 				sCircuitCount.Format(L"%d", nCircuitCount + 1);

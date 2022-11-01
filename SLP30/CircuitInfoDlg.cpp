@@ -645,7 +645,7 @@ void CCircuitInfoDlg::Redisplay()
 
 void CCircuitInfoDlg::OnCircuitListInit()
 {
-	CMessagePopup popup(L"중계기 일람표 확정 취소", L"\n중계기 일람표 확정이 취소됩니다.\n\n경고 : [확인] 선택 시\n기존에 작성된 중계기 일람표가 모두 삭제되어\n다시 중계기 일람표 확정해도\n[새 회로번호]가 적용됩니다.\n신중히 선택하시기 바랍니다.", MB_YESNO, this);
+	CMessagePopup popup(L"중계기 일람표 확정 취소", L"\n중계기 일람표 확정이 취소됩니다.\n\n※ 경고 : [확인] 선택 시\n기존에 작성된 중계기 일람표가 모두 삭제되어\n다시 중계기 일람표 확정해도\n[새 회로번호]가 적용됩니다.\n신중히 선택하시기 바랍니다.", MB_YESNO, this);
 
 	UINT nResult = popup.DoModal();
 	if (nResult != IDOK)
