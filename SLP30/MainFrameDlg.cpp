@@ -64,6 +64,7 @@ void CMainFrameDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CMainFrameDlg, CDialogEx)
 	ON_MESSAGE(SELECTION_PROJECT, OnSelectionProject)
+	ON_MESSAGE(CIRCUIT_LIST_INIT_MSG, OnCircuitListInitMsg)
 	ON_COMMAND(IDC_COMMON_BUTTON1, OnSelectClick)
 	ON_COMMAND(IDC_COMMON_BUTTON2, OnCircuitClick)
 	ON_COMMAND(IDC_COMMON_BUTTON3, OnDataClick)
@@ -301,21 +302,24 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 		// 중계기 일람표가 최초 작성되는 것이라면 기존 루틴 태운다.
 		if (CCommonState::ie()->m_bInitCircuit)
 		{
+
 			nValue = m_pCircuitEditDlg->DisplayListItem();
-			if (nValue != 0)
-			{
-				CString sText;
-				sText.Format(L"\n\n%d계통 최대 입력 개수(%d개)를 초과하였습니다.\n\n다시 입력하여 주시기 바랍니다.", nValue - 1, MAX_CIRCUIT);
-				CMessagePopup popup(L"중계기 일람표", sText, MB_OK, this);
-				UINT nResult = popup.DoModal();
-				CCommonState::ie()->ReleaseCircuit(0);
-				CCommonState::ie()->ReleaseCircuit(1);
-				//CCommonState::ie()->m_bInitCircuit = true;
-				return;
-			}
+
+			//앞서 회로 개수를 검사하므로 아래 루틴에 들어올 일 없음 (기존 소스)
+// 			if (nValue != 0)
+// 			{
+// 				CString sText;
+// 				sText.Format(L"\n\n%d계통 최대 입력 개수(%d개)를 초과하였습니다.\n\n다시 입력하여 주시기 바랍니다.", nValue - 1, MAX_CIRCUIT);
+// 				CMessagePopup popup(L"중계기 일람표", sText, MB_OK, this);
+// 				UINT nResult = popup.DoModal();
+// 				CCommonState::ie()->ReleaseCircuit(0);
+// 				CCommonState::ie()->ReleaseCircuit(1);
+// 				//CCommonState::ie()->m_bInitCircuit = true;
+// 				return;
+// 			}
 
 			//중계기 일람표 확정 메세지 추가
-			m_strCurrentConfigMsg += L"▶ 중계기 일람표 확정 완료  ";
+			m_strCurrentConfigMsg += L"▶ 중계기 일람표 확정  ";
 
 			CCommonState::ie()->m_bInitCircuit = false;
 		}
@@ -401,7 +405,7 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		m_btnData.EnableWindow(false);
 		break;
 	case 10: // load
-		m_strCurrentConfigMsg = L"▶ 건물 정보 확정 완료 ▶ 중계기 일람표 확정 완료";
+		m_strCurrentConfigMsg = L"▶ 건물 정보 확정 ▶ 중계기 일람표 확정 ";
 		m_pCircuitBasicDlg->LoadInfo();
 		m_pCircuitDlg->LoadInfo();
 		m_pCircuitEditDlg->LoadInfo();
@@ -414,7 +418,7 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		{
 			if (m_strCurrentConfigMsg.Compare(L"") == 0)
 			{
-				m_strCurrentConfigMsg = L"▶ 건물 정보 확정 완료 ";
+				m_strCurrentConfigMsg = L"▶ 건물 정보 확정 ";
 			}
 		}
 		//20221024 GBM end
@@ -537,4 +541,14 @@ void CMainFrameDlg::Redisplay()
 		m_pMakeDataDlg->MoveWindow(rt.left + 5, rt.top + 58, rt.Width() - 10, rt.Height() - 63);
 		//m_pSetupDlg->MoveWindow(rt.left + 5, rt.top + 60, rt.Width() - 10, rt.Height() - 65);
 	}
+}
+
+LRESULT CMainFrameDlg::OnCircuitListInitMsg(WPARAM wParam, LPARAM lParam)
+{
+	m_strCurrentConfigMsg = L"▶ 건물 정보 확정  " ;	// 중계기 일람표 확정 문구 삭제
+	Invalidate();
+
+	m_pCircuitEditDlg->SetExcelSaveFlag(false);
+
+	return 0;
 }

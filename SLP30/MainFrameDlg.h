@@ -53,6 +53,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg LRESULT OnSelectionProject(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnCircuitListInitMsg(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnSelectClick();
 	afx_msg void OnCircuitClick();
 	afx_msg void OnDataClick();

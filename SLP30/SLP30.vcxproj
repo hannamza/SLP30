@@ -353,6 +353,7 @@
     <Image Include="res\buiding_info_complete_btn.bmp" />
     <Image Include="res\cancel.bmp" />
     <Image Include="res\checkbtn.bmp" />
+    <Image Include="res\circuitListCancelbtnEdit.bmp" />
     <Image Include="res\CircuitNoChange.png" />
     <Image Include="res\circuitsetup.bmp" />
     <Image Include="res\close_bt.bmp" />

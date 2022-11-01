@@ -51,6 +51,7 @@ BEGIN_MESSAGE_MAP(CCircuitInfoDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_SIZE()
 	ON_WM_TIMER()
+	ON_COMMAND(IDC_COMMON_BUTTON3, OnCircuitListInit)
 END_MESSAGE_MAP()
 
 // CCircuitInfoDlg 메시지 처리기입니다.
@@ -80,6 +81,9 @@ BOOL CCircuitInfoDlg::OnInitDialog()
 
 	m_btnNext.Create(IDB_BMP_NEXT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
 	m_btnPrev.Create(IDB_BMP_PREV, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+	m_btnCircuitListInit.Create(IDB_BMP_CIRCUIT_LIST_INIT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+
+	m_btnCircuitListInit.ShowWindow(FALSE);
 
 	m_bInit = true;
 
@@ -453,6 +457,10 @@ void CCircuitInfoDlg::OnNextClick()
 			CCommonState::ie()->m_nTotalCountCircuit_0 = CCommonState::ie()->CalculateTotalCircuitCount(0);
 			CCommonState::ie()->m_nTotalCountCircuit_1 = CCommonState::ie()->CalculateTotalCircuitCount(1);
 
+			//중계기 일람표 확정 취소 버튼 활성화
+			m_btnCircuitListInit.ShowWindow(TRUE);
+			m_btnCircuitListInit.Invalidate();
+
 			GetParent()->PostMessage(SELECTION_PROJECT, 12, 0);
 		}
 #else
@@ -628,7 +636,34 @@ void CCircuitInfoDlg::Redisplay()
 	if (m_bInit) {
 		m_btnNext.MoveWindow(rect.right - 87, 0, 83, 48);
 		m_btnPrev.MoveWindow(rect.right - 180, 0, 83, 48);
+		m_btnCircuitListInit.MoveWindow(rect.right - 350, 0, 155, 48);
 		m_btnNext.Invalidate();
 		m_btnPrev.Invalidate();
+		m_btnCircuitListInit.Invalidate();
 	}
+}
+
+void CCircuitInfoDlg::OnCircuitListInit()
+{
+	CMessagePopup popup(L"중계기 일람표 확정 취소", L"\n중계기 일람표 확정이 취소됩니다.\n\n경고 : [확인] 선택 시\n기존에 작성된 중계기 일람표가 모두 삭제되어\n다시 중계기 일람표 확정해도\n[새 회로번호]가 적용됩니다.\n신중히 선택하시기 바랍니다.", MB_YESNO, this);
+
+	UINT nResult = popup.DoModal();
+	if (nResult != IDOK)
+	{
+		return;
+	}
+
+	//중계기 일람표 확정 플래그 false
+	CCommonState::ie()->m_bInitCircuit = true;
+
+	//회로 리스트 삭제
+	CSaveManager::ie()->ReleaseInfo();
+
+	//중계기 일람표 확정 취소 버튼 비활성화
+	m_btnCircuitListInit.ShowWindow(FALSE);
+	m_btnCircuitListInit.Invalidate();
+
+	//중계기 일람표 확정 문구 삭제, 중계기 일람표 Excel 저장 플래그 false
+	GetParent()->PostMessage(CIRCUIT_LIST_INIT_MSG, 0, 0);
+
 }

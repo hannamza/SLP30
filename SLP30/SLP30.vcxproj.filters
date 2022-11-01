@@ -605,5 +605,8 @@
     <Image Include="res\list_complete_btn.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\circuitListCancelbtnEdit.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

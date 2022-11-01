@@ -33,7 +33,7 @@ private:
 private:
 	CTextTabBtn* m_pTabButton[2];
 	CCircuitSetupDlg* m_pSetupDlg[2];
-	CImageBtn m_btnNext, m_btnPrev;
+	CImageBtn m_btnNext, m_btnPrev, m_btnCircuitListInit;
 	CCustomListCtrl* m_pListCtrl[6];
 
 	bool m_bInit;
@@ -57,4 +57,5 @@ public:
 	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnCircuitListInit();
 };

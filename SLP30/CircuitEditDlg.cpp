@@ -269,7 +269,7 @@ void CCircuitEditDlg::OnNextClick()
 	//중계기 일람표를 한번이라도 저장했는지 여부
 	if (!m_bExcelSaved)
 	{
-		CMessagePopup popup(L"중계기 일람표 Excel 저장\n미실행", L"\n\n\n중계기 일람표 Excel 저장을 해야만\n\n연동데이터 생성 편집단계로\n\n진행이 가능합니다.", MB_OK, this);
+		CMessagePopup popup(L"중계기 일람표 Excel 저장\n미실행", L"\n\n\n[중계기 일람표 Excel 저장]을\n\n반드시 실행해야 연동데이터 생성 편집단계로\n\n진행이 가능합니다.", MB_OK, this);
 		UINT nResult = popup.DoModal();
 		return;
 	}
@@ -646,4 +646,9 @@ void CCircuitEditDlg::Redisplay()
 			m_pBroadcastDlg->MoveWindow(rt);
 		}
 	}
+}
+
+void CCircuitEditDlg::SetExcelSaveFlag(bool bFlag)
+{
+	m_bExcelSaved = bFlag;
 }

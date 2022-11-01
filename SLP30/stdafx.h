@@ -56,6 +56,7 @@ using namespace Gdiplus; //네임스페이스 설정
 using namespace std;
 
 #define		SELECTION_PROJECT		(WM_USER+1501)
+#define		CIRCUIT_LIST_INIT_MSG	(WM_USER+1502)		// 중계기 일람표 확정 취소
 
 #define		SAFE_DELETE(p) { if(p) { delete (p); (p)=NULL; } }
 #define		TIME_SLEEP(t, b) { DWORD cT=GetTickCount(); while(b && GetTickCount() - cT < t) Sleep(1); }

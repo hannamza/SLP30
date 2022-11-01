@@ -26,6 +26,7 @@ public:
 public:
 	int  DisplayListItem();
 	bool LoadInfo();
+	void SetExcelSaveFlag(bool bFlag);
 
 private:
 	void Redisplay();
