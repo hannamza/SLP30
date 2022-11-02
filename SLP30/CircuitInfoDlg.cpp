@@ -291,6 +291,7 @@ void CCircuitInfoDlg::LoadInfo()
 	//20221024 GBM end
 
 	CCommonState::ie()->m_bInitCircuit = false;
+	m_btnCircuitListInit.ShowWindow(TRUE);
 }
 
 void CCircuitInfoDlg::OnNextClick()
