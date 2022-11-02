@@ -277,13 +277,15 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		}
 
 		// 이 시점에 한번도 중계기 일람표 회로 정보가 저장된 적이 없다면 저장
-		int nSystemInfo = 0;
-		nSystemInfo = CSaveManager::ie()->m_listSystem.GetSize();
-		if (nSystemInfo <= 0)
-		{
-			SaveInformation(0);
-			SaveInformation(1);
-		}
+// 		int nSystemInfo = 0;
+// 		nSystemInfo = CSaveManager::ie()->m_listSystem.GetSize();
+// 		if (nSystemInfo <= 0)
+// 		{
+// 			SaveInformation(0);
+// 			SaveInformation(1);
+// 		}
+		SaveInformation(0);
+		SaveInformation(1);
 
 		if (m_nCircuit == 1)
 		{
@@ -477,6 +479,161 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 
 bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 {
+
+	//20221102 GBM start - 보기 편한 소스로 변경
+#if 1
+	m_pListCtrl->ReleaseListItem();
+
+	SetBackgroundColorAfterMaxCircuit(m_nCircuit);		//20221028 GBM - 리스트가 자신의 계통 정보를 알 수 있도록 추가
+
+	SetupPopupList();
+
+	CString sSystem = L"0 계통";
+	if (nChartIndex == 1)
+		sSystem = L"1 계통";
+
+	CString sBlock, sStair, sFloor, sCircuitName, sCircuitCount, sTemp;
+	pSelectCircuit pCircuit = NULL;
+	CStringArray arrayList;
+	bool bEmpty = false;
+	int nValue = 0;
+	int nCount = 0;
+	int nCircuitNo = 0;
+
+	if (nChartIndex == 0) 
+		nCount = CCommonState::ie()->m_selectCircuit_0.GetCount();
+	else 
+		nCount = CCommonState::ie()->m_selectCircuit_1.GetCount();
+
+	for (int nIndex = 0; nIndex < nCount; nIndex++)
+	{
+		if (nChartIndex == 0)
+			pCircuit = CCommonState::ie()->m_selectCircuit_0.GetAt(CCommonState::ie()->m_selectCircuit_0.FindIndex(nIndex));
+		else
+			pCircuit = CCommonState::ie()->m_selectCircuit_1.GetAt(CCommonState::ie()->m_selectCircuit_1.FindIndex(nIndex));
+
+		if (!pCircuit)
+			continue;
+
+		sBlock = pCircuit->sBlock;
+		sStair = pCircuit->sStair;
+		sFloor = pCircuit->sFloor;
+		sCircuitName = pCircuit->sCircuitName;
+
+		int nCircuitCount = 0;
+		nCircuitCount = pCircuit->nCount;
+		if(nCircuitCount == 0)
+			continue;
+
+		for (int nCircuit = 0; nCircuit < nCircuitCount; nCircuit++)
+		{
+			arrayList.RemoveAll();
+			bool bDetector = false;
+			bDetector = CCircuitBasicInfo::Instance()->IsDetector(sCircuitName);
+			if (!bDetector)
+			{
+				CCircuitBasicInfo::Instance()->GetCircuitChild(sCircuitName, arrayList);
+
+				for (int nChildCircuit = 0; nChildCircuit < arrayList.GetSize(); nChildCircuit++)
+				{
+					//회로 번호가 2개 할당 회로인지 검사
+					int nCircuitAddressCount = 0;
+					nCircuitAddressCount = CCommonState::ie()->CalculateCircuitAddressCount(arrayList[nChildCircuit]);
+
+					//중계기 번호
+					if (nChildCircuit == 0)
+					{
+						sTemp.Format(L"%d", nCircuitNo + 1);
+						m_pListCtrl->SetItemText(nCircuitNo, 0, sTemp);
+					}
+
+					//회로 번호
+					sTemp.Format(L"%d", nCircuitNo + 1);
+					m_pListCtrl->SetItemText(nCircuitNo, 1, sTemp);
+
+					//설비명
+					m_pListCtrl->SetItemText(nCircuitNo, 2, arrayList[nChildCircuit]);
+
+					//건물명
+					m_pListCtrl->SetItemText(nCircuitNo, 3, CCircuitBasicInfo::Instance()->m_sBuildingName);
+
+					//동
+					m_pListCtrl->SetItemText(nCircuitNo, 4, sBlock);
+
+					//계단
+					m_pListCtrl->SetItemText(nCircuitNo, 5, sStair);
+
+					//층
+					m_pListCtrl->SetItemText(nCircuitNo, 6, sFloor);
+
+					//실명
+
+					//설비번호
+					if (nCircuitCount > 1)
+					{
+						sTemp.Format(L"%d", nCircuit + 1);
+						m_pListCtrl->SetItemText(nCircuitNo, 8, sTemp);
+					}
+
+					nCircuitNo += nCircuitAddressCount;
+				}
+			}
+			else
+			{
+				//회로 번호가 2개 할당 회로인지 검사
+				int nCircuitAddressCount = 0;
+				nCircuitAddressCount = CCommonState::ie()->CalculateCircuitAddressCount(sCircuitName);
+
+				if (nCircuitAddressCount == 1)
+				{
+					if (nCircuit % 2 == 0)
+					{
+						sTemp.Format(L"%d", nCircuitNo + 1);
+						m_pListCtrl->SetItemText(nCircuitNo, 0, sTemp);
+					}
+				}
+				else
+				{
+					sTemp.Format(L"%d", nCircuitNo + 1);
+					m_pListCtrl->SetItemText(nCircuitNo, 0, sTemp);
+				}
+
+				//회로 번호
+				sTemp.Format(L"%d", nCircuitNo + 1);
+				m_pListCtrl->SetItemText(nCircuitNo, 1, sTemp);
+
+				//설비명
+				m_pListCtrl->SetItemText(nCircuitNo, 2, sCircuitName);
+
+				//건물명
+				m_pListCtrl->SetItemText(nCircuitNo, 3, CCircuitBasicInfo::Instance()->m_sBuildingName);
+
+				//동
+				m_pListCtrl->SetItemText(nCircuitNo, 4, sBlock);
+
+				//계단
+				m_pListCtrl->SetItemText(nCircuitNo, 5, sStair);
+
+				//층
+				m_pListCtrl->SetItemText(nCircuitNo, 6, sFloor);
+
+				//실명
+
+				//설비번호
+				if (nCircuitCount > 1)
+				{
+					sTemp.Format(L"%d", nCircuit + 1);
+					m_pListCtrl->SetItemText(nCircuitNo, 8, sTemp);
+				}
+
+				nCircuitNo += nCircuitAddressCount;
+			}
+		}
+	}
+
+	return true;
+
+#else
 	m_pListCtrl->ReleaseListItem();
 
 	SetBackgroundColorAfterMaxCircuit(m_nCircuit);		//20221028 GBM - 리스트가 자신의 계통 정보를 알 수 있도록 추가
@@ -651,6 +808,8 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 		}
 	}
 	return true;
+#endif
+	//20221102 GBM end
 }
 
 void CCircuitChartDlg::Redisplay()

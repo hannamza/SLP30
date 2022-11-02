@@ -230,14 +230,14 @@ HBRUSH CMessagePopup::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	// TODO:  여기서 DC의 특성을 변경합니다.
 
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
-	if (nCtlColor == CTLCOLOR_DLG)
-	{
-		CBrush B;
-		B.CreateStockObject(NULL_BRUSH);
-		pDC->SetBkMode(TRANSPARENT); // 투명 설정 
-
-		return B;
-	}
+// 	if (nCtlColor == CTLCOLOR_DLG)
+// 	{
+// 		CBrush B;
+// 		B.CreateStockObject(NULL_BRUSH);
+// 		pDC->SetBkMode(TRANSPARENT); // 투명 설정 
+// 
+// 		return B;
+// 	}
 	return hbr;
 }
 
