@@ -162,6 +162,9 @@ bool CDataLinkManager::LcdContentsWrite(SYSTEM_INFO_* pInfo, FILE* f, long & lSi
 
 	CStringA sValue = CCommonFunc::WCharToChar(strTxt.GetBuffer(0));
 	//fwrite(strTxt.GetBuffer(0), sizeof(WCHAR), strTxt.GetLength() + 1, f);
+	//20221103 GBM start - test
+	int n = sValue.GetLength();
+	//20221103 GBM end
 	fwrite(sValue.GetBuffer(0), sizeof(CHAR), sValue.GetLength() + 1, f);
 
 	return true;
@@ -377,9 +380,11 @@ bool CDataLinkManager::MakeRedboxOPData(CWnd* pWnd)
 	//int ddd = CCommonState::ie()->m_nReturnValue;
 	pWnd->PostMessage(ROM_SAVE_MSG, 0, 95);
 
-	::DeleteFile(sMainPath);
-	::DeleteFile(sLcdPath);
-	::DeleteFile(sEmerPath);
+	//20221103 GBM start - test
+// 	::DeleteFile(sMainPath);
+// 	::DeleteFile(sLcdPath);
+// 	::DeleteFile(sEmerPath);
+	//20221103 GBM end
 
 	/*sOpNewPath.Format(L"%sRedboX_OPData.rom", m_sPath);
 	CFile::Rename(sOpPath.GetBuffer(0), sOpNewPath.GetBuffer(0));
