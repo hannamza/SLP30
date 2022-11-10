@@ -528,3 +528,10 @@ bool CCircuitBasicInfoDlg::IsBuildingInfoComplete()
 	bRet = m_bBuildingInfoComplate;
 	return bRet;
 }
+
+void CCircuitBasicInfoDlg::LoadCheckInfoOnly()
+{
+	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+		m_pCheck[nIndex]->SetCheck(CCircuitBasicInfo::Instance()->m_bCheck[nIndex]);
+	}
+}

@@ -50,6 +50,7 @@ public:
 	CStringArray m_arrayBlockName;
 
 	bool m_bCheck[CIRCUIT_PARENT];
+	bool m_bOldCheck[CIRCUIT_PARENT];
 
 private:
 	CAtlMap<CAtlString, int> m_map;

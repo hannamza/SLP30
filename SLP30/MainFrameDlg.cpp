@@ -389,6 +389,11 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 			m_pCircuitBasicDlg->InfoInit();
 			m_btnData.EnableWindow(false);
 		}
+		else if (nValue == 2)
+		{
+			m_pCircuitBasicDlg->LoadCheckInfoOnly();
+		}
+
 		wcscpy_s(CSaveManager::ie()->m_versionDate.szUserId, CCommonState::ie()->m_sUserID.GetBuffer(0));
 		CSaveManager::ie()->m_versionDate.cMajorVer = 1;
 		CSaveManager::ie()->m_versionDate.cMinorVer = 1;

@@ -14,6 +14,10 @@ CCircuitBasicInfo::CCircuitBasicInfo()
 		m_bCheck[nIndex] = false;
 	}
 
+	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+		m_bOldCheck[nIndex] = false;
+	}
+
 	for (int nIndex = 0; nIndex < CIRCUIT_CNT; nIndex++) {
 		m_map.SetAt(CAtlString(g_lpszCircuitName[nIndex]), nIndex);
 	}

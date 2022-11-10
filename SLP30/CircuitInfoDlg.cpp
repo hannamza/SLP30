@@ -311,6 +311,16 @@ void CCircuitInfoDlg::OnNextClick()
 	}
 	//20221018 GBM end
 
+// 	bool bCircuitChanged = false;
+// 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+// 		bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
+// 		if (bCheck != CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex])
+// 		{
+// 			bCircuitChanged = true;
+// 			break;
+// 		}
+// 	}
+
 	bool bResult1 = m_pSetupDlg[0]->CompareNewCircuitInfo(0);
 	bool bResult2 = m_pSetupDlg[1]->CompareNewCircuitInfo(1);
 
@@ -329,6 +339,12 @@ void CCircuitInfoDlg::OnNextClick()
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK)
 			{
+				// 수정을 확정지었으므로 설비 종류 상황을 old값에 저장함
+				for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+					bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
+					CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex] = bCheck;
+				}
+
 				// 1. 현재 설비 리스트의 개수를 m_selectciruit에 적용
 				if (!CheckCircuitCount()) {
 					return;
@@ -392,9 +408,22 @@ void CCircuitInfoDlg::OnNextClick()
 			}
 			else
 			{
+				// 수정을 취소했으므로 설비 정보를 확인 후 이전 값을 롤백함
+				for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) 
+				{
+					bool bCheck = CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex];
+					if (bCheck != CCircuitBasicInfo::Instance()->m_bCheck[nIndex])
+					{
+						CCircuitBasicInfo::Instance()->m_bCheck[nIndex] = bCheck;
+					}
+				}
+
 				//수정 사항을 반영하지 않을 것이므로 이전 값으로 돌아감
 				m_pSetupDlg[0]->InitCircuitInfo(0);
 				m_pSetupDlg[1]->InitCircuitInfo(1);
+
+				m_pSetupDlg[0]->Invalidate();
+				m_pSetupDlg[1]->Invalidate();
 
 				m_pSetupDlg[0]->LoadInfo(0);
 				m_pSetupDlg[1]->LoadInfo(1);
@@ -404,6 +433,12 @@ void CCircuitInfoDlg::OnNextClick()
 		}
 		else
 		{
+			// 수정을 확정지었으므로 설비 종류 상황을 old값에 저장함
+			for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+				bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
+				CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex] = bCheck;
+			}
+
 			// 1. 현재 설비 리스트의 개수를 m_selectciruit에 적용
 			if (!CheckCircuitCount()) {
 				return;
@@ -575,7 +610,7 @@ void CCircuitInfoDlg::OnPrevClick()
 	m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
 	//20221014 GBM end
 
-	GetParent()->PostMessage(SELECTION_PROJECT, 0, 0);
+	GetParent()->PostMessage(SELECTION_PROJECT, 0, 2);
 }
 
 LRESULT CCircuitInfoDlg::OnTabButtnClick(WPARAM wParam, LPARAM lParam)

@@ -24,6 +24,7 @@ public:
 	void LoadInfo();
 	void GetCircuitInfo(CString & sName, int & nStair, int & nFloor, int & nBasement);
 	bool IsBuildingInfoComplete();
+	void LoadCheckInfoOnly();
 
 private:
 	void Redisplay();

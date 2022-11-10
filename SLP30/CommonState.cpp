@@ -20,6 +20,8 @@ CCommonState::~CCommonState()
 {
 	ReleaseCircuit(0);
 	ReleaseCircuit(1);
+
+	//비교 데이터 삭제
 }
 
 void CCommonState::ReleaseCircuit(int nType)

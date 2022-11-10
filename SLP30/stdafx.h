@@ -25,8 +25,11 @@
 using namespace Gdiplus; //네임스페이스 설정
 #pragma comment (lib,"Gdiplus.lib")
 
-#define		CIRCUIT_PARENT	16
+//#define		CIRCUIT_PARENT	16
+#define		CIRCUIT_PARENT	19
 #define		CHECK_COUNT		20
+#define		CIRCUIT_CNT		53
+#define		MAX_CIRCUIT_ADDRESS		MAX_CIRCUIT + 6		//계통 당 최대 회로 주소 크기, 실제 할당 최대 크기는 MAX_CIRCUIT (250)
 
 #include "CommonDisplay.h"
 #include "CommonProtocol.h"
