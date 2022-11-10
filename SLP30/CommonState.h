@@ -58,6 +58,7 @@ public:
 	void InitSelectCircuitCompInfo(int nSystem);			//20221017 GBM - 회로 설정 비교 정보 초기화
 	int CalculateCircuitAddressCount(CString strCircuitName);
 	int CalculateTotalCircuitCount(int nSystem);	// 최초 중계기 일람표가 확정되면 현재 회로 갯수를 저장
+	void ReleaseCircuitCompInfo(int nSystem);
 
 public:
 	CWnd* m_pWnd;

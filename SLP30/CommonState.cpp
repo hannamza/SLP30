@@ -22,6 +22,8 @@ CCommonState::~CCommonState()
 	ReleaseCircuit(1);
 
 	//비교 데이터 삭제
+	ReleaseCircuitCompInfo(0);
+	ReleaseCircuitCompInfo(1);
 }
 
 void CCommonState::ReleaseCircuit(int nType)
@@ -312,4 +314,29 @@ int CCommonState::CalculateTotalCircuitCount(int nSystem)
 	}
 
 	return nRet;
+}
+
+void CCommonState::ReleaseCircuitCompInfo(int nSystem)
+{
+	std::vector<selectCircuitComp*>::iterator iter;
+	if (nSystem == 0)
+	{
+		iter = m_vecCalSelectCircuit_0.begin();
+		for (; iter != m_vecCalSelectCircuit_0.end(); iter++)
+		{
+			delete *iter;
+		}
+
+		m_vecCalSelectCircuit_0.clear();
+	}
+	else
+	{
+		iter = m_vecCalSelectCircuit_1.begin();
+		for (; iter != m_vecCalSelectCircuit_1.end(); iter++)
+		{
+			delete *iter;
+		}
+
+		m_vecCalSelectCircuit_1.clear();
+	}
 }
