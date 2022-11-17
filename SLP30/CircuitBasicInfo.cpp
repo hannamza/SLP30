@@ -109,6 +109,12 @@ CCircuitBasicInfo::CCircuitBasicInfo()
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형연기계단감지기]);
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형연기ELEV감지기]);
 			break;
+		case 19:	// TS확인
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_TS확인]);
+			break;
+		case 20:	// 하향식_피난사다리확인
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_하향식_피난사다리확인]);
+			break;
 		default:
 			break;
 		}

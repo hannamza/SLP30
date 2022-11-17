@@ -451,7 +451,7 @@ void CCircuitSetupDlg::MakeHeader(CStringArray & arrayList)
 		if (!CCircuitBasicInfo::Instance()->m_bCheck[nIndex]) {
 			continue;
 		}
-		if (nIndex == CIRCUIT_PARENT - 1) {
+		if (nIndex == CIRCUIT_PARENT - 3) {
 			CStringArray listChild;
 			if (CCircuitBasicInfo::Instance()->GetCircuitChild(CCircuitBasicInfo::Instance()->GetCircuitParent(nIndex), listChild)) {
 				for (int i = 0; i < listChild.GetCount(); i++) {

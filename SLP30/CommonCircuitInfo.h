@@ -61,6 +61,8 @@ enum {
 	설비명_저수위T_S,		// 50
 	설비명_옥상문,			// 51
 	설비명_시각경보,		// 52
+	설비명_TS확인,			// 53
+	설비명_하향식_피난사다리확인,	//54
 };
 
 static const TCHAR* g_lpszCircuitName[] = {
@@ -121,6 +123,8 @@ static const TCHAR* g_lpszCircuitName[] = {
 	_T("저수위T/S"),		// 50
 	_T("옥상문"),	// 51
 	_T("시각경보"),		// 52
+	_T("TS 확인"),		// 53
+	_T("하향식_피난사다리확인"),	// 54
 	NULL };
 
 static const TCHAR* g_lpszInputType[] = {
@@ -181,6 +185,8 @@ static const TCHAR* g_lpszInputType[] = {
 	_T("감시"),	// 50
 	_T("감시"),	// 51
 	_T("감시"),	// 52
+	_T("감시"),	// 53
+	_T("감시"),	// 54
 	NULL };
 
 static const TCHAR* g_lpszInputNo[] = {
@@ -241,6 +247,8 @@ static const TCHAR* g_lpszInputNo[] = {
 	_T("10"),	// 50
 	_T("10"),	// 51
 	_T("12"),	// 52
+	_T("10"),	// 53
+	_T("10"),	// 54
 	NULL };
 
 static const TCHAR* g_lpszOutputNo[] = {
@@ -301,6 +309,8 @@ static const TCHAR* g_lpszOutputNo[] = {
 	_T("0"),	// 50
 	_T("6"),	// 51
 	_T("11"),	// 52
+	_T("0"),	// 53
+	_T("0"),	// 54
 	NULL };
 
 enum {
@@ -361,6 +371,8 @@ enum {
 	출력타입_50,
 	출력타입_옥상문,		// 43,
 	출력타입_시각경보,		// 44,
+	출력타입_53,
+	출력타입_54,
 };
 
 static const TCHAR* g_lpszOutputCircuit[] = {
@@ -421,6 +433,8 @@ static const TCHAR* g_lpszOutputCircuit[] = {
 	_T(""),	// 50
 	_T("옥상문"),	// 51
 	_T("시각경보"),	// 52
+	_T(""),	// 53
+	_T(""),	// 54
 	NULL };
 
 static const TCHAR* g_lpszOutputType[] = {
@@ -481,6 +495,8 @@ static const TCHAR* g_lpszOutputType[] = {
 	_T(""),	// 50
 	_T("출입문제어"),	// 51
 	_T("시각경보"),	// 52
+	_T(""),	// 53
+	_T(""),	// 54
 	NULL
 };
 
@@ -506,6 +522,8 @@ static const TCHAR* g_lpszCircuitParent[] = {
 	_T("제연급기팬"),		// 16
 	_T("제연배기팬"),		// 17
 	_T("감지기류"),			// 18
+	_T("TS확인"),			// 19
+	_T("하향식_피난사다리확인"),			// 20
 	NULL
 };
 

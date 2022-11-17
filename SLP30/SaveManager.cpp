@@ -226,6 +226,9 @@ bool CSaveManager::FileLoad(CString sPath)
 	lTest += sizeof(circuitBasicInfo);
 
 	memcpy_s(CCircuitBasicInfo::Instance()->m_bCheck, CIRCUIT_PARENT * sizeof(bool), basic.bCheck, CIRCUIT_PARENT * sizeof(bool));
+	//프로젝트 로드 후 최초 설비 수정 후 다시 사용자가 취소를 선택하면 old check 정보가 존재하지 않으므로 프로젝트가 로드되는 이 시점에서 한번 현재의 설비 check정보를 쓴다.
+	memcpy_s(CCircuitBasicInfo::Instance()->m_bOldCheck, CIRCUIT_PARENT * sizeof(bool), basic.bCheck, CIRCUIT_PARENT * sizeof(bool));
+
 	CString sBlockList, sBlock;
 	CCircuitBasicInfo::Instance()->m_nBasement = basic.nBasement;
 	CCircuitBasicInfo::Instance()->m_nFloor = basic.nFloor;

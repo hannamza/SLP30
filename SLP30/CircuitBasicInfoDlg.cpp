@@ -133,6 +133,8 @@ BOOL CCircuitBasicInfoDlg::OnInitDialog()
 		case 16:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[제연급기팬] 급기팬 설비가 있는 경우 체크하여 주십시오", this); break;
 		case 17:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[제연배기팬] 배기팬 설비가 있는 경우 체크하여 주십시오", this); break;
 		case 18:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[감지기] 주소형, 차동, 연기/아날로그 연기, 정온/계단감지기/ELEV감지기/감지기가 있는 경우 체크하여 주십시오", this); break;
+		case 19:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[TS 설비] TS 설비가 있는 경우 체크하여 주십시오", this); break;
+		case 20:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[피난사다리] 피난사다리가 있는 경우 체크하여 주십시오", this); break;
 		}
 		
 		m_pCheck[nIndex]->Create(IDD_COMMON_CHILD_DIALOG, this);
@@ -502,7 +504,9 @@ void CCircuitBasicInfoDlg::Redisplay()
 	CCommonDisplay::DrawRect(&memDC, true, RGB(255, 255, 255), RGB(255, 255, 255), rect);
 	rt.SetRect(20, 40, 850, 155);
 	CCommonDisplay::DrawRect(&memDC, false, RGB(150, 150, 150), 0, rt);
-	rt.SetRect(20, 160, 965, 610);
+// 	rt.SetRect(20, 160, 965, 610);
+// 	CCommonDisplay::DrawRect(&memDC, false, RGB(150, 150, 150), 0, rt);
+	rt.SetRect(20, 160, 965, 660);
 	CCommonDisplay::DrawRect(&memDC, false, RGB(150, 150, 150), 0, rt);
 	rt.SetRect(20, 15, 350, 50);
 	CCommonDisplay::DrawCaption(&memDC, L"회로 정보 입력", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_TOP | DT_SINGLELINE);

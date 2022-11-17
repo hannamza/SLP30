@@ -119,7 +119,8 @@ BOOL CSLP30Dlg::OnInitDialog()
 		}
 	}
 	else {
-		this->SetWindowPos(NULL, 0, 0, 1024, 768, SWP_NOMOVE);
+		//this->SetWindowPos(NULL, 0, 0, 1024, 768, SWP_NOMOVE);
+		this->SetWindowPos(NULL, 0, 0, SLP30DLG_WIDTH, SLP30DLG_HEIGHT, SWP_NOMOVE);
 		CenterWindow();
 	}
 
@@ -243,8 +244,10 @@ BOOL CSLP30Dlg::OnEraseBkgnd(CDC* pDC)
 void CSLP30Dlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	lpMMI->ptMinTrackSize.x = 1024;
-	lpMMI->ptMinTrackSize.y = 768;
+// 	lpMMI->ptMinTrackSize.x = 1024;
+// 	lpMMI->ptMinTrackSize.y = 768;
+	lpMMI->ptMinTrackSize.x = SLP30DLG_WIDTH;
+	lpMMI->ptMinTrackSize.y = SLP30DLG_HEIGHT;
 
 	CDialogEx::OnGetMinMaxInfo(lpMMI);
 }
@@ -275,9 +278,9 @@ void CSLP30Dlg::OnTimer(UINT_PTR nIDEvent)
 		CLoginDlg dlg;
 		UINT nResult = dlg.DoModal();
 		// test
-		if (nResult == IDOK) {
-			return;
-		}
+// 		if (nResult == IDOK) {
+// 			return;
+// 		}
 
 		if (nResult != IDOK) {
 			OnOK();

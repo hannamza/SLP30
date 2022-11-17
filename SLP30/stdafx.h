@@ -19,17 +19,17 @@
 #include <afxwin.h>         // MFC 핵심 및 표준 구성 요소입니다.
 #include <afxext.h>         // MFC 확장입니다.
 
+#define		MAX_CIRCUIT		250
 
+//#define		CIRCUIT_PARENT	16
+#define		CIRCUIT_PARENT	21
+#define		CHECK_COUNT		20
+#define		CIRCUIT_CNT		55
+#define		MAX_CIRCUIT_ADDRESS		MAX_CIRCUIT + 6		//계통 당 최대 회로 주소 크기, 실제 할당 최대 크기는 MAX_CIRCUIT (250)
 
 #include <gdiPlus.h> //header 포함
 using namespace Gdiplus; //네임스페이스 설정
 #pragma comment (lib,"Gdiplus.lib")
-
-//#define		CIRCUIT_PARENT	16
-#define		CIRCUIT_PARENT	19
-#define		CHECK_COUNT		20
-#define		CIRCUIT_CNT		53
-#define		MAX_CIRCUIT_ADDRESS		MAX_CIRCUIT + 6		//계통 당 최대 회로 주소 크기, 실제 할당 최대 크기는 MAX_CIRCUIT (250)
 
 #include "CommonDisplay.h"
 #include "CommonProtocol.h"
@@ -71,8 +71,6 @@ using namespace std;
 #define		EXCEL_SAVE_MSG	(WM_USER+9822)
 #define		ROM_SAVE_MSG	(WM_USER+9823)
 #define		RECEIVE_RETURN_VALUE		(WM_USER+1234)
-
-#define		MAX_CIRCUIT		250
 
 
 #ifndef _AFX_NO_OLE_SUPPORT

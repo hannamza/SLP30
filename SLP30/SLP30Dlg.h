@@ -11,6 +11,9 @@
 #include "AutoCreateSetupDlg.h"
 #include "MainFrameDlg.h"
 
+#define SLP30DLG_WIDTH	1024
+#define SLP30DLG_HEIGHT	810
+
 // CSLP30Dlg 대화 상자
 class CSLP30Dlg : public CDialogEx
 {

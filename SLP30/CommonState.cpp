@@ -82,7 +82,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 					{
 						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];
 
-						if (nIndexCircuitParent != CIRCUIT_PARENT - 1)
+						if (nIndexCircuitParent != CIRCUIT_PARENT - 3)
 						{
 							selectCircuitComp* pSCC = new selectCircuitComp;
 							pSCC->sSystem = sSystem;
@@ -134,7 +134,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 					{
 						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];
 
-						if (nIndexCircuitParent != CIRCUIT_PARENT - 1)
+						if (nIndexCircuitParent != CIRCUIT_PARENT - 3)
 						{
 							selectCircuitComp* pSCC = new selectCircuitComp;
 							pSCC->sSystem = sSystem;
@@ -212,6 +212,8 @@ int CCommonState::CalculateCircuitAddressCount(CString strCircuitName)
 	case 설비명_배기팬:
 	case 설비명_계단감지기:
 	case 설비명_ELEV감지기:
+	case 설비명_TS확인:
+	case 설비명_하향식_피난사다리확인:
 		nRet = 2;
 		break;
 	default:
