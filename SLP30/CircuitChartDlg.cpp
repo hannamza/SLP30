@@ -363,14 +363,25 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 
 		sStair.Replace(L"°è´Ü", L"");
 		nStair = _wtoi(sStair.GetBuffer(0));
+
+		bool bRooftop = false;
 		if (sFloor.Find(L"B") >= 0) {
 			sFloor.Replace(L"B", L"");
 			sFloor.Replace(L"F", L"");
 			nFloor = -_wtoi(sFloor.GetBuffer(0));
 		}
 		else {
-			sFloor.Replace(L"F", L"");
-			nFloor = _wtoi(sFloor.GetBuffer(0));
+			//¿ÁÅ¾ 
+			if (sFloor.Compare(L"Rooftop") == 0)
+			{
+				nFloor = CCircuitBasicInfo::Instance()->m_nFloor + 1;	//ÀÏ¹ÝÃþ + 1 == ¿ÁÅ¾Ãþ
+				bRooftop = true;
+			}
+			else
+			{
+				sFloor.Replace(L"F", L"");
+				nFloor = _wtoi(sFloor.GetBuffer(0));
+			}
 		}
 		nSystemNo = _wtoi(sSystemNo.GetBuffer(0));
 		nCircuitNo = _wtoi(sCircuitNo.GetBuffer(0));
@@ -378,10 +389,10 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 		sBlock.Replace(L"µ¿", L"");
 
 		CSaveManager::ie()->SetSystemInfo(sBDName.GetBuffer(0), sCircuitName.GetBuffer(0), sRoomName.GetBuffer(0), sBlock.GetBuffer(0),
-			(short)nStair, (short)nSystemNo, (short)nChartIndex, (short)nFloor, (short)nCircuitNo);
+			(short)nStair, (short)nSystemNo, (short)nChartIndex, (short)nFloor, (bool)bRooftop, (short)nCircuitNo);
 	}
 	for (int nIndex = 0; nIndex < 6; nIndex++) {
-		CSaveManager::ie()->SetSystemInfo(L"", L"", L"", L"", 0, 0, 0, 0, 250 + nIndex);
+		CSaveManager::ie()->SetSystemInfo(L"", L"", L"", L"", 0, 0, 0, 0, false, 250 + nIndex);
 	}
 	return true;
 }
@@ -457,7 +468,14 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 		}
 		m_pListCtrl->SetItemText(nValue, 5, sTemp);
 		if (pInfo->nFloor > 0) {
-			sTemp.Format(L"%dF", (int)pInfo->nFloor);
+			if (pInfo->bRooftop)	// ¿ÁÅ¾Ãþ
+			{
+				sTemp.Format(L"Rooftop");
+			}
+			else
+			{
+				sTemp.Format(L"%dF", (int)pInfo->nFloor);
+			}	
 		}
 		else if (pInfo->nFloor < 0) {
 			sTemp.Format(L"B%dF", (int)abs(pInfo->nFloor));

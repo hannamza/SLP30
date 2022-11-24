@@ -30,12 +30,17 @@ public:
 #endif
 	//20221013 GBM end
 	bool SaveCircuitInfo(int nIndex);
-	bool CompareNewCircuitInfo(int nSystem);
+	bool CompareNewCircuitInfo(int nSystem);		// 설비 표 내용과 현재 설비 메모리 비교 -> 이전 방식
+	bool CompareNewCircuitInfoNeo(int nSystem);		// 설비 표 내용과 현재 확정된 중계기 일람표 기준 메모리 비교 -> 새 방식
 
-	void CopyNewCircuitInfoToOldCircuitInfo(int nSystem);	//20221014 GBM - 중계기 일람표 화면으로 넘어가기 전에 기존 설비 정보를 복사해둬 중계기 일람표 상에서 설비 정보의 변경에 따라 추가/삭제를 위한 기반 정보를 만든다.
+	void CopyNewCircuitInfoToOldCircuitInfo(int nSystem, bool bFileLoad = false);	//20221014 GBM - 중계기 일람표 화면으로 넘어가기 전에 기존 설비 정보를 복사해둬 중계기 일람표 상에서 설비 정보의 변경에 따라 추가/삭제를 위한 기반 정보를 만든다.
 	void MakeAddCircuitInfoAndDeleteCircuitInfo(int nSystem);
 	bool CheckMaxCircuitCount(int nSystem, int* nTotalCount = 0);
 	void RollbackCircuitCount(int nSystem);
+	void BackupCircuitInfo(int nSystem);
+	void BackupCircuitCountInfo(int nSystem);
+	void CopyPreviousCircuitInfo(int nSystem);
+	void CopyPreviousCircuitCompInfo(int nSystem);
 
 private:
 	CCustomListCtrl* CreateListCtrl();
@@ -47,6 +52,7 @@ private:
 	CCustomListCtrl* NewCircuitListCtrl(CCustomListCtrl* pListCtrl);
 	void FillDataInCircuitListCtrl(int nSystem);		
 	bool CompareCircuit(pSelectCircuit pCircuit1, pSelectCircuit pCircuit2);
+	bool CompareCircuit(selectCircuit sc1, selectCircuit sc2);
 	void Redisplay();
 
 	CCustomListCtrl* GetStairValue(CString sBlock, CString sStair);

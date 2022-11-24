@@ -73,6 +73,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 			{
 				sStair.Format(L"%d계단", nIndex + 1);
 
+				//지하층
 				for (int nIndexBasement = CCircuitBasicInfo::Instance()->m_nBasement; nIndexBasement > 0; nIndexBasement--)
 				{
 					sFloor.Format(L"B%dF", nIndexBasement);
@@ -124,7 +125,9 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 						}
 					}
 				}
-
+				// 지하층
+				
+				// 일반층
 				for (int nIndexFloor = 1; nIndexFloor <= CCircuitBasicInfo::Instance()->m_nFloor; nIndexFloor++)
 				{
 					sFloor.Format(L"%dF", nIndexFloor);
@@ -176,7 +179,311 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 						}
 					}
 				}
+				// 일반층
 
+				// 옥탑층
+				for (int nIndexRooftop = 1; nIndexRooftop <= CCircuitBasicInfo::Instance()->m_nRooftop; nIndexRooftop++)
+				{
+					sFloor.Format(L"Rooftop");
+
+					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
+					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++)
+					{
+						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];
+
+						if (nIndexCircuitParent != CIRCUIT_PARENT - 3)
+						{
+							selectCircuitComp* pSCC = new selectCircuitComp;
+							pSCC->sSystem = sSystem;
+							pSCC->sBlock = sBlock;
+							pSCC->sStair = sStair;
+							pSCC->sFloor = sFloor;
+							pSCC->sCircuitName = sCircuitName;
+							pSCC->nCurrentCount = 0;
+							pSCC->nPreviousCount = 0;
+
+							if (nSystem == 0)
+								m_vecCalSelectCircuit_0.push_back(pSCC);
+							else
+								m_vecCalSelectCircuit_1.push_back(pSCC);
+						}
+						else //감지기류
+						{
+							CStringArray strArr;
+							strArr.RemoveAll();
+
+							CCircuitBasicInfo::Instance()->GetCircuitChild(sCircuitName, strArr);
+
+							for (int i = 0; i < strArr.GetSize(); i++)
+							{
+								selectCircuitComp* pSCC = new selectCircuitComp;
+								pSCC->sSystem = sSystem;
+								pSCC->sBlock = sBlock;
+								pSCC->sStair = sStair;
+								pSCC->sFloor = sFloor;
+								pSCC->sCircuitName = strArr.GetAt(i);
+								pSCC->nCurrentCount = 0;
+								pSCC->nPreviousCount = 0;
+
+								if (nSystem == 0)
+									m_vecCalSelectCircuit_0.push_back(pSCC);
+								else
+									m_vecCalSelectCircuit_1.push_back(pSCC);
+							}
+						}
+					}
+				}
+				// 옥탑층
+			}
+		}
+	}
+}
+
+void CCommonState::InitSelectCircuitRepeaterList(int nSystem)
+{
+	CString sSystem = L"0 계통";
+	if (nSystem == 1) {
+		sSystem = L"1 계통";
+	}
+	CString sBlock, sStair, sTemp, sFloor, sCircuitName;
+	int nCount = 0;
+	bool bExit = false;
+
+	for (int nIndexBlock = 0; nIndexBlock < CCircuitBasicInfo::Instance()->m_nBlock; nIndexBlock++)
+	{
+		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
+			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndexBlock);
+			sBlock += L"동";
+
+			for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++)
+			{
+				sStair.Format(L"%d계단", nIndex + 1);
+
+				//지하층
+				for (int nIndexBasement = CCircuitBasicInfo::Instance()->m_nBasement; nIndexBasement > 0; nIndexBasement--)
+				{
+					sFloor.Format(L"B%dF", nIndexBasement);
+
+					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
+					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++)
+					{
+						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];
+
+						if (nIndexCircuitParent != CIRCUIT_PARENT - 3)
+						{
+							pSelectCircuit pSC = new selectCircuit;
+							pSC->sSystem = sSystem;
+							pSC->sBlock = sBlock;
+							pSC->sStair = sStair;
+							pSC->sFloor = sFloor;
+							pSC->sCircuitName = sCircuitName;
+							pSC->nCount = 0;
+
+							if (nSystem == 0)
+								m_vecSelectCircuitReapterList_0.push_back(pSC);
+							else
+								m_vecSelectCircuitReapterList_1.push_back(pSC);
+						}
+						else //감지기류
+						{
+							CStringArray strArr;
+							strArr.RemoveAll();
+
+							CCircuitBasicInfo::Instance()->GetCircuitChild(sCircuitName, strArr);
+
+							for (int i = 0; i < strArr.GetSize(); i++)
+							{
+								pSelectCircuit pSC = new selectCircuit;
+								pSC->sSystem = sSystem;
+								pSC->sBlock = sBlock;
+								pSC->sStair = sStair;
+								pSC->sFloor = sFloor;
+								pSC->sCircuitName = sCircuitName;
+								pSC->nCount = 0;
+
+								if (nSystem == 0)
+									m_vecSelectCircuitReapterList_0.push_back(pSC);
+								else
+									m_vecSelectCircuitReapterList_1.push_back(pSC);
+							}
+						}
+					}
+				}
+				// 지하층
+
+				// 일반층
+				for (int nIndexFloor = 1; nIndexFloor <= CCircuitBasicInfo::Instance()->m_nFloor; nIndexFloor++)
+				{
+					sFloor.Format(L"%dF", nIndexFloor);
+
+					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
+					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++)
+					{
+						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];
+
+						if (nIndexCircuitParent != CIRCUIT_PARENT - 3)
+						{
+							pSelectCircuit pSC = new selectCircuit;
+							pSC->sSystem = sSystem;
+							pSC->sBlock = sBlock;
+							pSC->sStair = sStair;
+							pSC->sFloor = sFloor;
+							pSC->sCircuitName = sCircuitName;
+							pSC->nCount = 0;
+
+							if (nSystem == 0)
+								m_vecSelectCircuitReapterList_0.push_back(pSC);
+							else
+								m_vecSelectCircuitReapterList_1.push_back(pSC);
+						}
+						else //감지기류
+						{
+							CStringArray strArr;
+							strArr.RemoveAll();
+
+							CCircuitBasicInfo::Instance()->GetCircuitChild(sCircuitName, strArr);
+
+							for (int i = 0; i < strArr.GetSize(); i++)
+							{
+								pSelectCircuit pSC = new selectCircuit;
+								pSC->sSystem = sSystem;
+								pSC->sBlock = sBlock;
+								pSC->sStair = sStair;
+								pSC->sFloor = sFloor;
+								pSC->sCircuitName = sCircuitName;
+								pSC->nCount = 0;
+
+								if (nSystem == 0)
+									m_vecSelectCircuitReapterList_0.push_back(pSC);
+								else
+									m_vecSelectCircuitReapterList_1.push_back(pSC);
+							}
+						}
+					}
+				}
+				// 일반층
+
+				// 옥탑층
+				for (int nIndexRooftop = 1; nIndexRooftop <= CCircuitBasicInfo::Instance()->m_nRooftop; nIndexRooftop++)
+				{
+					sFloor.Format(L"Rooftop");
+
+					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
+					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++)
+					{
+						sCircuitName = g_lpszCircuitParent[nIndexCircuitParent];
+
+						if (nIndexCircuitParent != CIRCUIT_PARENT - 3)
+						{
+							pSelectCircuit pSC = new selectCircuit;
+							pSC->sSystem = sSystem;
+							pSC->sBlock = sBlock;
+							pSC->sStair = sStair;
+							pSC->sFloor = sFloor;
+							pSC->sCircuitName = sCircuitName;
+							pSC->nCount = 0;
+
+							if (nSystem == 0)
+								m_vecSelectCircuitReapterList_0.push_back(pSC);
+							else
+								m_vecSelectCircuitReapterList_1.push_back(pSC);
+						}
+						else //감지기류
+						{
+							CStringArray strArr;
+							strArr.RemoveAll();
+
+							CCircuitBasicInfo::Instance()->GetCircuitChild(sCircuitName, strArr);
+
+							for (int i = 0; i < strArr.GetSize(); i++)
+							{
+								pSelectCircuit pSC = new selectCircuit;
+								pSC->sSystem = sSystem;
+								pSC->sBlock = sBlock;
+								pSC->sStair = sStair;
+								pSC->sFloor = sFloor;
+								pSC->sCircuitName = sCircuitName;
+								pSC->nCount = 0;
+
+								if (nSystem == 0)
+									m_vecSelectCircuitReapterList_0.push_back(pSC);
+								else
+									m_vecSelectCircuitReapterList_1.push_back(pSC);
+							}
+						}
+					}
+				}
+				// 옥탑층
+			}
+		}
+	}
+}
+
+void CCommonState::InitSelectCircuitRepeaterListOnLoadFile(int nSystem)
+{
+	std::vector<pSelectCircuit>::iterator vecPSCIter;
+	POSITION pos;
+	pSelectCircuit pSC;
+	CString sSystem, sBlock, sStair, sFloor, sCircuitName;
+	int nCount = 0;
+
+	if (nSystem == 0)
+	{
+		vecPSCIter = CCommonState::ie()->m_vecSelectCircuitReapterList_0.begin();
+		for (; vecPSCIter != CCommonState::ie()->m_vecSelectCircuitReapterList_0.end(); vecPSCIter++)
+		{
+			pos = CCommonState::ie()->m_selectCircuit_0.GetHeadPosition();
+			while (pos)
+			{
+				pSC = CCommonState::ie()->m_selectCircuit_0.GetNext(pos);
+				sSystem = pSC->sSystem;
+				sBlock = pSC->sBlock;
+				sStair = pSC->sStair;
+				sFloor = pSC->sFloor;
+				sCircuitName = pSC->sCircuitName;
+				nCount = pSC->nCount;
+
+				if (
+					(sSystem.Compare((*vecPSCIter)->sSystem) == 0) &&
+					(sBlock.Compare((*vecPSCIter)->sBlock) == 0) &&
+					(sStair.Compare((*vecPSCIter)->sStair) == 0) &&
+					(sFloor.Compare((*vecPSCIter)->sFloor) == 0) &&
+					(sCircuitName.Compare((*vecPSCIter)->sCircuitName) == 0)
+					)
+				{
+					(*vecPSCIter)->nCount = nCount;
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		vecPSCIter = CCommonState::ie()->m_vecSelectCircuitReapterList_1.begin();
+		for (; vecPSCIter != CCommonState::ie()->m_vecSelectCircuitReapterList_1.end(); vecPSCIter++)
+		{
+			pos = CCommonState::ie()->m_selectCircuit_1.GetHeadPosition();
+			while (pos)
+			{
+				pSC = CCommonState::ie()->m_selectCircuit_1.GetNext(pos);
+				sSystem = pSC->sSystem;
+				sBlock = pSC->sBlock;
+				sStair = pSC->sStair;
+				sFloor = pSC->sFloor;
+				sCircuitName = pSC->sCircuitName;
+				nCount = pSC->nCount;
+
+				if (
+					(sSystem.Compare((*vecPSCIter)->sSystem) == 0) &&
+					(sBlock.Compare((*vecPSCIter)->sBlock) == 0) &&
+					(sStair.Compare((*vecPSCIter)->sStair) == 0) &&
+					(sFloor.Compare((*vecPSCIter)->sFloor) == 0) &&
+					(sCircuitName.Compare((*vecPSCIter)->sCircuitName) == 0)
+					)
+				{
+					(*vecPSCIter)->nCount = nCount;
+					break;
+				}
 			}
 		}
 	}
@@ -320,25 +627,42 @@ int CCommonState::CalculateTotalCircuitCount(int nSystem)
 
 void CCommonState::ReleaseCircuitCompInfo(int nSystem)
 {
-	std::vector<selectCircuitComp*>::iterator iter;
+	std::vector<selectCircuitComp*>::iterator iterScc;
+	std::vector<pSelectCircuit>::iterator iterPScc;
 	if (nSystem == 0)
 	{
-		iter = m_vecCalSelectCircuit_0.begin();
-		for (; iter != m_vecCalSelectCircuit_0.end(); iter++)
+		iterScc = m_vecCalSelectCircuit_0.begin();
+		for (; iterScc != m_vecCalSelectCircuit_0.end(); iterScc++)
 		{
-			delete *iter;
+			delete *iterScc;
 		}
 
 		m_vecCalSelectCircuit_0.clear();
+
+		iterPScc = m_vecSelectCircuitReapterList_0.begin();
+		for (; iterPScc != m_vecSelectCircuitReapterList_0.end(); iterPScc++)
+		{
+			delete *iterPScc;
+		}
+
+		m_vecSelectCircuitReapterList_0.clear();
 	}
 	else
 	{
-		iter = m_vecCalSelectCircuit_1.begin();
-		for (; iter != m_vecCalSelectCircuit_1.end(); iter++)
+		iterScc = m_vecCalSelectCircuit_1.begin();
+		for (; iterScc != m_vecCalSelectCircuit_1.end(); iterScc++)
 		{
-			delete *iter;
+			delete *iterScc;
 		}
 
 		m_vecCalSelectCircuit_1.clear();
+
+		iterPScc = m_vecSelectCircuitReapterList_1.begin();
+		for (; iterPScc != m_vecSelectCircuitReapterList_1.end(); iterPScc++)
+		{
+			delete *iterPScc;
+		}
+
+		m_vecSelectCircuitReapterList_1.clear();
 	}
 }

@@ -46,6 +46,7 @@ public:
 	int m_nFloor;
 	int m_nBasement;
 	int m_nBlock;
+	int m_nRooftop;
 	CString m_sBlockName;
 	CStringArray m_arrayBlockName;
 

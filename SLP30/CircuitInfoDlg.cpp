@@ -281,9 +281,21 @@ void CCircuitInfoDlg::LoadInfo()
 	m_pSetupDlg[0]->LoadInfo(0);
 	m_pSetupDlg[1]->LoadInfo(1);
 
+	//20221122 GBM -  설비 수정 후 취소의 경우에 롤백 대비로 설비 정보를 따로 저장해둔다.
+	m_pSetupDlg[0]->BackupCircuitInfo(0);
+	m_pSetupDlg[1]->BackupCircuitInfo(1);
+
+	//롤백 대비 회로 개수 정보
+	m_pSetupDlg[0]->BackupCircuitCountInfo(0);
+	m_pSetupDlg[1]->BackupCircuitCountInfo(1);
+
 	//20221024 GBM start - 회로 개수 정보가 로드되었으므로 추후 비교를 위해 현재 비교 데이터에 넣는다.
-	m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
-	m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
+	m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0, true);
+	m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1, true);
+
+	//파일 로드 시 중계기 일람표 기준대로 중계기 일람표 회로정보를 넣는다.
+	CCommonState::ie()->InitSelectCircuitRepeaterListOnLoadFile(0);
+	CCommonState::ie()->InitSelectCircuitRepeaterListOnLoadFile(1);
 
 	//중계기 일람표가 일단 확정되는 순간 전체 회로 갯수를 구하고 추가분에 대해서는 따로 추가해서 현재 최종 회로 갯수를 항상 알고 있도록 함
 	CCommonState::ie()->m_nTotalCountCircuit_0 = CCommonState::ie()->CalculateTotalCircuitCount(0);
@@ -321,12 +333,35 @@ void CCircuitInfoDlg::OnNextClick()
 // 		}
 // 	}
 
+	//20221124 GBM start - test
+#if 1
+	//설정된 회로 개수의 변화를 체크
+	bool bResult1 = m_pSetupDlg[0]->CompareNewCircuitInfoNeo(0);
+	bool bResult2 = m_pSetupDlg[1]->CompareNewCircuitInfoNeo(1);
+#else
+	//설정된 회로 개수의 변화를 체크
 	bool bResult1 = m_pSetupDlg[0]->CompareNewCircuitInfo(0);
 	bool bResult2 = m_pSetupDlg[1]->CompareNewCircuitInfo(1);
+#endif
+	//20221124 GBM end
+
+	//설정된 설비 종류의 변화를 체크
+	//20221123 GBM start - test
+	bool bResult3 = true;
+	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++)
+	{
+		bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
+		if (CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex] != bCheck)
+		{
+			bResult3 = false;
+			break;
+		}
+	}
+	//20221123 GBM end
 
 	//20221021 GBM start - 중계기 일람표 확정 전에 회로 기본 화면으로 돌아갔다가 아무 편집도 하지 않은 경우 중계기 일람표가 작성되어 있지 않음에도 불구하고 회로 개수의 변화가 없어 중계기 일람표를 작성하지 않는 오류 수정
 	//if (!bResult1 || !bResult2) 
-	if (!bResult1 || !bResult2 || CCommonState::ie()->m_bInitCircuit)
+	if (!bResult1 || !bResult2 || !bResult3 || CCommonState::ie()->m_bInitCircuit)
 	//20221021 GBM end
 	{
 
@@ -334,17 +369,11 @@ void CCircuitInfoDlg::OnNextClick()
 #if 1
 		if (!CCommonState::ie()->m_bInitCircuit) 
 		{
-			CMessagePopup popup(L"중계기 일람표 수정", L"\n회로 설정 수정이 중계기 일람표에 적용됩니다.\n(회로 추가 시: 중계기 일람표 하단 추가,\n회로 삭제 시: 회로 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 회로 삭제)\n\n계속하시겠습니까?\n(확인: 수정 사항 적용, 취소: 수정 사항 미적용)", MB_YESNO, this);
+			CMessagePopup popup(L"중계기 일람표 수정", L"\n회로 설정 수정이 중계기 일람표에 적용됩니다.\n(회로 추가 시: 중계기 일람표 하단 추가,\n회로 삭제 시: 회로 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 회로 삭제)\n계속하시겠습니까?\n(확인: 수정 사항 적용\n취소: 중계기 일람표 기준으로 원복)", MB_YESNO, this);
 
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK)
 			{
-				// 수정을 확정지었으므로 설비 종류 상황을 old값에 저장함
-				for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
-					bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
-					CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex] = bCheck;
-				}
-
 				// 1. 현재 설비 리스트의 개수를 m_selectciruit에 적용
 				if (!CheckCircuitCount()) {
 					return;
@@ -360,29 +389,51 @@ void CCircuitInfoDlg::OnNextClick()
 				if (!bCheckMaxCircuit1 || !bCheckMaxCircuit2)
 				{
 					// 현재/과거 설비 비교 데이터 , 현재 회로 정보 롤백
-					m_pSetupDlg[0]->RollbackCircuitCount(0);
-					m_pSetupDlg[1]->RollbackCircuitCount(1);
+// 					m_pSetupDlg[0]->RollbackCircuitCount(0);
+// 					m_pSetupDlg[1]->RollbackCircuitCount(1);
+
+// 					m_pSetupDlg[0]->CopyPreviousCircuitCompInfo(0);
+// 					m_pSetupDlg[1]->CopyPreviousCircuitCompInfo(1);
 
 					CString strMsg = L"";
 
 					if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 					{
-						strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
 					}
 					else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 					{
-						strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit1, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit1, MAX_CIRCUIT);
 					}
 					else
 					{
-						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
 					}
 
 					CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
 					popup.DoModal();
 
+					// 설비 정보를 확인 후 이전 값을 롤백함
+					for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++)
+					{
+						bool bCheck = CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex];
+						if (bCheck != CCircuitBasicInfo::Instance()->m_bCheck[nIndex])
+						{
+							CCircuitBasicInfo::Instance()->m_bCheck[nIndex] = bCheck;
+						}
+					}
+
+					m_pSetupDlg[0]->CopyPreviousCircuitInfo(0);
+					m_pSetupDlg[1]->CopyPreviousCircuitInfo(1);
+
 					m_pSetupDlg[0]->InitCircuitInfo(0);
 					m_pSetupDlg[1]->InitCircuitInfo(1);
+
+					m_pSetupDlg[0]->Invalidate();
+					m_pSetupDlg[1]->Invalidate();
+
+					m_pSetupDlg[0]->CopyPreviousCircuitCompInfo(0);
+					m_pSetupDlg[1]->CopyPreviousCircuitCompInfo(1);
 
 					m_pSetupDlg[0]->LoadInfo(0);
 					m_pSetupDlg[1]->LoadInfo(1);
@@ -390,11 +441,38 @@ void CCircuitInfoDlg::OnNextClick()
 					return;
 				}
 
+				// 수정을 확정지었으므로 설비 종류 상황을 old값에 저장함
+				for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+					bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
+					CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex] = bCheck;
+				}
+
 				// 2. 설비 비교 구조체 내 기존 설비 개수에 현재 설비 개수를 대입
 
-				//20221014 GBM start - 기존 설비 개수를 백업해둔다.
+				//20221014 GBM start - 기존 설비 개수를 백업해둔다, 
+
+				//중계기 일람표 확정 전에 앞서 설비정보만 수정한 상태로 설비/회로 화면만 왔다갔다하다가 
+				//다시 중계기 일람표 확정 시 기존 회로 개수를 오버라이트한 상황이라서 
+				//중계기 일람표에 수정된 내용이 적용되지 않는 오류 수정을 위해 
+				//중계기 일람표 확정 시와 비교해서 설비 설정이 다르면 
+				//이전 회로 개수를 현재 회로 개수로 대입하지 않도록 해서 
+				//회로 개수 차이만큼 중계기 일람표에 적용하도록 함
+				//위에 if (!bResult3)는 이렇게 하면 타지 않아도 됨
+
 				m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
 				m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
+
+				m_pSetupDlg[0]->CopyPreviousCircuitCompInfo(0);
+				m_pSetupDlg[1]->CopyPreviousCircuitCompInfo(1);
+
+				//20221122 GBM - 설비 수정 후 취소의 경우에 롤백 대비로 설비 정보를 따로 저장해둔다.
+				m_pSetupDlg[0]->BackupCircuitInfo(0);
+				m_pSetupDlg[1]->BackupCircuitInfo(1);
+
+				//롤백 대비 회로 개수 정보
+				m_pSetupDlg[0]->BackupCircuitCountInfo(0);
+				m_pSetupDlg[1]->BackupCircuitCountInfo(1);
+
 				//20221014 GBM end
 
 				// 3. 현재 설비 개수와 기존 설비 개수를 비교해서 추가/삭제된 경우의 리스트를 얻는다.
@@ -418,6 +496,11 @@ void CCircuitInfoDlg::OnNextClick()
 					}
 				}
 
+				//설비 종류 수정 사항이 있을 때는 중계기 일람표 확정 시 백업했던 회로 정보를 가져와서 사용자가 [취소]를 선택할 경우 원복
+
+				m_pSetupDlg[0]->CopyPreviousCircuitInfo(0);
+				m_pSetupDlg[1]->CopyPreviousCircuitInfo(1);
+
 				//수정 사항을 반영하지 않을 것이므로 이전 값으로 돌아감
 				m_pSetupDlg[0]->InitCircuitInfo(0);
 				m_pSetupDlg[1]->InitCircuitInfo(1);
@@ -425,19 +508,18 @@ void CCircuitInfoDlg::OnNextClick()
 				m_pSetupDlg[0]->Invalidate();
 				m_pSetupDlg[1]->Invalidate();
 
+				m_pSetupDlg[0]->CopyPreviousCircuitCompInfo(0);
+				m_pSetupDlg[1]->CopyPreviousCircuitCompInfo(1);
+
 				m_pSetupDlg[0]->LoadInfo(0);
 				m_pSetupDlg[1]->LoadInfo(1);
 
-				GetParent()->PostMessage(SELECTION_PROJECT, 13, 0);
+				return;
+				//GetParent()->PostMessage(SELECTION_PROJECT, 13, 0);
 			}
 		}
 		else
 		{
-			// 수정을 확정지었으므로 설비 종류 상황을 old값에 저장함
-			for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
-				bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
-				CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex] = bCheck;
-			}
 
 			// 1. 현재 설비 리스트의 개수를 m_selectciruit에 적용
 			if (!CheckCircuitCount()) {
@@ -454,8 +536,11 @@ void CCircuitInfoDlg::OnNextClick()
 			if (!bCheckMaxCircuit1 || !bCheckMaxCircuit2)
 			{
 				// 현재/과거 설비 비교 데이터 , 현재 회로 정보 롤백
-				m_pSetupDlg[0]->RollbackCircuitCount(0);
-				m_pSetupDlg[1]->RollbackCircuitCount(1);
+// 				m_pSetupDlg[0]->RollbackCircuitCount(0);
+// 				m_pSetupDlg[1]->RollbackCircuitCount(1);
+
+// 				m_pSetupDlg[0]->CopyPreviousCircuitCompInfo(0);
+// 				m_pSetupDlg[1]->CopyPreviousCircuitCompInfo(1);
 
 				CString strMsg = L"";
 
@@ -475,8 +560,27 @@ void CCircuitInfoDlg::OnNextClick()
 				CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
 
+				// 설비 정보를 확인 후 이전 값을 롤백함
+				for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++)
+				{
+					bool bCheck = CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex];
+					if (bCheck != CCircuitBasicInfo::Instance()->m_bCheck[nIndex])
+					{
+						CCircuitBasicInfo::Instance()->m_bCheck[nIndex] = bCheck;
+					}
+				}
+
+				m_pSetupDlg[0]->CopyPreviousCircuitInfo(0);
+				m_pSetupDlg[1]->CopyPreviousCircuitInfo(1);
+
 				m_pSetupDlg[0]->InitCircuitInfo(0);
 				m_pSetupDlg[1]->InitCircuitInfo(1);
+
+				m_pSetupDlg[0]->Invalidate();
+				m_pSetupDlg[1]->Invalidate();
+
+				m_pSetupDlg[0]->CopyPreviousCircuitCompInfo(0);
+				m_pSetupDlg[1]->CopyPreviousCircuitCompInfo(1);
 
 				m_pSetupDlg[0]->LoadInfo(0);
 				m_pSetupDlg[1]->LoadInfo(1);
@@ -484,10 +588,27 @@ void CCircuitInfoDlg::OnNextClick()
 				return;
 			}
 
+			// 수정을 확정지었으므로 설비 종류 상황을 old값에 저장함
+			for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
+				bool bCheck = CCircuitBasicInfo::Instance()->m_bCheck[nIndex];
+				CCircuitBasicInfo::Instance()->m_bOldCheck[nIndex] = bCheck;
+			}
+
 			//20221014 GBM start - 기존 설비 개수를 백업해둔다.
 			m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
 			m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
 			//20221014 GBM end
+
+			m_pSetupDlg[0]->CopyPreviousCircuitCompInfo(0);
+			m_pSetupDlg[1]->CopyPreviousCircuitCompInfo(1);
+
+			//20221122 GBM - 설비 수정 후 취소의 경우에 롤백 대비로 설비 정보를 따로 저장해둔다.
+			m_pSetupDlg[0]->BackupCircuitInfo(0);
+			m_pSetupDlg[1]->BackupCircuitInfo(1);
+
+			//롤백 대비 회로 개수 정보
+			m_pSetupDlg[0]->BackupCircuitCountInfo(0);
+			m_pSetupDlg[1]->BackupCircuitCountInfo(1);
 
 			//중계기 일람표가 일단 확정되는 순간 전체 회로 갯수를 구하고 추가분에 대해서는 따로 추가해서 현재 최종 회로 갯수를 항상 알고 있도록 함
 			CCommonState::ie()->m_nTotalCountCircuit_0 = CCommonState::ie()->CalculateTotalCircuitCount(0);
@@ -574,7 +695,7 @@ void CCircuitInfoDlg::OnPrevClick()
 
 	if (!bCheckMaxCircuit1 || !bCheckMaxCircuit2)
 	{
-		// 현재/과거 설비 비교 데이터 , 현재 회로 정보 롤백
+		// 현재/과거 설비 비교 데이터 , 현재 회로 정보 롤백, 중계기 일람표로 넘어갈 때와는 달리 바로 이전 시점의 데이터로 되돌아 감
 		m_pSetupDlg[0]->RollbackCircuitCount(0);
 		m_pSetupDlg[1]->RollbackCircuitCount(1);
 

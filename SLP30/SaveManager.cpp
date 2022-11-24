@@ -31,7 +31,7 @@ void CSaveManager::ReleaseInfo()
 	}
 }
 
-void CSaveManager::SetSystemInfo(WCHAR* szBDName, WCHAR* szCircuitName, WCHAR* szRoomName, WCHAR* szBlock, short nStair, short nSystemNo, short nSystem, short nFloor, short nCircuitNo)
+void CSaveManager::SetSystemInfo(WCHAR* szBDName, WCHAR* szCircuitName, WCHAR* szRoomName, WCHAR* szBlock, short nStair, short nSystemNo, short nSystem, short nFloor, bool bRooftop, short nCircuitNo)
 {
 	SYSTEM_INFO_* pInfo = new SYSTEM_INFO_;
 	wcscpy_s(pInfo->szBDName, szBDName);
@@ -43,6 +43,7 @@ void CSaveManager::SetSystemInfo(WCHAR* szBDName, WCHAR* szCircuitName, WCHAR* s
 	pInfo->nStair = nStair;
 	pInfo->nFloor = nFloor;
 	pInfo->nCircuitNo = nCircuitNo;
+	pInfo->bRooftop = bRooftop;
 
 	m_listSystem.AddTail(pInfo);
 	pInfo->nNo = m_listSystem.GetCount();
@@ -94,6 +95,7 @@ bool CSaveManager::FileSave(CString sPath)
 	basic.nFloor = CCircuitBasicInfo::Instance()->m_nFloor;
 	basic.nStair = CCircuitBasicInfo::Instance()->m_nStair;
 	basic.nBlock = CCircuitBasicInfo::Instance()->m_nBlock;
+	basic.nRooftop = CCircuitBasicInfo::Instance()->m_nRooftop;
 	CString sBlockList;
 	for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount(); nIndex++) {
 		sBlockList += CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndex);
@@ -232,6 +234,7 @@ bool CSaveManager::FileLoad(CString sPath)
 	CString sBlockList, sBlock;
 	CCircuitBasicInfo::Instance()->m_nBasement = basic.nBasement;
 	CCircuitBasicInfo::Instance()->m_nFloor = basic.nFloor;
+	CCircuitBasicInfo::Instance()->m_nRooftop = basic.nRooftop;
 	CCircuitBasicInfo::Instance()->m_nStair = basic.nStair;
 	CCircuitBasicInfo::Instance()->m_nBlock = basic.nBlock;
 	CCircuitBasicInfo::Instance()->m_sBuildingName = basic.szBDName;
@@ -542,7 +545,14 @@ int CSaveManager::ExcelFileSave(CString sPath)
 			sTemp.Format(L"B%dF", abs(pInfo->nFloor));
 		}
 		else if (pInfo->nFloor > 0) {
-			sTemp.Format(L"%dF", pInfo->nFloor);
+			if (pInfo->bRooftop)		//¿ÁÅ¾Ãþ
+			{
+				sTemp.Format(L"Rooftop");
+			}	
+			else
+			{
+				sTemp.Format(L"%dF", pInfo->nFloor);
+			}
 		}
 		XL.SetCellValue(nColumn + 9, 4 + nRow, sTemp.GetBuffer(0)); // Ãþ
 
@@ -558,10 +568,24 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	for (int nIndex = 0; nIndex < m_listBC.GetCount(); nIndex++) {
 		pBc = m_listBC.GetAt(m_listBC.FindIndex(nIndex));
 		if (wcslen(pInfo->szBlock) > 0) {
-			sTemp.Format(L"%sµ¿ %d°è´Ü %s%dF", pBc->szBlock, pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//¿ÁÅ¾
+			{
+				sTemp.Format(L"%sµ¿ %d°è´Ü %s", pBc->szBlock, pBc->nStair, L"Rooftop");
+			}
+			else
+			{
+				sTemp.Format(L"%sµ¿ %d°è´Ü %s%dF", pBc->szBlock, pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			}		
 		}
 		else {
-			sTemp.Format(L"%d°è´Ü %s%dF", pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//¿ÁÅ¾
+			{
+				sTemp.Format(L"%d°è´Ü %s", pBc->nStair, L"Rooftop");
+			}
+			else
+			{
+				sTemp.Format(L"%d°è´Ü %s%dF", pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			}
 		}
 		XL.SetCellValue(2, 3 + nIndex, sTemp.GetBuffer(0));
 		XL.SetCellValue(3, 3 + nIndex, pBc->BC_CONTAIN);
@@ -669,7 +693,14 @@ void CSaveManager::DeleteSystemInfo()
 							}
 							else
 							{
-								sFloor.Format(L"%dF", pSI->nFloor);
+								if (pSI->bRooftop)	//¿ÁÅ¾Ãþ
+								{
+									sFloor.Format(L"Rooftop");
+								}
+								else
+								{
+									sFloor.Format(L"%dF", pSI->nFloor);
+								}				
 							}
 
 							//ºñ±³
@@ -728,7 +759,14 @@ void CSaveManager::DeleteSystemInfo()
 						}
 						else
 						{
-							sFloor.Format(L"%dF", pSI->nFloor);
+							if (pSI->bRooftop)	//¿ÁÅ¾Ãþ
+							{
+								sFloor.Format(L"Rooftop");
+							}
+							else
+							{
+								sFloor.Format(L"%dF", pSI->nFloor);
+							}
 						}
 
 						//ºñ±³
@@ -839,8 +877,15 @@ void CSaveManager::AddSystemInfo()
 							nFloor = -_wtoi(sFloor.GetBuffer(0));
 						}
 						else {
-							sFloor.Replace(L"F", L"");
-							nFloor = _wtoi(sFloor.GetBuffer(0));
+							if (iterSCCR->sFloor.Compare(L"Rooftop") == 0)	//¿ÁÅ¾Ãþ
+							{
+								nFloor = CCircuitBasicInfo::Instance()->m_nFloor + 1;
+							}
+							else
+							{
+								sFloor.Replace(L"F", L"");
+								nFloor = _wtoi(sFloor.GetBuffer(0));
+							}					
 						}
 
 						nCircuitNo = iterSCCR->nLastCircuitNo + nCircuitNoAcc;
@@ -860,6 +905,12 @@ void CSaveManager::AddSystemInfo()
 						pSI->nStair = nStair;
 						pSI->nFloor = nFloor;
 						pSI->nCircuitNo = nCircuitNo;
+
+						//¿ÁÅ¾¹æ Ã³¸®
+						if (nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)
+							pSI->bRooftop = true;
+						else
+							pSI->bRooftop = false;
 					}
 				}
 				else
@@ -910,8 +961,15 @@ void CSaveManager::AddSystemInfo()
 						nFloor = -_wtoi(sFloor.GetBuffer(0));
 					}
 					else {
-						sFloor.Replace(L"F", L"");
-						nFloor = _wtoi(sFloor.GetBuffer(0));
+						if (iterSCCR->sFloor.Compare(L"Rooftop") == 0)	//¿ÁÅ¾Ãþ
+						{
+							nFloor = CCircuitBasicInfo::Instance()->m_nFloor + 1;
+						}
+						else
+						{
+							sFloor.Replace(L"F", L"");
+							nFloor = _wtoi(sFloor.GetBuffer(0));
+						}
 					}
 
 					nCircuitNo = iterSCCR->nLastCircuitNo + nCircuitNoAcc;
@@ -930,6 +988,12 @@ void CSaveManager::AddSystemInfo()
 					pSI->nStair = nStair;
 					pSI->nFloor = nFloor;
 					pSI->nCircuitNo = nCircuitNo;
+
+					//¿ÁÅ¾¹æ Ã³¸®
+					if (nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)
+						pSI->bRooftop = true;
+					else
+						pSI->bRooftop = false;
 				}
 
 			}
@@ -974,7 +1038,7 @@ bool CSaveManager::MoveCircuitInfo(int nCurrentCircuitNum, int nNewCircuitNum)
 	
 	memset(pInfoOld, 0, sizeof(SYSTEM_INFO_));
 
-	//³ªÁß¿¡ µð¹ö±ë À§ÇØ °ÔÅë°ú È¸·Î¹øÈ£ ³ÖÀ½
+	//³ªÁß¿¡ µð¹ö±ë À§ÇØ °èÅë°ú È¸·Î¹øÈ£ ³ÖÀ½
 	pInfoNew->nNo = nNewCircuit;
 	pInfoNew->nSystem = nSystem;
 	pInfoOld->nNo = nOldCircuit;

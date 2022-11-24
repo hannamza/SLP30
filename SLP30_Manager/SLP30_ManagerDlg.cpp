@@ -103,7 +103,14 @@ BOOL CSLP30_ManagerDlg::OnInitDialog()
 	CPositionManager::New();
 	//CUSBDriveManger::New();
 	CClientInterface::New();
+
+	//20221121 GBM start - slp30_manager test
+#if 0
 	CClientInterface::Instance()->TryConnection("160.202.162.3", 10345);
+#else
+	CClientInterface::Instance()->TryConnection("127.0.0.1", 10345);
+#endif
+	//20221121 GBM end
 
 	CUserManager::New();
 	CCommonState::New();

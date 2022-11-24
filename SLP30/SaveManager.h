@@ -15,6 +15,7 @@ typedef struct CIRCUIT_BASIC_INFO
 	short nStair;
 	short nFloor;
 	short nBasement;
+	short nRooftop;
 	bool bCheck[CIRCUIT_PARENT];
 }circuitBasicInfo, *pCircuitBasicInfo;
 
@@ -53,6 +54,7 @@ struct SYSTEM_INFO_
 	short nStair;		// 계단
 	short nFloor;		// 층
 	short nCircuitNo;	// 설비번호
+	bool bRooftop;		// 옥탑
 };
 typedef struct CIRCUIT_SYSTEM_INFO
 {
@@ -146,7 +148,7 @@ public:
 	void ReleaseExcelWaitPopup();
 	void ReleaseInfo();
 
-	void SetSystemInfo(WCHAR* szBDName, WCHAR* szCircuitName, WCHAR* szRoomName, WCHAR* szBlock, short nStair, short nSystemNo, short nSystem, short nFloor, short nCircuitNo);
+	void SetSystemInfo(WCHAR* szBDName, WCHAR* szCircuitName, WCHAR* szRoomName, WCHAR* szBlock, short nStair, short nSystemNo, short nSystem, short nFloor, bool bRooftop, short nCircuitNo);
 	void SetBroadcast(CString sBlock, short nStair, short nFloor, WCHAR* szBroadcast);
 
 	void DeleteSystemInfo();	//20221020 GBM - 중계기 일람표 확정 후 다시 회로 설정에서 특정 회로가 삭제되었을 경우

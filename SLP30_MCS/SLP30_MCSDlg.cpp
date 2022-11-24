@@ -145,7 +145,15 @@ BOOL CSLP30_MCSDlg::OnInitDialog()
 	strcpy_s(info.szDBInfoName, "gfsm");
 	strcpy_s(info.szDBName, "slp30");
 	strcpy_s(info.szID, "slp30_manager");
+
+	//20221121 GBM start - slp30_manager test
+#if 0
+	strcpy_s(info.szIP, "160.202.162.3");
+#else
 	strcpy_s(info.szIP, "127.0.0.1");
+#endif
+	//20221121 GBM end
+
 	strcpy_s(info.szPW, "gfs1020!@");
 
 	CDBPool::New();

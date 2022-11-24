@@ -146,7 +146,14 @@ bool CDataLinkManager::LcdContentsWrite(SYSTEM_INFO_* pInfo, FILE* f, long & lSi
 		sFloor.Format(L"B%dF", abs(pInfo->nFloor));
 	}
 	else {
-		sFloor.Format(L"%dF", abs(pInfo->nFloor));
+		if (pInfo->bRooftop)		//¿ÁÅ¾Ãþ
+		{
+			sFloor.Format(L"Rooftop");
+		}
+		else
+		{
+			sFloor.Format(L"%dF", abs(pInfo->nFloor));
+		}
 	}
 	(wcslen(pInfo->szRoomName) > 0) ? strTxt.Format(L" %s ", pInfo->szRoomName) : strTxt = L" ";
 	sText.Format(L"%sµ¿ %d°è´Ü %s%s%s", pInfo->szBlock, pInfo->nStair, sFloor, strTxt, pInfo->szCircuitName);
@@ -991,20 +998,48 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 			sTemp.Format(L"%d°è´Ü", pInfo->nStair);
 			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
 		}
-		sTemp.Format(L"%s%dF", (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+		if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
+		{
+			sTemp.Format(L"Rooftop");
+		}
+		else
+		{
+			sTemp.Format(L"%s%dF", (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+		}
 		XL.SetCellValue(28, 2 + (nIndex * 2), sTemp);
 		XL.SetCellValue(29, 2 + (nIndex * 2), pInfo->szRoomName);
 		XL.SetCellValue(30, 2 + (nIndex * 2), pInfo->szCircuitName);
 
 		(wcslen(pInfo->szRoomName) > 0) ? sInput.Format(L" %s ", pInfo->szRoomName) : sInput = L" ";
 		if (bBlock) {
-			sTemp.Format(L"%sµ¿ %d°è´Ü %s%dF%s%s", pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+			if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
+			{
+				sTemp.Format(L"%sµ¿ %d°è´Ü Rooftop%s%s", pInfo->szBlock, pInfo->nStair, sInput, pInfo->szCircuitName);
+			}
+			else
+			{
+				sTemp.Format(L"%sµ¿ %d°è´Ü %s%dF%s%s", pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+			}
 		}
 		else if (CCircuitBasicInfo::Instance()->m_nStair <= 1) {
-			sTemp.Format(L"%s%dF%s%s", (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+			if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
+			{
+				sTemp.Format(L"Rooftop%s%s", sInput, pInfo->szCircuitName);
+			}
+			else
+			{
+				sTemp.Format(L"%s%dF%s%s", (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+			}			
 		}
 		else {
-			sTemp.Format(L"%d°è´Ü %s%dF%s%s", pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+			if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
+			{
+				sTemp.Format(L"%d°è´Ü Rooftop%s%s", pInfo->nStair, sInput, pInfo->szCircuitName);
+			}
+			else
+			{
+				sTemp.Format(L"%d°è´Ü %s%dF%s%s", pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+			}
 		}
 		XL.SetCellValue(32, 2 + (nIndex * 2), sTemp);
 
@@ -1057,7 +1092,16 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	nCount = CSaveManager::Instance()->m_listBC.GetCount();
 	for (int nIndex = 0; nIndex < nCount; nIndex++) {
 		pBc = CSaveManager::Instance()->m_listBC.GetAt(CSaveManager::Instance()->m_listBC.FindIndex(nIndex));
-		sTemp.Format(L"%sµ¿ %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+
+		if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//¿ÁÅ¾Ãþ
+		{
+			sTemp.Format(L"%sµ¿ Rooftop", pBc->szBlock);
+		}
+		else
+		{
+			sTemp.Format(L"%sµ¿ %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+		}
+		
 		XL.SetCellValue(2, 3 + nIndex, sTemp);
 		XL.SetCellValue(3, 3 + nIndex, pBc->BC_CONTAIN);
 

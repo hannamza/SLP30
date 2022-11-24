@@ -64,11 +64,11 @@ BEGIN_MESSAGE_MAP(CCircuitBasicInfoDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // CCircuitBasicInfoDlg 메시지 처리기입니다.
-const TCHAR* lpszHeaderBasic[] = { _T("건물명"), _T("동"), _T("동이름"), _T("계단"), _T("지상층"), _T("지하층"), NULL };
-const int colWidthListBasic[] = { 200, 90, 180, 100, 100, 100, 0 }; // pixel
-const int colTypeBasic[] = { POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, 0 };
-const int colAlignBasic[] = { DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, -1 }; // option, row align text, default: DT_LEFT
-const int colLimitBasic[] = { 0, 6, 0, 6, 6, 6, -1 }; // 0: 무제한, > 0 : 텍스트 사이즈 제한
+const TCHAR* lpszHeaderBasic[] = { _T("건물명"), _T("동"), _T("동이름"), _T("계단"), _T("지상층"), _T("지하층"), _T("옥탑층"), NULL };
+const int colWidthListBasic[] = { 200, 70, 180, 80, 80, 80, 80, 0 }; // pixel
+const int colTypeBasic[] = { POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, 0 };
+const int colAlignBasic[] = { DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER , -1 }; // option, row align text, default: DT_LEFT
+const int colLimitBasic[] = { 0, 6, 0, 6, 6, 6, 6, -1 }; // 0: 무제한, > 0 : 텍스트 사이즈 제한
 
 BOOL CCircuitBasicInfoDlg::OnInitDialog()
 {
@@ -105,11 +105,12 @@ BOOL CCircuitBasicInfoDlg::OnInitDialog()
 
 	m_pListCtrl->AddItem();
 	m_pListCtrl->SetItemText(0, 0, L"");
-	m_pListCtrl->SetItemText(0, 1, L"0");
+	m_pListCtrl->SetItemText(0, 1, L"1");
 	m_pListCtrl->SetItemText(0, 2, L"101");
 	m_pListCtrl->SetItemText(0, 3, L"1");
 	m_pListCtrl->SetItemText(0, 4, L"2");
 	m_pListCtrl->SetItemText(0, 5, L"0");
+	m_pListCtrl->SetItemText(0, 6, L"0");
 
 	int nY = 188;
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
@@ -240,13 +241,15 @@ void CCircuitBasicInfoDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CCircuitBasicInfoDlg::OnNextClick()
 {
-	CString sBD, sStair, sFloor, sBase, sBlock, sBlockName, sToken, sTemp;
+	CString sBD, sStair, sFloor, sBase, sRoofTop, sBlock, sBlockName, sToken, sTemp;
 	m_pListCtrl->GetItemText(0, 0, sBD);
 	m_pListCtrl->GetItemText(0, 1, sBlock);
 	m_pListCtrl->GetItemText(0, 2, sBlockName);
 	m_pListCtrl->GetItemText(0, 3, sStair);
 	m_pListCtrl->GetItemText(0, 4, sFloor);
 	m_pListCtrl->GetItemText(0, 5, sBase);
+	m_pListCtrl->GetItemText(0, 6, sRoofTop);
+
 	sBD.Trim();
 	sStair.Trim();
 	sFloor.Trim();
@@ -281,6 +284,12 @@ void CCircuitBasicInfoDlg::OnNextClick()
 		popup.DoModal();
 		return;
 	}
+	if (sRoofTop.GetLength() == 0 || !CCommonFunc::CheckDigit(sRoofTop.GetBuffer(0))) {
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층을 입력하여 주십시오.\n\n(숫자만 입력 가능합니다.)", MB_OK, this);
+		popup.DoModal();
+		return;
+	}
+
 	bool bChange = false;
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
 		if (CCircuitBasicInfo::Instance()->m_bCheck[nIndex] != m_pCheck[nIndex]->GetCheck()) {
@@ -290,6 +299,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	int nStair = _ttoi(sStair.GetBuffer());
 	int nFloor = _ttoi(sFloor.GetBuffer());
 	int nBase = _ttoi(sBase.GetBuffer());
+	INT nRooftop = _ttoi(sRoofTop.GetBuffer());
 	int nBlock = _ttoi(sBlock.GetBuffer());
 	//int nBlockName = _ttoi(sBlockName.GetBuffer());
 	if (nBlock < 0 || nBlock > 3) {
@@ -314,6 +324,11 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	}
 	if (nBase < 0 || nBase > 5) {
 		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지하층 정보를 다시 입력하여 주십시오.\n\n(입력범위: 0 ~ 5층)", MB_OK, this);
+		popup.DoModal();
+		return;
+	}
+	if (nRooftop < 0 || nRooftop > 1) {
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층 정보를 다시 입력하여 주십시오.\n\n(입력범위: 0 ~ 1층)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
@@ -345,6 +360,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	if (!m_bFirstWork) {
 		if (bChange || CCircuitBasicInfo::Instance()->m_sBuildingName != sBD || CCircuitBasicInfo::Instance()->m_nStair != _ttoi(sStair.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nFloor != _ttoi(sFloor.GetBuffer()) || CCircuitBasicInfo::Instance()->m_nBasement != _ttoi(sBase.GetBuffer())
+			|| CCircuitBasicInfo::Instance()->m_nRooftop != _ttoi(sRoofTop.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nBlock != _ttoi(sBlock.GetBuffer()) || !bCompare) {
 			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n새로운 [회로 정보 선택]을 반영하시겠습니까?\n\n(확인: 편집 적용 / 취소: 편집 취소)", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
@@ -370,6 +386,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 				CCircuitBasicInfo::Instance()->m_nStair = nStair;
 				CCircuitBasicInfo::Instance()->m_nFloor = nFloor;
 				CCircuitBasicInfo::Instance()->m_nBasement = nBase;
+				CCircuitBasicInfo::Instance()->m_nRooftop = nRooftop;
 				CCircuitBasicInfo::Instance()->m_nBlock = nBlock;
 				CCircuitBasicInfo::Instance()->m_sBlockName = sBlockName;
 
@@ -383,6 +400,10 @@ void CCircuitBasicInfoDlg::OnNextClick()
 				//건물 정보가 확정이 되면 회로 설정 비교 정보를 초기화 해둔다.
 				CCommonState::ie()->InitSelectCircuitCompInfo(0);
 				CCommonState::ie()->InitSelectCircuitCompInfo(1);
+
+				CCommonState::ie()->InitSelectCircuitRepeaterList(0);
+				CCommonState::ie()->InitSelectCircuitRepeaterList(1);
+
 			}
 			else {
 				return;
@@ -456,6 +477,8 @@ void CCircuitBasicInfoDlg::LoadInfo()
 	m_pListCtrl->SetItemText(0, 4, sTemp);
 	sTemp.Format(L"%d", CCircuitBasicInfo::Instance()->m_nBasement);
 	m_pListCtrl->SetItemText(0, 5, sTemp);
+	sTemp.Format(L"%d", CCircuitBasicInfo::Instance()->m_nRooftop);
+	m_pListCtrl->SetItemText(0, 6, sTemp);
 
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
 		m_pCheck[nIndex]->SetCheck(CCircuitBasicInfo::Instance()->m_bCheck[nIndex]);
@@ -469,7 +492,9 @@ void CCircuitBasicInfoDlg::LoadInfo()
 	//건물 정보가 확정이 되면 회로 설정 비교 정보를 초기화 해둔다.
 	CCommonState::ie()->InitSelectCircuitCompInfo(0);
 	CCommonState::ie()->InitSelectCircuitCompInfo(1);
-	//20221013 GBM end
+
+	CCommonState::ie()->InitSelectCircuitRepeaterList(0);
+	CCommonState::ie()->InitSelectCircuitRepeaterList(1);
 
 	//20221025 GBM start - 프로젝트 로드 첫화면이 설비 개수 설정화면이 아니라 기본 설비 설정화면이 나오도록 수정
 	//GetParent()->PostMessage(SELECTION_PROJECT, 11, false);

@@ -71,7 +71,14 @@ BOOL CSLP30Dlg::OnInitDialog()
 	CClientInterface::New();
 	CPatternManager::New();
 
+	//20221121 GBM start - SLP30_Manager test
+#if 1
 	CClientInterface::ie()->TryConnection("160.202.162.3", 10345);
+#else
+	CClientInterface::ie()->TryConnection("127.0.0.1", 10345);
+#endif
+	//20221121 GBM end
+
 	CCommonState::ie()->m_pWnd = this;
 
 	CSharedMemoryManager::New();
@@ -277,10 +284,10 @@ void CSLP30Dlg::OnTimer(UINT_PTR nIDEvent)
 
 		CLoginDlg dlg;
 		UINT nResult = dlg.DoModal();
-		// test
-// 		if (nResult == IDOK) {
-// 			return;
-// 		}
+		// test - 로그인 체크 안함 : 배포 시 반드시 주석처리
+		if (nResult == IDOK) {
+			return;
+		}
 
 		if (nResult != IDOK) {
 			OnOK();

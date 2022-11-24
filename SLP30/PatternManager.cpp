@@ -317,16 +317,37 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 		break;
 	case 생성_동_계단별: // 패턴 동 계단
 		if (wcslen(pInfo->szBlock) > 0) {
-			sPatternName.Format(L"%s %s동 %d계단", sName, pInfo->szBlock, nStair);
+			if (pInfo->bRooftop)		// 옥탑층
+			{	
+				sPatternName.Format(L"%s %s동 Rooftop", sName, pInfo->szBlock);
+			}
+			else
+			{
+				sPatternName.Format(L"%s %s동 %d계단", sName, pInfo->szBlock, nStair);
+			}	
 		}
 		else {
-			sPatternName.Format(L"%s %d계단", sName, nStair);
+			if (pInfo->bRooftop)		// 옥탑층
+			{
+				sPatternName.Format(L"%s Rooftop", sName);
+			}
+			else
+			{
+				sPatternName.Format(L"%s %d계단", sName, nStair);
+			}
 		}
 		break;
 	case 생성_동_계단_층: // 패턴 동 계단, 층
 		if (wcslen(pInfo->szBlock) == 0) {
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
-				sPatternName.Format(L"%s %d계단 %s%dF", sName, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				if (pInfo->bRooftop)	// 옥탑층
+				{
+					sPatternName.Format(L"%s %d계단 Rooftop", sName, pInfo->nStair);
+				}
+				else
+				{
+					sPatternName.Format(L"%s %d계단 %s%dF", sName, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				}
 			}
 			else {
 				sPatternName.Format(L"%s %s%dF", sName, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
@@ -334,10 +355,24 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 		}
 		else if (wcslen(pInfo->szBlock) > 0) {
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
-				sPatternName.Format(L"%s %s동 %d계단 %s%dF", sName, pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				if (pInfo->bRooftop)	// 옥탑층
+				{
+					sPatternName.Format(L"%s %s동 %d계단 Rooftop", sName, pInfo->szBlock, pInfo->nStair);
+				}
+				else
+				{
+					sPatternName.Format(L"%s %s동 %d계단 %s%dF", sName, pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				}	
 			}
 			else {
-				sPatternName.Format(L"%s %s동 %s%dF", sName, pInfo->szBlock, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				if (pInfo->bRooftop)	// 옥탑층
+				{
+					sPatternName.Format(L"%s %s동 Rooftop", sName, pInfo->szBlock);
+				}
+				else
+				{
+					sPatternName.Format(L"%s %s동 %s%dF", sName, pInfo->szBlock, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				}
 			}
 		}
 		else {

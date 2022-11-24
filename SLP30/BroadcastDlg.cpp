@@ -230,8 +230,15 @@ bool CBroadcastDlg::SaveInformation()
 			nFloor = -_wtoi(sFloor.GetBuffer(0));
 		}
 		else {
-			sFloor.Replace(L"F", L"");
-			nFloor = _wtoi(sFloor.GetBuffer(0));
+			if (sFloor.Compare(L"Rooftop") == 0)
+			{
+				nFloor = CCircuitBasicInfo::Instance()->m_nFloor + 1;
+			}
+			else
+			{
+				sFloor.Replace(L"F", L"");
+				nFloor = _wtoi(sFloor.GetBuffer(0));
+			}			
 		}
 
 		sBlock.Replace(L"µ¿", L"");
@@ -306,7 +313,14 @@ void CBroadcastDlg::DisplayLoadFile()
 		sStair.Format(L"%d°è´Ü", pInfo->nStair);
 		m_pListCtrl->SetItemText(nIndex, 3, sStair);
 		if (pInfo->nFloor > 0) {
-			sTemp.Format(L"%dF", pInfo->nFloor);
+			if (pInfo->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//¿ÁÅ¾Ãþ
+			{
+				sTemp.Format(L"Rooftop");
+			}
+			else
+			{
+				sTemp.Format(L"%dF", pInfo->nFloor);
+			}
 		}
 		else {
 			sTemp.Format(L"B%dF", abs(pInfo->nFloor));
@@ -329,9 +343,10 @@ void CBroadcastDlg::DisplayListItem()
 	CString sTemp, sStair, sBlock;
 	int nStairCount = CCircuitBasicInfo::Instance()->m_nStair;
 	int nBasement = CCircuitBasicInfo::Instance()->m_nBasement;
+	int nRooftop = CCircuitBasicInfo::Instance()->m_nRooftop;
 	int nFloor = CCircuitBasicInfo::Instance()->m_nFloor;
 	int nBlock = CCircuitBasicInfo::Instance()->m_nBlock;
-	int nAllCount = (nBasement + nFloor) * nStairCount * ((nBlock <= 0) ? 1 : nBlock);
+	int nAllCount = (nBasement + nFloor + nRooftop) * nStairCount * ((nBlock <= 0) ? 1 : nBlock);
 	m_pListCtrl->AddItem(nAllCount);
 
 	int nListItem = 0;
@@ -366,6 +381,14 @@ void CBroadcastDlg::DisplayListItem()
 			}
 			for (int i = 0; i < nFloor; i++) {
 				sTemp.Format(L"%dF", i + 1);
+				m_pListCtrl->SetItemText(nListItem, 1, CCircuitBasicInfo::Instance()->m_sBuildingName);
+				m_pListCtrl->SetItemText(nListItem, 2, sBlock);
+				m_pListCtrl->SetItemText(nListItem, 3, sStair);
+				m_pListCtrl->SetItemText(nListItem, 4, sTemp);
+				++nListItem;
+			}
+			for (int i = 0; i < nRooftop; i++) {
+				sTemp.Format(L"Rooftop");
 				m_pListCtrl->SetItemText(nListItem, 1, CCircuitBasicInfo::Instance()->m_sBuildingName);
 				m_pListCtrl->SetItemText(nListItem, 2, sBlock);
 				m_pListCtrl->SetItemText(nListItem, 3, sStair);
@@ -419,6 +442,14 @@ int CBroadcastDlg::GetStairValue(CString sStair)
 int CBroadcastDlg::GetFloorValue(CString sFloor)
 {
 	int nValue = 0;
+
+	if (sFloor.Compare(L"Rooftop") == 0)	//¿ÁÅ¾
+	{
+		nValue = CCircuitBasicInfo::Instance()->m_nFloor + 1;	// ÀÏ¹ÝÃþ + 1 == ¿ÁÅ¾Ãþ
+		sFloor.ReleaseBuffer();
+		return nValue;
+	}
+
 	if (sFloor.Find(L"B") >= 0) {
 		sFloor.Replace(L"B", L"");
 		sFloor.Replace(L"F", L"");
@@ -429,6 +460,7 @@ int CBroadcastDlg::GetFloorValue(CString sFloor)
 		sFloor.ReleaseBuffer();
 		return -nValue;
 	}
+
 	sFloor.Replace(L"F", L"");
 	nValue = _wtoi(sFloor.GetBuffer(0));
 	if (nValue == 0) {

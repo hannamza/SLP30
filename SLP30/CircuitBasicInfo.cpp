@@ -8,6 +8,7 @@ CCircuitBasicInfo::CCircuitBasicInfo()
 	m_nStair = 1;
 	m_nFloor = 2;
 	m_nBasement = 0;
+	m_nRooftop = 0;
 	m_nBlock = 1;
 
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {

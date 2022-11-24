@@ -64,7 +64,7 @@ BOOL CCircuitSetupDlg::OnInitDialog()
 			m_pTabButton[nIndex]->ShowWindow(SW_SHOW);
 		}
 		else {
-			m_pTabButton[nIndex]->ShowWindow(SW_HIDE);
+			m_pTabButton[nIndex]->ShowWindow(SW_HIDE);	
 		}
 		m_pTabButton[nIndex]->MoveWindow(nX, 3, 100, 37);
 
@@ -167,6 +167,7 @@ CCustomListCtrl* CCircuitSetupDlg::NewCircuitListCtrl(CCustomListCtrl* pListCtrl
 
 	int nFloor = CCircuitBasicInfo::Instance()->m_nBasement;
 	nFloor += CCircuitBasicInfo::Instance()->m_nFloor;
+	nFloor += CCircuitBasicInfo::Instance()->m_nRooftop;
 	pListCtrl->AddItem(nFloor);
 	int nItemIndex = 0;
 	CString sText;
@@ -182,6 +183,15 @@ CCustomListCtrl* CCircuitSetupDlg::NewCircuitListCtrl(CCustomListCtrl* pListCtrl
 	for (int nIndex = 1; nIndex <= CCircuitBasicInfo::Instance()->m_nFloor; nIndex++)
 	{
 		sText.Format(L"%dF", nIndex);
+		pListCtrl->SetItemText(nItemIndex, 0, sText);
+		for (int i = 1; i < m_arrayHeaderName.GetCount(); i++) {
+			pListCtrl->SetItemText(nItemIndex, i, L"0");
+		}
+		++nItemIndex;
+	}
+	for (int nIndex = 1; nIndex <= CCircuitBasicInfo::Instance()->m_nRooftop; nIndex++)
+	{
+		sText.Format(L"Rooftop");
 		pListCtrl->SetItemText(nItemIndex, 0, sText);
 		for (int i = 1; i < m_arrayHeaderName.GetCount(); i++) {
 			pListCtrl->SetItemText(nItemIndex, i, L"0");
@@ -418,6 +428,7 @@ bool CCircuitSetupDlg::LoadInfo(int nSystem)
 
 	int nFloor = CCircuitBasicInfo::Instance()->m_nBasement;
 	nFloor += CCircuitBasicInfo::Instance()->m_nFloor;
+	nFloor += CCircuitBasicInfo::Instance()->m_nRooftop;	//옥탑층 추가
 
 	int nListIndex = 0;
 	int nFloorIndex = 0;
@@ -446,7 +457,7 @@ bool CCircuitSetupDlg::LoadInfo(int nSystem)
 void CCircuitSetupDlg::MakeHeader(CStringArray & arrayList)
 {
 	arrayList.RemoveAll();
-	arrayList.Add(L"구분");
+	arrayList.Add(L"   구분   ");
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
 		if (!CCircuitBasicInfo::Instance()->m_bCheck[nIndex]) {
 			continue;
@@ -665,11 +676,130 @@ bool CCircuitSetupDlg::CompareNewCircuitInfo(int nSystem)
 	return true;
 }
 
+bool CCircuitSetupDlg::CompareNewCircuitInfoNeo(int nSystem)
+{
+	//처음이면 무조건 false
+	if (nSystem == 0) {
+		if (CCommonState::ie()->m_CompSelectCircuit_0.GetCount() == 0) {
+			return false;
+		}
+	}
+	else if (nSystem == 1) {
+		if (CCommonState::ie()->m_CompSelectCircuit_1.GetCount() == 0) {
+			return false;
+		}
+	}
+
+	CString sSystem = L"0 계통";
+	if (nSystem == 1) {
+		sSystem = L"1 계통";
+	}
+	CString sBlock, sStair, sTemp, sFloor;
+	CCustomListCtrl* pList = NULL;
+	CStringArray header;
+	int nCount = 0;
+	int nCheckIndex = 0;
+	MakeHeader(header);
+	selectCircuit temp;
+
+	int nBlockIndex = 0, nStairIndex = 0;
+	bool bExit = false;
+	while (true)
+	{
+		if (bExit) {
+			break;
+		}
+		if (CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount() > 0
+			&& CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount() < nBlockIndex + 1) {
+			break;
+		}
+		if (CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount() == 0) {
+			bExit = true;
+		}
+		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
+			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+			sBlock += L"동";
+		}
+		++nBlockIndex;
+
+		for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) {
+			sStair.Format(L"%d계단", nIndex + 1);
+
+			pList = m_p_List[nStairIndex];
+			++nStairIndex;
+			for (int i = 0; i < pList->GetItemCount(); i++) {
+				for (int ii = 0; ii < header.GetCount(); ii++) {
+					pList->GetItemText(i, ii, sTemp);
+					nCount = _ttoi(sTemp.GetBuffer(0));
+					if (ii == 0) {
+						pList->GetItemText(i, 0, sFloor);
+						continue;
+					}
+					//20221020 GBM start -  이어도 비교하도록 수정
+					// 					else if (nCount == 0) {
+					// 						continue;
+					// 					}
+					//20221020 GBM end
+					temp.sSystem = sSystem;
+					temp.sStair = sStair;
+					temp.sBlock = sBlock;
+					temp.sFloor = sFloor;
+					temp.sCircuitName = header.GetAt(ii);
+					temp.nCount = nCount;
+
+					if (nSystem == 0) {
+						if (CCommonState::ie()->m_CompSelectCircuit_0.GetCount() <= nCheckIndex) {
+							return false;
+						}
+						selectCircuit scOriginal = CCommonState::ie()->m_CompSelectCircuit_0.GetAt(CCommonState::ie()->m_CompSelectCircuit_0.FindIndex(nCheckIndex));
+						if (!CompareCircuit(scOriginal, temp)) {
+							return false;
+						}
+					}
+					else if (nSystem == 1) {
+						if (CCommonState::ie()->m_CompSelectCircuit_1.GetCount() <= nCheckIndex) {
+							return false;
+						}
+						selectCircuit scOriginal = CCommonState::ie()->m_CompSelectCircuit_1.GetAt(CCommonState::ie()->m_CompSelectCircuit_1.FindIndex(nCheckIndex));
+						if (!CompareCircuit(scOriginal, temp)) {
+							return false;
+						}
+					}
+					++nCheckIndex;
+				}
+			}
+		}
+	}
+
+	if (nSystem == 0) {
+		if (CCommonState::ie()->m_CompSelectCircuit_0.GetCount() != nCheckIndex) {
+			return false;
+		}
+	}
+	else if (nSystem == 1) {
+		if (CCommonState::ie()->m_CompSelectCircuit_1.GetCount() != nCheckIndex) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 bool CCircuitSetupDlg::CompareCircuit(pSelectCircuit pCircuit1, pSelectCircuit pCircuit2)
 {
 	if (pCircuit1->sCircuitName != pCircuit2->sCircuitName || pCircuit1->sBlock != pCircuit2->sBlock || 
 		pCircuit1->sFloor != pCircuit2->sFloor || pCircuit1->sStair != pCircuit2->sStair || 
 		pCircuit1->sSystem != pCircuit2->sSystem ||	pCircuit1->nCount != pCircuit2->nCount) {
+		return false;
+	}
+	return true;
+}
+
+bool CCircuitSetupDlg::CompareCircuit(selectCircuit sc1, selectCircuit sc2)
+{
+	if (sc1.sCircuitName != sc2.sCircuitName || sc1.sBlock != sc2.sBlock ||
+		sc1.sFloor != sc2.sFloor || sc1.sStair != sc2.sStair ||
+		sc1.sSystem != sc2.sSystem || sc1.nCount != sc2.nCount) {
 		return false;
 	}
 	return true;
@@ -815,7 +945,7 @@ void CCircuitSetupDlg::Redisplay()
 	}
 }
 
-void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
+void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem, bool bFileLoad)
 {
 	std::vector<selectCircuitComp*>::iterator iter;
 	POSITION pos;
@@ -858,6 +988,10 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 					)
 				{
 					(*iter)->nCurrentCount = pSC->nCount;
+
+					if(bFileLoad)
+						(*iter)->nPreviousCount = pSC->nCount;
+
 					bFind = true;
 					break;
 				}
@@ -902,6 +1036,10 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem)
 					)
 				{
 					(*iter)->nCurrentCount = pSC->nCount;
+
+					if (bFileLoad)
+						(*iter)->nPreviousCount = pSC->nCount;
+
 					bFind = true;
 					break;
 				}
@@ -1113,4 +1251,301 @@ void CCircuitSetupDlg::RollbackCircuitCount(int nSystem)
 			}
 		}
 	}
+}
+
+void CCircuitSetupDlg::BackupCircuitInfo(int nSystem)
+{
+	pSelectCircuit pSc;
+	POSITION pos;
+
+	if (nSystem == 0)
+	{
+		CCommonState::ie()->m_CompSelectCircuit_0.RemoveAll();
+
+		pos = CCommonState::ie()->m_selectCircuit_0.GetHeadPosition();
+		while (pos)
+		{
+			selectCircuit sc;
+			pSc = CCommonState::ie()->m_selectCircuit_0.GetNext(pos);
+			sc.sSystem = pSc->sSystem;
+			sc.sBlock = pSc->sBlock;
+			sc.sStair = pSc->sStair;
+			sc.sFloor = pSc->sFloor;
+			sc.sCircuitName = pSc->sCircuitName;
+			sc.nCount = pSc->nCount;
+
+			CCommonState::ie()->m_CompSelectCircuit_0.AddTail(sc);
+		}
+	}
+	else
+	{
+		CCommonState::ie()->m_CompSelectCircuit_1.RemoveAll();
+
+		pos = CCommonState::ie()->m_selectCircuit_1.GetHeadPosition();
+		while (pos)
+		{
+			selectCircuit sc;
+			pSc = CCommonState::ie()->m_selectCircuit_1.GetNext(pos);
+			sc.sSystem = pSc->sSystem;
+			sc.sBlock = pSc->sBlock;
+			sc.sStair = pSc->sStair;
+			sc.sFloor = pSc->sFloor;
+			sc.sCircuitName = pSc->sCircuitName;
+			sc.nCount = pSc->nCount;
+
+			CCommonState::ie()->m_CompSelectCircuit_1.AddTail(sc);
+		}
+	}
+}
+
+void CCircuitSetupDlg::BackupCircuitCountInfo(int nSystem)
+{
+	std::vector<selectCircuitComp*>::iterator vecSccIter;
+	std::vector<pSelectCircuit>::iterator vecPScIter;
+	CString sSystem, sBlock, sStair, sFloor, sCircuitName;
+	int nCount;
+
+	if (nSystem == 0)
+	{
+		vecSccIter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+		for (; vecSccIter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); vecSccIter++)
+		{
+			sSystem = (*vecSccIter)->sSystem;
+			sBlock = (*vecSccIter)->sBlock;
+			sStair = (*vecSccIter)->sStair;
+			sFloor = (*vecSccIter)->sFloor;
+			sCircuitName = (*vecSccIter)->sCircuitName;
+			nCount = (*vecSccIter)->nCurrentCount;
+
+			vecPScIter = CCommonState::ie()->m_vecSelectCircuitReapterList_0.begin();
+			for (; vecPScIter != CCommonState::ie()->m_vecSelectCircuitReapterList_0.end(); vecPScIter++)
+			{
+				if (
+					(sSystem.Compare((*vecPScIter)->sSystem) == 0) &&
+					(sBlock.Compare((*vecPScIter)->sBlock) == 0) &&
+					(sStair.Compare((*vecPScIter)->sStair) == 0) &&
+					(sFloor.Compare((*vecPScIter)->sFloor) == 0) &&
+					(sCircuitName.Compare((*vecPScIter)->sCircuitName) == 0)
+					)
+				{
+					(*vecPScIter)->nCount = nCount;
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		vecSccIter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+		for (; vecSccIter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); vecSccIter++)
+		{
+			sSystem = (*vecSccIter)->sSystem;
+			sBlock = (*vecSccIter)->sBlock;
+			sStair = (*vecSccIter)->sStair;
+			sFloor = (*vecSccIter)->sFloor;
+			sCircuitName = (*vecSccIter)->sCircuitName;
+			nCount = (*vecSccIter)->nCurrentCount;
+
+			vecPScIter = CCommonState::ie()->m_vecSelectCircuitReapterList_1.begin();
+			for (; vecPScIter != CCommonState::ie()->m_vecSelectCircuitReapterList_1.end(); vecPScIter++)
+			{
+				if (
+					(sSystem.Compare((*vecPScIter)->sSystem) == 0) &&
+					(sBlock.Compare((*vecPScIter)->sBlock) == 0) &&
+					(sStair.Compare((*vecPScIter)->sStair) == 0) &&
+					(sFloor.Compare((*vecPScIter)->sFloor) == 0) &&
+					(sCircuitName.Compare((*vecPScIter)->sCircuitName) == 0)
+					)
+				{
+					(*vecPScIter)->nCount = nCount;
+					break;
+				}
+			}
+		}
+	}
+}
+
+void CCircuitSetupDlg::CopyPreviousCircuitInfo(int nSystem)
+{
+	POSITION pos;
+	selectCircuit sc;
+	if (nSystem == 0)
+	{
+		CCommonState::ie()->m_selectCircuit_0.RemoveAll();
+
+		pos = CCommonState::ie()->m_CompSelectCircuit_0.GetHeadPosition();
+		while (pos)
+		{
+			sc = CCommonState::ie()->m_CompSelectCircuit_0.GetNext(pos);
+			pSelectCircuit pSC = new selectCircuit;
+			pSC->sSystem = sc.sSystem;
+			pSC->sBlock = sc.sBlock;
+			pSC->sStair = sc.sStair;
+			pSC->sFloor = sc.sFloor;
+			pSC->sCircuitName = sc.sCircuitName;
+			pSC->nCount = sc.nCount;
+
+			CCommonState::ie()->m_selectCircuit_0.AddTail(pSC);
+		}
+	}
+	else
+	{
+		CCommonState::ie()->m_selectCircuit_1.RemoveAll();
+
+		pos = CCommonState::ie()->m_CompSelectCircuit_1.GetHeadPosition();
+		while (pos)
+		{
+			sc = CCommonState::ie()->m_CompSelectCircuit_1.GetNext(pos);
+			pSelectCircuit pSC = new selectCircuit;
+			pSC->sSystem = sc.sSystem;
+			pSC->sBlock = sc.sBlock;
+			pSC->sStair = sc.sStair;
+			pSC->sFloor = sc.sFloor;
+			pSC->sCircuitName = sc.sCircuitName;
+			pSC->nCount = sc.nCount;
+
+			CCommonState::ie()->m_selectCircuit_1.AddTail(pSC);
+		}
+	}
+}
+
+void CCircuitSetupDlg::CopyPreviousCircuitCompInfo(int nSystem)
+{
+#if 1
+	std::vector<selectCircuitComp*>::iterator vecSCCIter;
+	std::vector<pSelectCircuit>::iterator vecPSCIter;
+	POSITION pos;
+	selectCircuit sc;
+	CString sSystem, sBlock, sStair, sFloor, sCircuitName;
+	int nCount;
+	if (nSystem == 0)
+	{
+		vecSCCIter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+		for (; vecSCCIter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); vecSCCIter++)
+		{
+			vecPSCIter = CCommonState::ie()->m_vecSelectCircuitReapterList_0.begin();
+			for (; vecPSCIter != CCommonState::ie()->m_vecSelectCircuitReapterList_0.end(); vecPSCIter++)
+			{
+				sSystem = (*vecPSCIter)->sSystem;
+				sBlock = (*vecPSCIter)->sBlock;
+				sStair = (*vecPSCIter)->sStair;
+				sFloor = (*vecPSCIter)->sFloor;
+				sCircuitName = (*vecPSCIter)->sCircuitName;
+				nCount = (*vecPSCIter)->nCount;
+
+				if ((sSystem.Compare((*vecSCCIter)->sSystem) == 0) &&
+					(sBlock.Compare((*vecSCCIter)->sBlock) == 0) &&
+					(sStair.Compare((*vecSCCIter)->sStair) == 0) &&
+					(sFloor.Compare((*vecSCCIter)->sFloor) == 0) &&
+					(sCircuitName.Compare((*vecSCCIter)->sCircuitName) == 0))
+				{
+					(*vecSCCIter)->nPreviousCount = nCount;
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		vecSCCIter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+		for (; vecSCCIter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); vecSCCIter++)
+		{
+			vecPSCIter = CCommonState::ie()->m_vecSelectCircuitReapterList_1.begin();
+			for (; vecPSCIter != CCommonState::ie()->m_vecSelectCircuitReapterList_1.end(); vecPSCIter++)
+			{
+				sSystem = (*vecPSCIter)->sSystem;
+				sBlock = (*vecPSCIter)->sBlock;
+				sStair = (*vecPSCIter)->sStair;
+				sFloor = (*vecPSCIter)->sFloor;
+				sCircuitName = (*vecPSCIter)->sCircuitName;
+				nCount = (*vecPSCIter)->nCount;
+
+				if ((sSystem.Compare((*vecSCCIter)->sSystem) == 0) &&
+					(sBlock.Compare((*vecSCCIter)->sBlock) == 0) &&
+					(sStair.Compare((*vecSCCIter)->sStair) == 0) &&
+					(sFloor.Compare((*vecSCCIter)->sFloor) == 0) &&
+					(sCircuitName.Compare((*vecSCCIter)->sCircuitName) == 0))
+				{
+					(*vecSCCIter)->nPreviousCount = nCount;
+					break;
+				}
+			}
+		}
+	}
+
+#else
+	std::vector<selectCircuitComp*>::iterator vecSCCIter;
+	POSITION pos;
+	selectCircuit sc;
+	CString sSystem, sBlock, sStair, sFloor, sCircuitName;
+	int nCount;
+	if (nSystem == 0)
+	{
+		vecSCCIter = CCommonState::ie()->m_vecCalSelectCircuit_0.begin();
+		for (; vecSCCIter != CCommonState::ie()->m_vecCalSelectCircuit_0.end(); vecSCCIter++)
+		{
+			sSystem = (*vecSCCIter)->sSystem;
+			sBlock = (*vecSCCIter)->sBlock;
+			sStair = (*vecSCCIter)->sStair;
+			sFloor = (*vecSCCIter)->sFloor;
+			sCircuitName = (*vecSCCIter)->sCircuitName;
+
+			bool bFind = false;
+			pos = CCommonState::ie()->m_CompSelectCircuit_0.GetHeadPosition();
+			while (pos)
+			{
+				sc = CCommonState::ie()->m_CompSelectCircuit_0.GetNext(pos);
+				if ((sSystem.Compare(sc.sSystem) == 0) &&
+					(sBlock.Compare(sc.sBlock) == 0) &&
+					(sStair.Compare(sc.sStair) == 0) &&
+					(sFloor.Compare(sc.sFloor) == 0) &&
+					(sCircuitName.Compare(sc.sCircuitName) == 0))
+				{
+					(*vecSCCIter)->nPreviousCount = sc.nCount;
+					bFind = true;
+					break;
+				}
+			}
+
+			if (!bFind)
+			{
+				(*vecSCCIter)->nPreviousCount = 0;
+			}
+		}
+	}
+	else
+	{
+		vecSCCIter = CCommonState::ie()->m_vecCalSelectCircuit_1.begin();
+		for (; vecSCCIter != CCommonState::ie()->m_vecCalSelectCircuit_1.end(); vecSCCIter++)
+		{
+			sSystem = (*vecSCCIter)->sSystem;
+			sBlock = (*vecSCCIter)->sBlock;
+			sStair = (*vecSCCIter)->sStair;
+			sFloor = (*vecSCCIter)->sFloor;
+			sCircuitName = (*vecSCCIter)->sCircuitName;
+
+			bool bFind = false;
+			pos = CCommonState::ie()->m_CompSelectCircuit_1.GetHeadPosition();
+			while (pos)
+			{
+				sc = CCommonState::ie()->m_CompSelectCircuit_1.GetNext(pos);
+				if ((sSystem.Compare(sc.sSystem) == 0) &&
+					(sBlock.Compare(sc.sBlock) == 0) &&
+					(sStair.Compare(sc.sStair) == 0) &&
+					(sFloor.Compare(sc.sFloor) == 0) &&
+					(sCircuitName.Compare(sc.sCircuitName) == 0))
+				{
+					(*vecSCCIter)->nPreviousCount = sc.nCount;
+					bFind = true;
+					break;
+				}
+			}
+
+			if (!bFind)
+			{
+				(*vecSCCIter)->nPreviousCount = 0;
+			}
+		}
+	}
+#endif
 }
