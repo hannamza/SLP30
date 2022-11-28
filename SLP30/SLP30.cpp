@@ -49,6 +49,24 @@ BOOL CSLP30App::InitInstance()
 
 	CWinApp::InitInstance();
 
+	//프로그램 중복 실행 방지 코드
+	TCHAR szFilename[MAX_PATH + 1] = { 0 };
+	GetModuleFileName(NULL, szFilename, MAX_PATH);
+	CString strModulePath = szFilename;
+	CString strProgramName = PathFindFileName(szFilename);
+	strProgramName = strProgramName.Left(strProgramName.GetLength() - 4);	//.exe 부분 제거
+
+	HANDLE hMutex = NULL;
+	hMutex = CreateMutex(NULL, TRUE, strProgramName);
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	{
+		CString strMsg;
+		strMsg.Format(L"%s이 이미 실행 중입니다.", strProgramName);
+		AfxMessageBox(strMsg);
+		return FALSE;
+	}
+	//
+
 	if (!AfxSocketInit())
 	{
 		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);

@@ -96,6 +96,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\RLP1_Manager$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)\RLP1_Manager.pdb</ProgramDatabaseFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -144,6 +146,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)\RLP1_Manager$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)\RLP1_Manager.pdb</ProgramDatabaseFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
