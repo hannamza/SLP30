@@ -26,6 +26,7 @@
 #define		CHECK_COUNT		20
 #define		CIRCUIT_CNT		55
 #define		MAX_CIRCUIT_ADDRESS		MAX_CIRCUIT + 6		//계통 당 최대 회로 주소 크기, 실제 할당 최대 크기는 MAX_CIRCUIT (250)
+#define		ROOFTOP_NAME	"RF"
 
 #include <gdiPlus.h> //header 포함
 using namespace Gdiplus; //네임스페이스 설정

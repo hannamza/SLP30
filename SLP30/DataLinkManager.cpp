@@ -148,7 +148,7 @@ bool CDataLinkManager::LcdContentsWrite(SYSTEM_INFO_* pInfo, FILE* f, long & lSi
 	else {
 		if (pInfo->bRooftop)		//¿ÁÅ¾Ãþ
 		{
-			sFloor.Format(L"Rooftop");
+			sFloor = ROOFTOP_NAME;
 		}
 		else
 		{
@@ -951,6 +951,9 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	int nCircuitIndex = 0;
 	CStringArray system, pattern;
 
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
+
 	CXLEzAutomation XL(FALSE);
 	XL.OpenExcelFile(sPath + L".tmp2");
 
@@ -1000,7 +1003,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		}
 		if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
 		{
-			sTemp.Format(L"Rooftop");
+			sTemp= strRooftop;
 		}
 		else
 		{
@@ -1014,7 +1017,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		if (bBlock) {
 			if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
 			{
-				sTemp.Format(L"%sµ¿ %d°è´Ü Rooftop%s%s", pInfo->szBlock, pInfo->nStair, sInput, pInfo->szCircuitName);
+				sTemp.Format(L"%sµ¿ %d°è´Ü %s%s%s", pInfo->szBlock, pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
 			}
 			else
 			{
@@ -1024,7 +1027,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		else if (CCircuitBasicInfo::Instance()->m_nStair <= 1) {
 			if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
 			{
-				sTemp.Format(L"Rooftop%s%s", sInput, pInfo->szCircuitName);
+				sTemp.Format(L"%s%s%s", strRooftop, sInput, pInfo->szCircuitName);
 			}
 			else
 			{
@@ -1034,7 +1037,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		else {
 			if (pInfo->bRooftop)	//¿ÁÅ¾Ãþ
 			{
-				sTemp.Format(L"%d°è´Ü Rooftop%s%s", pInfo->nStair, sInput, pInfo->szCircuitName);
+				sTemp.Format(L"%d°è´Ü %s%s%s", pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
 			}
 			else
 			{
@@ -1095,7 +1098,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 
 		if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//¿ÁÅ¾Ãþ
 		{
-			sTemp.Format(L"%sµ¿ Rooftop", pBc->szBlock);
+			sTemp.Format(L"%sµ¿ %s", pBc->szBlock, strRooftop);
 		}
 		else
 		{

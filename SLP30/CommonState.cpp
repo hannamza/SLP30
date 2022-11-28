@@ -184,7 +184,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 				// 옥탑층
 				for (int nIndexRooftop = 1; nIndexRooftop <= CCircuitBasicInfo::Instance()->m_nRooftop; nIndexRooftop++)
 				{
-					sFloor.Format(L"Rooftop");
+					sFloor = ROOFTOP_NAME;
 
 					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
 					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++)
@@ -366,7 +366,7 @@ void CCommonState::InitSelectCircuitRepeaterList(int nSystem)
 				// 옥탑층
 				for (int nIndexRooftop = 1; nIndexRooftop <= CCircuitBasicInfo::Instance()->m_nRooftop; nIndexRooftop++)
 				{
-					sFloor.Format(L"Rooftop");
+					sFloor = ROOFTOP_NAME;
 
 					//감지기류를 제외한 설비는 설비명으로 감지기류는 회로명으로 넣는다.
 					for (int nIndexCircuitParent = 0; nIndexCircuitParent < CIRCUIT_PARENT; nIndexCircuitParent++)

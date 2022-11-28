@@ -298,6 +298,9 @@ void CPatternManager::AddDamperPatternStair(SYSTEM_INFO_* pInfo)
 
 CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString sName)
 {
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
+
 	CString sPatternName = sName;
 	int nStair = 0;
 	if (pInfo->nStair == 0) {
@@ -319,7 +322,7 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 		if (wcslen(pInfo->szBlock) > 0) {
 			if (pInfo->bRooftop)		// ¿ÁÅ¾Ãþ
 			{	
-				sPatternName.Format(L"%s %sµ¿ Rooftop", sName, pInfo->szBlock);
+				sPatternName.Format(L"%s %sµ¿ %s", sName, pInfo->szBlock, strRooftop);
 			}
 			else
 			{
@@ -329,7 +332,7 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 		else {
 			if (pInfo->bRooftop)		// ¿ÁÅ¾Ãþ
 			{
-				sPatternName.Format(L"%s Rooftop", sName);
+				sPatternName.Format(L"%s %s", sName, strRooftop);
 			}
 			else
 			{
@@ -342,7 +345,7 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
 				if (pInfo->bRooftop)	// ¿ÁÅ¾Ãþ
 				{
-					sPatternName.Format(L"%s %d°è´Ü Rooftop", sName, pInfo->nStair);
+					sPatternName.Format(L"%s %d°è´Ü %s", sName, pInfo->nStair, strRooftop);
 				}
 				else
 				{
@@ -357,7 +360,7 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
 				if (pInfo->bRooftop)	// ¿ÁÅ¾Ãþ
 				{
-					sPatternName.Format(L"%s %sµ¿ %d°è´Ü Rooftop", sName, pInfo->szBlock, pInfo->nStair);
+					sPatternName.Format(L"%s %sµ¿ %d°è´Ü %s", sName, pInfo->szBlock, pInfo->nStair, strRooftop);
 				}
 				else
 				{
@@ -367,7 +370,7 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 			else {
 				if (pInfo->bRooftop)	// ¿ÁÅ¾Ãþ
 				{
-					sPatternName.Format(L"%s %sµ¿ Rooftop", sName, pInfo->szBlock);
+					sPatternName.Format(L"%s %sµ¿ %s", sName, pInfo->szBlock, strRooftop);
 				}
 				else
 				{

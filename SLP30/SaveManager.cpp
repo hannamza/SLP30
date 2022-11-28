@@ -418,6 +418,9 @@ void CSaveManager::ReleaseExcelWaitPopup()
 
 int CSaveManager::ExcelFileSave(CString sPath)
 {
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
+
 	WCHAR wszPath[2048];
 	GetModuleFileName(NULL, wszPath, 2048);
 	PathRemoveFileSpec(wszPath);
@@ -547,7 +550,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		else if (pInfo->nFloor > 0) {
 			if (pInfo->bRooftop)		//¿ÁÅ¾Ãþ
 			{
-				sTemp.Format(L"Rooftop");
+				sTemp = strRooftop;
 			}	
 			else
 			{
@@ -570,7 +573,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		if (wcslen(pInfo->szBlock) > 0) {
 			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//¿ÁÅ¾
 			{
-				sTemp.Format(L"%sµ¿ %d°è´Ü %s", pBc->szBlock, pBc->nStair, L"Rooftop");
+				sTemp.Format(L"%sµ¿ %d°è´Ü %s", pBc->szBlock, pBc->nStair, strRooftop);
 			}
 			else
 			{
@@ -580,7 +583,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		else {
 			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//¿ÁÅ¾
 			{
-				sTemp.Format(L"%d°è´Ü %s", pBc->nStair, L"Rooftop");
+				sTemp.Format(L"%d°è´Ü %s", pBc->nStair, strRooftop);
 			}
 			else
 			{
@@ -645,6 +648,8 @@ void CSaveManager::DeleteSystemInfo()
 	SYSTEM_INFO_* pSI;
 
 	CString sSystem, sBDName, sBlock, sStair, sFloor, sCircuitName, sRoomName;
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
 	int nNo, nSystemNo, nSystem, nStair, nFloor, nCircuitNo, nFindIndex;
 	bool bDetector;
 
@@ -695,7 +700,7 @@ void CSaveManager::DeleteSystemInfo()
 							{
 								if (pSI->bRooftop)	//¿ÁÅ¾Ãþ
 								{
-									sFloor.Format(L"Rooftop");
+									sFloor = strRooftop;
 								}
 								else
 								{
@@ -761,7 +766,7 @@ void CSaveManager::DeleteSystemInfo()
 						{
 							if (pSI->bRooftop)	//¿ÁÅ¾Ãþ
 							{
-								sFloor.Format(L"Rooftop");
+								sFloor = strRooftop;
 							}
 							else
 							{
@@ -807,6 +812,8 @@ void CSaveManager::AddSystemInfo()
 
 	POSITION pos;
 	SYSTEM_INFO_* pSI;
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
 
 	CString sSystem, sBDName, sBlock, sStair, sFloor, sCircuitName, sRoomName;
 	int nNo, nSystemNo, nSystem, nStair, nFloor, nCircuitNo, nFindIndex, nCircuitNoAcc;
@@ -877,7 +884,7 @@ void CSaveManager::AddSystemInfo()
 							nFloor = -_wtoi(sFloor.GetBuffer(0));
 						}
 						else {
-							if (iterSCCR->sFloor.Compare(L"Rooftop") == 0)	//¿ÁÅ¾Ãþ
+							if (iterSCCR->sFloor.Compare(strRooftop) == 0)	//¿ÁÅ¾Ãþ
 							{
 								nFloor = CCircuitBasicInfo::Instance()->m_nFloor + 1;
 							}
@@ -961,7 +968,7 @@ void CSaveManager::AddSystemInfo()
 						nFloor = -_wtoi(sFloor.GetBuffer(0));
 					}
 					else {
-						if (iterSCCR->sFloor.Compare(L"Rooftop") == 0)	//¿ÁÅ¾Ãþ
+						if (iterSCCR->sFloor.Compare(strRooftop) == 0)	//¿ÁÅ¾Ãþ
 						{
 							nFloor = CCircuitBasicInfo::Instance()->m_nFloor + 1;
 						}

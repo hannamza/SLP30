@@ -47,7 +47,7 @@ const int g_editSize[] = { 80, 70, 200, 80, 120, 90, 90, 100, 75, 0 }; // pixel
 
 //20221026 GBM start - 중계기No, 실명, 설비번호만 수정가능하도록 함
 #if 1
-	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
+	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_EDIT, POPUP_TYPE_EDIT, 0 };
 #else
 	const int g_editType[] = { POPUP_TYPE_EDIT, POPUP_TYPE_SEQ , POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_EDIT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_NOINPUT, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
 #endif
@@ -348,6 +348,9 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 		return false;
 	}
 
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
+
 	int nCount = m_pListCtrl->GetItemCount();
 	CString sBlock, sStair, sFloor, sSystemNo, sCircuitNo, sCircuitName, sBDName, sRoomName;
 	int nStair, nFloor, nSystemNo, nCircuitNo;
@@ -372,7 +375,7 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 		}
 		else {
 			//옥탑 
-			if (sFloor.Compare(L"Rooftop") == 0)
+			if (sFloor.Compare(strRooftop) == 0)
 			{
 				nFloor = CCircuitBasicInfo::Instance()->m_nFloor + 1;	//일반층 + 1 == 옥탑층
 				bRooftop = true;
@@ -436,6 +439,8 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 
 	SetupPopupList();
 
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
 	CString sTemp;
 	int nCount = CSaveManager::ie()->m_listSystem.GetCount();
 	int nValue = 0;
@@ -470,7 +475,7 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 		if (pInfo->nFloor > 0) {
 			if (pInfo->bRooftop)	// 옥탑층
 			{
-				sTemp.Format(L"Rooftop");
+				sTemp = strRooftop;
 			}
 			else
 			{

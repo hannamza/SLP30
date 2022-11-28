@@ -159,6 +159,9 @@ void CCircuitSetupDlg::OnTimer(UINT_PTR nIDEvent)
 
 CCustomListCtrl* CCircuitSetupDlg::NewCircuitListCtrl(CCustomListCtrl* pListCtrl)
 {
+	CString strRooftop;
+	strRooftop = ROOFTOP_NAME;
+
 	if (pListCtrl) {
 		pListCtrl->ShowWindow(SW_HIDE);
 		pListCtrl->DestroyWindow();
@@ -191,7 +194,7 @@ CCustomListCtrl* CCircuitSetupDlg::NewCircuitListCtrl(CCustomListCtrl* pListCtrl
 	}
 	for (int nIndex = 1; nIndex <= CCircuitBasicInfo::Instance()->m_nRooftop; nIndex++)
 	{
-		sText.Format(L"Rooftop");
+		sText = strRooftop;
 		pListCtrl->SetItemText(nItemIndex, 0, sText);
 		for (int i = 1; i < m_arrayHeaderName.GetCount(); i++) {
 			pListCtrl->SetItemText(nItemIndex, i, L"0");

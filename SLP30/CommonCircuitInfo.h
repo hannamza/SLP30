@@ -124,7 +124,7 @@ static const TCHAR* g_lpszCircuitName[] = {
 	_T("옥상문"),	// 51
 	_T("시각경보"),		// 52
 	_T("TS 확인"),		// 53
-	_T("하향식_피난사다리확인"),	// 54
+	_T("하향식 피난사다리확인"),	// 54
 	NULL };
 
 static const TCHAR* g_lpszInputType[] = {
@@ -523,7 +523,7 @@ static const TCHAR* g_lpszCircuitParent[] = {
 	_T("제연배기팬"),		// 17
 	_T("감지기류"),			// 18
 	_T("TS확인"),			// 19
-	_T("하향식_피난사다리확인"),			// 20
+	_T("하향식피난사다리확인"),			// 20
 	NULL
 };
 
