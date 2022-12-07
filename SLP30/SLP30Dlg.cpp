@@ -285,9 +285,9 @@ void CSLP30Dlg::OnTimer(UINT_PTR nIDEvent)
 		CLoginDlg dlg;
 		UINT nResult = dlg.DoModal();
 		// test - 로그인 체크 안함 : 배포 시 반드시 주석처리
-		if (nResult == IDOK) {
-			return;
-		}
+// 		if (nResult == IDOK) {
+// 			return;
+// 		}
 
 		if (nResult != IDOK) {
 			OnOK();
