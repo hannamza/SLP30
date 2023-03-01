@@ -41,7 +41,12 @@ CMainFrameDlg::CMainFrameDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
+
+#ifndef ENGLISH_MODE
 		_T("맑은고딕")); // lpszFacename 
+#else
+		_T("arial")); // lpszFacename 
+#endif
 	//20221024 GBM end
 
 	m_strCurrentConfigMsg = L"";
@@ -319,7 +324,11 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 // 			}
 
 			//중계기 일람표 확정 메세지 추가
+#ifndef ENGLISH_MODE
 			m_strCurrentConfigMsg += L"▶ 중계기 일람표 확정  ";
+#else
+			m_strCurrentConfigMsg += L"▶ Repeater list is fixed  ";
+#endif
 
 			CCommonState::ie()->m_bInitCircuit = false;
 		}
@@ -410,7 +419,11 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		m_btnData.EnableWindow(false);
 		break;
 	case 10: // load
+#ifndef ENGLISH_MODE
 		m_strCurrentConfigMsg = L"▶ 건물 정보 확정 ▶ 중계기 일람표 확정 ";
+#else
+		m_strCurrentConfigMsg = L"▶ 건물 정보 확정 ▶ 중계기 일람표 확정 ";
+#endif
 		m_pCircuitBasicDlg->LoadInfo();
 		m_pCircuitDlg->LoadInfo();
 		m_pCircuitEditDlg->LoadInfo();

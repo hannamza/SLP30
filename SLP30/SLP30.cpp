@@ -61,7 +61,11 @@ BOOL CSLP30App::InitInstance()
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
 		CString strMsg;
+#ifndef ENGLISH_MODE
 		strMsg.Format(L"%s이 이미 실행 중입니다.", strProgramName);
+#else
+		strMsg.Format(L"%s is already running.", strProgramName);
+#endif
 		AfxMessageBox(strMsg);
 		return FALSE;
 	}

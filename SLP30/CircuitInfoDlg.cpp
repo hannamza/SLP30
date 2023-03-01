@@ -399,7 +399,7 @@ void CCircuitInfoDlg::OnNextClick()
 
 					if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 					{
-						strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
 					}
 					else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 					{
@@ -454,10 +454,7 @@ void CCircuitInfoDlg::OnNextClick()
 				//중계기 일람표 확정 전에 앞서 설비정보만 수정한 상태로 설비/회로 화면만 왔다갔다하다가 
 				//다시 중계기 일람표 확정 시 기존 회로 개수를 오버라이트한 상황이라서 
 				//중계기 일람표에 수정된 내용이 적용되지 않는 오류 수정을 위해 
-				//중계기 일람표 확정 시와 비교해서 설비 설정이 다르면 
-				//이전 회로 개수를 현재 회로 개수로 대입하지 않도록 해서 
-				//회로 개수 차이만큼 중계기 일람표에 적용하도록 함
-				//위에 if (!bResult3)는 이렇게 하면 타지 않아도 됨
+				//중계기 일람표가 확정되는 시점에 별도의 메모리에 백업해 둠
 
 				m_pSetupDlg[0]->CopyNewCircuitInfoToOldCircuitInfo(0);
 				m_pSetupDlg[1]->CopyNewCircuitInfoToOldCircuitInfo(1);
@@ -546,7 +543,7 @@ void CCircuitInfoDlg::OnNextClick()
 
 				if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 				{
-					strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
+					strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
 				}
 				else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 				{
