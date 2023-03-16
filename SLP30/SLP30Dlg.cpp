@@ -59,6 +59,10 @@ BOOL CSLP30Dlg::OnInitDialog()
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
 
+	//20230316 GBM start - github test
+	int a = 0;
+	//20230316 GBM end
+
 	//CBaseInfoManager::New();
 	CCommonState::New();
 	//CUSBDriveManger::New();
