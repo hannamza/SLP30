@@ -77,7 +77,7 @@ bool CPatternManager::CheckCompareName(CStringArray & listName, CString sName)
 // 6~ m_doorPatternStair
 // 7~ m_damperPatternAll
 // 8~ m_damperPatternStair
-int CPatternManager::GetFixedPatternCount()
+int CPatternManager::GetFixedPatternCount()		// 패턴 번호를 매길 때 지하 패턴이 있으면 지상층 경종 패턴 번호가 2부터 시작이고 그렇지 않으면 1부터 시작
 {
 	int nCount = 0;
 	// 1: m_alarmPattern
@@ -962,7 +962,7 @@ void CPatternManager::GetPatternList(CString sPattern, CStringArray & system, CS
 // 7~ m_damperPatternAll
 // 8~ m_damperPatternStair
 
-int CPatternManager::GetPatternIndex(int nIndex)
+int CPatternManager::GetPatternIndex(int nIndex)	// 모든 패턴의 순번이 정해져 있고 건물 구성에 따라 인덱스가 변동할 수 있는데 이를 계산
 {
 	if (nIndex <= FIXED_PATTERN) {
 		return GetVeriatyIndex(nIndex);
