@@ -608,5 +608,128 @@
     <Image Include="res\circuitListCancelbtnEdit.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="..\res\RLP_images_EN\CircuitNoChange.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\login.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\autocreatesetup.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\bitmap4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\cancel.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\circuitListCancelbtnEdit.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\circuitsetup.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\confirm.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\createdata.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\dataexcelbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\find.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\load_title.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\loadexplain.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\makebtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\new_title.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\newexplain.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\nextbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\prev.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\savebtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\selectproject.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\res\RLP_images_EN\selectprojectbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\autocreatesetup.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\cancel.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\circuitsetup.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\circuitListCancelbtnEdit.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\confirm.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\createdata.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\dataexcelbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\find.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\loadexplain.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\load_title.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\makebtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\newexplain.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\new_title.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\nextbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\prev.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\savebtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\selectproject.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\selectprojectbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\CircuitNoChange.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\login.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>
