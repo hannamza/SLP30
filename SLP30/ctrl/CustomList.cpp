@@ -1514,7 +1514,7 @@ void CCustomList::OnListCircuitNoChange()
 
 		if (nNewCircuitNum <= 0 || nNewCircuitNum > MAX_CIRCUIT)
 		{
-			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호는 1 ~ 250번까지\n입력 가능함", MB_OK, this);
+			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호는 1 ~ 250번까지 입력 가능함", MB_OK, this);
 			popup.DoModal();
 			return;
 		}

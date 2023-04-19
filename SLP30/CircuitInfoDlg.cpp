@@ -314,7 +314,7 @@ void CCircuitInfoDlg::OnNextClick()
 	//20221018 GBM start - 중계기 일람표가 회로정보가 확정되어 처음 작성될 때 사용자에게 이후의 설비 변경 사항은 추가일 경우 현재 중계기 일람표 아래에 추가되고 삭제일 경우 기존 요소가 공란으로 대체됨을 알려야 함
 	if (CCommonState::ie()->m_bInitCircuit)
 	{
-		CMessagePopup popup(L"중계기 일람표 확정", L"\n회로 설정을 적용하여 중계기 일람표 확정됨\n확정이후\n회로 추가인 경우 기존 중계기 일람표 하단에 추가,\n회로 삭제인 경우 중계기 일람표에서\n설비가 제거됨\n\n계속하시겠습니까?", MB_YESNO, this);
+		CMessagePopup popup(L"중계기 일람표 확정", L"\n설비 설정을 적용하여 중계기 일람표 확정됨\n\n중계기 일람표 확정 이후\n설비 추가인 경우 기존 중계기 일람표 하단에 추가,\n설비 삭제인 경우 중계기 일람표에서 설비가 제거됨\n\n계속하시겠습니까?", MB_YESNO, this);
 		
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
@@ -369,7 +369,7 @@ void CCircuitInfoDlg::OnNextClick()
 #if 1
 		if (!CCommonState::ie()->m_bInitCircuit) 
 		{
-			CMessagePopup popup(L"중계기 일람표 변경", L"\n회로 설정 변경이 중계기 일람표에 적용됨\n(회로 추가 시: 중계기 일람표 하단 추가,\n회로 삭제 시: 회로 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 회로 삭제)", MB_YESNO, this);
+			CMessagePopup popup(L"중계기 일람표 변경", L"\n설비 설정 변경이 중계기 일람표에 적용됨\n\n설비 추가 시: 중계기 일람표 하단 추가,\n설비 삭제 시: 설비 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 설비 삭제", MB_YESNO, this);
 
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK)
@@ -399,15 +399,15 @@ void CCircuitInfoDlg::OnNextClick()
 
 					if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 					{
-						strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
 					}
 					else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 					{
-						strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit1, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit1, MAX_CIRCUIT);
 					}
 					else
 					{
-						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
 					}
 
 					CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
@@ -543,15 +543,15 @@ void CCircuitInfoDlg::OnNextClick()
 
 				if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 				{
-					strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
+					strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
 				}
 				else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 				{
-					strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
+					strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
 				}
 				else
 				{
-					strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+					strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
 				}
 
 				CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
@@ -700,15 +700,15 @@ void CCircuitInfoDlg::OnPrevClick()
 
 		if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 		{
-			strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
+			strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
 		}
 		else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 		{
-			strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
+			strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
 		}
 		else
 		{
-			strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+			strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
 		}
 
 		CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);

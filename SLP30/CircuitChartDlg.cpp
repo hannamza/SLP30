@@ -239,7 +239,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
 			{
-				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n총 회로번호 개수(%d) 이상의 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
+				strMsg.Format(L"\n\n새로운 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n\n총 회로번호 개수(%d) 이상의 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -259,7 +259,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
-				strMsg.Format(L"\n\n새로운 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n총 회로번호 개수(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
+				strMsg.Format(L"\n\n새로운 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n\n총 회로번호 개수(%d) 이상의 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -268,7 +268,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 
 			if (nCurrentIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
-				strMsg.Format(L"\n\n이동할 회로번호(%d)는\n구성된 총 회로번호 개수(%d)보다 큰 수이므로\n옮길 수 없음",
+				strMsg.Format(L"\n\n이동할 회로번호(%d)는\n구성된 총 회로번호 개수(%d)보다 큰 수이므로\n이동할 수 없음",
 					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -303,7 +303,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 			else
 				nNewCircuitNum = nNewIndex + 1 - nMaxCircuitAddress;
 
-			strMsg.Format(L"\n\n새 회로번호(%d)에는 회로가 이미 존재함", nNewCircuitNum);
+			strMsg.Format(L"\n\n새로운 회로번호(%d)에는 회로가 이미 존재함", nNewCircuitNum);
 
 			CMessagePopup popup(L"이미 회로 있음", strMsg, MB_OK, this);
 			popup.DoModal();

@@ -303,7 +303,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	int nBlock = _ttoi(sBlock.GetBuffer());
 	//int nBlockName = _ttoi(sBlockName.GetBuffer());
 	if (nBlock < 0 || nBlock > 3) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 정보를 다시 입력하세요.\n\n(입력범위: 0 ~ 3동, 0: 사용안함)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 정보를 다시 입력하세요.\n\n(입력범위: 0 ~ 3, 0: 사용안함)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
@@ -313,22 +313,22 @@ void CCircuitBasicInfoDlg::OnNextClick()
 		return;
 	}*/
 	if (nStair < 1 || nStair > 3) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n계단수를 다시 입력하세요.\n\n(입력범위: 1 ~ 3계단)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n계단수를 다시 입력하세요.\n\n(입력범위: 1 ~ 3)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (nFloor < 1 || nFloor > 25) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지상층수를 다시 입력하세요.\n\n(입력범위: 1 ~ 25F)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지상층수를 다시 입력하세요.\n\n(입력범위: 1 ~ 25)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (nBase < 0 || nBase > 5) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지하층수를 다시 입력하세요.\n\n(입력범위: 0 ~ 5F)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지하층수를 다시 입력하세요.\n\n(입력범위: 0 ~ 5)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (nRooftop < 0 || nRooftop > 1) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층수를 다시 입력하세요.\n\n(입력범위: 0 ~ 1층)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층수를 다시 입력하세요.\n\n(입력범위: 0 ~ 1)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
