@@ -486,7 +486,13 @@ void CCircuitSetupDlg::MakeHeaderWidth(CUIntArray & arrayList)
 	--nCount;
 	arrayList.Add(50);
 	for (int nIndex = 0; nIndex < nCount; nIndex++) {
+		//20230419 GBM - 컬럼 넓이 고정
+#if 1
+		arrayList.Add(160);
+#else
 		arrayList.Add(70);
+#endif
+		//20230419 GBM end
 	}
 }
 
@@ -544,7 +550,7 @@ CCustomListCtrl* CCircuitSetupDlg::CreateListCtrl()
 	pList->SetHeaderFontSize(14);
 	pList->FixHeaderSize(false);
 	pList->SetRowHeight(30);
-	pList->SetAutoHeaderSize(true);
+	//pList->SetAutoHeaderSize(true);	//20230419 GBM - 컬럼 넓이 고정
 	pList->SetDisableMenu(true);
 
 	pList->SendMessage(WM_INITIALUPDATE);

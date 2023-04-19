@@ -168,7 +168,7 @@ void CTopBarDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CTopBarDlg::OnCloseClick()
 {
-	CMessagePopup popup(L"프로그램 종료", L"\n\n프로그램을 종료하시겠습니까?", MB_YESNO, CCommonState::ie()->m_pWnd);
+	CMessagePopup popup(L"프로그램 종료", L"\n\n프로그램을 종료합니까?", MB_YESNO, CCommonState::ie()->m_pWnd);
 	UINT nResult = popup.DoModal();
 	if (nResult != IDOK) {
 		return;

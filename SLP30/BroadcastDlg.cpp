@@ -63,9 +63,17 @@ END_MESSAGE_MAP()
 
 // CBroadcastDlg 메시지 처리기입니다.
 
-const TCHAR* g_editHeaderB[] = { _T("번호"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("통신내용"), NULL };
+const TCHAR* g_editHeaderB[] = { _T("번호"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("방송정보"), NULL };
 const int g_editSizeB[] = { 90, 180, 100, 100, 100, 220, 0 }; // pixel
-const int g_editTypeB[] = { POPUP_TYPE_SEQ , POPUP_TYPE_NONE, POPUP_TYPE_LIST_ADD, POPUP_TYPE_LIST_ADD, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
+
+	//20230419 GBM start - 방송정보를 제외한 컬럼은 임의 수정 불가
+#if 1
+	const int g_editTypeB[] = { POPUP_TYPE_SEQ , POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_NONE, POPUP_TYPE_EDIT, 0 };
+#else
+	const int g_editTypeB[] = { POPUP_TYPE_SEQ , POPUP_TYPE_NONE, POPUP_TYPE_LIST_ADD, POPUP_TYPE_LIST_ADD, POPUP_TYPE_LIST_ADD, POPUP_TYPE_EDIT, 0 };
+#endif
+	//20230419 GBM end
+
 const int g_editAlignB[] = { DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, -1 }; // option, row align text, default: DT_LEFT
 const int g_editLimitB[] = { 0, 0, 0, 0, 0, 0, -1 }; // 0: 무제한, > 0 : 텍스트 사이즈 제한
 

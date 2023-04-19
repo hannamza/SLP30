@@ -269,7 +269,7 @@ void CCircuitEditDlg::OnNextClick()
 	//중계기 일람표를 한번이라도 저장했는지 여부
 	if (!m_bExcelSaved)
 	{
-		CMessagePopup popup(L"중계기 일람표 Excel 저장\n미실행", L"\n\n\n[중계기 일람표 Excel 저장]을\n\n반드시 실행해야 연동데이터 생성 편집단계로\n\n진행이 가능합니다.", MB_OK, this);
+		CMessagePopup popup(L"중계기 일람표 Excel 저장\n미실행", L"\n\n\n[중계기 일람표 Excel 저장]을\n\n반드시 실행해야 연동데이터 생성 편집단계로\n\n진행 가능함", MB_OK, this);
 		UINT nResult = popup.DoModal();
 		return;
 	}
@@ -393,7 +393,7 @@ void CCircuitEditDlg::OnExcelClick()
 			m_bExcelSaved = true;
 	}
 	else if (nResult == -2) {
-		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장에 실패하였습니다.", MB_OK, this);
+		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장 실패함", MB_OK, this);
 		popup.DoModal();
 	}
 }
@@ -405,7 +405,7 @@ LRESULT CCircuitEditDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 	switch (nMsg) {
 	case 0:
 	{
-		CMessagePopup popup(L"정보 저장", L"\n\n파일 저장이 완료되었습니다.\n\n파일을 열어 바로 확인하시겠습니까?", MB_YESNO, this);
+		CMessagePopup popup(L"정보 저장", L"\n\n파일 저장 완료됨\n\n파일을 확인하겠습니까?", MB_YESNO, this);
 		UINT nResult = popup.DoModal();
 		if (nResult == IDOK) {
 			CCommonFunc::ExecuteProgram(m_sExcelPath.GetBuffer(0));
@@ -414,7 +414,7 @@ LRESULT CCircuitEditDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 		break;
 	case 1:
 	{
-		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장에 실패하였습니다.", MB_OK, this);
+		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장 실패함", MB_OK, this);
 		popup.DoModal();
 	}
 		break;
@@ -467,7 +467,7 @@ int CCircuitEditDlg::FileSave()
 	}*/
 
 	if (CSaveManager::ie()->FileSave(strPathName)) {
-		CMessagePopup popup(L"저장", L"\n\n\n저장이 완료되었습니다.", MB_OK, this);
+		CMessagePopup popup(L"저장", L"\n\n\n저장 완료됨", MB_OK, this);
 		popup.DoModal();
 	}
 

@@ -125,9 +125,9 @@ BOOL CPSPumpSetupDlg::OnInitDialog()
 	m_pPumpCtrl->AddListItemState(1, L"예비펌프 입력");
 	m_pPumpCtrl->AddListItemState(1, L"보조펌프 입력");*/
 	m_pPumpCtrl->AddListItemState(2, L"사용");
-	m_pPumpCtrl->AddListItemState(2, L"사용안함");
+	m_pPumpCtrl->AddListItemState(2, L"사용 안함");
 	m_pPumpCtrl->AddListItemState(3, L"사용");
-	m_pPumpCtrl->AddListItemState(3, L"사용안함");
+	m_pPumpCtrl->AddListItemState(3, L"사용 안함");
 
 	m_pPumpCtrl->SendMessage(WM_INITIALUPDATE);
 
@@ -251,7 +251,7 @@ void CPSPumpSetupDlg::DisplayLoadFile()
 
 	for (int nIndex = 0; nIndex < 3; nIndex++) {
 		if (CSaveManager::ie()->m_PSInfo.use[nIndex] == 0) {
-			m_pPSCtrl->SetItemText(nIndex, 2, L"사용안함");
+			m_pPSCtrl->SetItemText(nIndex, 2, L"사용 안함");
 		}
 		else {
 			m_pPSCtrl->SetItemText(nIndex, 2, L"사용");
@@ -259,13 +259,13 @@ void CPSPumpSetupDlg::DisplayLoadFile()
 	}
 	for (int nIndex = 0; nIndex < 4; nIndex++) {
 		if (CSaveManager::ie()->m_pumpInfo.use[nIndex] == 0) {
-			m_pPumpCtrl->SetItemText(nIndex, 2, L"사용안함");
+			m_pPumpCtrl->SetItemText(nIndex, 2, L"사용 안함");
 		}
 		else {
 			m_pPumpCtrl->SetItemText(nIndex, 2, L"사용");
 		}
 		if (CSaveManager::ie()->m_pumpInfo.lamp[nIndex] == 0) {
-			m_pPumpCtrl->SetItemText(nIndex, 3, L"사용안함");
+			m_pPumpCtrl->SetItemText(nIndex, 3, L"사용 안함");
 		}
 		else {
 			m_pPumpCtrl->SetItemText(nIndex, 3, L"사용");
@@ -318,7 +318,7 @@ void CPSPumpSetupDlg::Redisplay()
 	CCommonDisplay::DrawCaption(&memDC, L"PUMP", RGB(80, 80, 80), m_font, false, 0, rt, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
 	rt.SetRect(20, 475, 600, 500);
-	CCommonDisplay::DrawCaption(&memDC, L"[Space Bar] 키를 눌러 상태를 변경하세요", RGB(255, 111, 0), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+	CCommonDisplay::DrawCaption(&memDC, L"[Space Bar] 키를 눌러 사용여부를 변경하세요", RGB(255, 111, 0), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
 
 	_pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
 

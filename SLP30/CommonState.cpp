@@ -511,16 +511,16 @@ int CCommonState::CalculateCircuitAddressCount(CString strCircuitName)
 	case 설비명_시각경보:
 	case 설비명_배연창:
 	case 설비명_방화문:
-	case 설비명_창문폐쇄:
-	case 설비명_자동폐쇄:
-	case 설비명_P_L점등:
+	case 설비명_창문_폐쇄:
+	case 설비명_자동_폐쇄:
+	case 설비명_P_L_점등:
 	case 설비명_옥상문:
 	case 설비명_급기팬:
 	case 설비명_배기팬:
-	case 설비명_계단감지기:
-	case 설비명_ELEV감지기:
-	case 설비명_TS확인:
-	case 설비명_하향식_피난사다리확인:
+	case 설비명_감지기_계단:
+	case 설비명_감지기_ELEV:
+	case 설비명_T_S_확인:
+	case 설비명_피난사다리확인:
 		nRet = 2;
 		break;
 	default:

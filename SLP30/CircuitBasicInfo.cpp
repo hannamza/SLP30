@@ -36,37 +36,37 @@ CCircuitBasicInfo::CCircuitBasicInfo()
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_발신기]);
 			break;
 		case 2: // 알람밸브
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_AVP_S]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_AVT_S]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_알람밸브_P_S]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_알람밸브_T_S]);
 			break;
 		case 3: // 프리액션밸브
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_SVP감지기A]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_SVP감지기B]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_SVPP_S]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_SVPT_S]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_감지기_A_SVP]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_감지기_B_SVP]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_P_S_확인_SVP]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_P_T_확인_SVP]);
 			break;
 		case 4: // 시각경보
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_시각경보]);
 			break;
-		case 5: // 전실제연급기
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실급기댐퍼]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실급기수동]);
+		case 5: // 전실 제연급기
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실_급기댐퍼]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실_급기수동]);
 			break;
-		case 6: // 전실제연배기
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실배기댐퍼]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실배기수동]);
+		case 6: // 전실 제연배기
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실_배기댐퍼]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_전실_배기수동]);
 			break;
-		case 7: // 상가제연
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_제연수동기동]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_SMD확인]);
+		case 7: // 상가 제연
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_제연_수동기동]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_상가댐퍼_확인]);
 			//pInfo->arrayChild.Add(g_lpszCircuitName[설비명_급기팬]);
 			//pInfo->arrayChild.Add(g_lpszCircuitName[설비명_배기팬]);
 			break;
 		case 8: // 방화셔터
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_셔터연감지기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_셔텨열감지기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_셔터1차폐쇄]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_셔터2차폐쇄]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_광전_셔터]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_광온_셔터]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_셔터_1차_폐쇄]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_셔터_2차_폐쇄]);
 			break;
 		case 9: // 배연창
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_배연창]);
@@ -74,47 +74,47 @@ CCircuitBasicInfo::CCircuitBasicInfo()
 		case 10: // 방화문
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_방화문]);
 			break;
-		case 11: // 창폐장치
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_창문폐쇄]);
+		case 11: // 창폐 장치
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_창문_폐쇄]);
 			break;
-		case 12: // 자폐장치
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_자동폐쇄]);
+		case 12: // 자폐 장치
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_자동_폐쇄]);
 			break;
-		case 13: // 소화전기동확인
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_P_L점등]);
+		case 13: // 소화전 기동 확인
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_P_L_점등]);
 			break;
-		case 14: // 옥상개폐확인
+		case 14: // 옥상 개폐 확인
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_옥상문]);
 			break;
-		case 15: // 저수위감시
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_저수위F_S]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_저수위T_S]);
+		case 15: // 저수위 감시
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_저수위_F_S]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_저수위_T_S]);
 			break;
-		case 16: // 제연급기팬
+		case 16: // 제연 급기팬
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_급기팬]);
 			break;
-		case 17: // 제연배기팬
+		case 17: // 제연 배기팬
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_배기팬]);
 			break;
 		case 18: // 감지기
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_계단감지기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_ELEV감지기]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_감지기_계단]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_감지기_ELEV]);
 			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_감지기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_AN연기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_AN정온]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형연기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형정온]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형차동]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_AN연기계단감지기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_AN연기ELEV감지기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형연기계단감지기]);
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형연기ELEV감지기]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_아날로그_광전]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_아날로그_정온]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형_광전]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형_정온]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형_차동]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_아날로그_광전_계단]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_아날로그_광전_ELEV]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형_광전_계단]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_주소형_광전_ELEV]);
 			break;
-		case 19:	// TS확인
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_TS확인]);
+		case 19:	// T/S 확인
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_T_S_확인]);
 			break;
 		case 20:	// 하향식_피난사다리확인
-			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_하향식_피난사다리확인]);
+			pInfo->arrayChild.Add(g_lpszCircuitName[설비명_피난사다리확인]);
 			break;
 		default:
 			break;
@@ -285,7 +285,7 @@ int CCircuitBasicInfo::GetCircuitParentIndex(CString sName)
 
 bool CCircuitBasicInfo::IsDetector(CString sCircuitName)
 {
-	for (int i = 설비명_계단감지기; i <= 설비명_주소형연기ELEV감지기; i++)
+	for (int i = 설비명_감지기_계단; i <= 설비명_주소형_광전_ELEV; i++)
 	{
 		if (sCircuitName.Compare(g_lpszCircuitName[i]) == 0)
 		{

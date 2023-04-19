@@ -236,7 +236,7 @@ void CMakeDataBasicDlg::OnSaveClick()
 	}*/
 
 	if (CSaveManager::ie()->FileSave(strPathName)) {
-		CMessagePopup popup(L"저장", L"\n\n\n저장이 완료되었습니다.", MB_OK, this);
+		CMessagePopup popup(L"저장", L"\n\n\n저장이 완료됨", MB_OK, this);
 		popup.DoModal();
 	}
 }

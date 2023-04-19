@@ -879,13 +879,13 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	sSamplePath.Format(L"%s\\sample2.xlsx", wszPath);
 
 	if (sSamplePath.CompareNoCase(sPath) == 0) {
-		CMessagePopup popup(L"Excel 정보 생성", L"\n\n해당 파일은 프로그램 파일입니다.\n\n다른 경로를 선택하여 주십시오", MB_OK, CCommonState::Instance()->m_pWnd);
+		CMessagePopup popup(L"Excel 파일 생성", L"\n\n해당 파일은 프로그램 파일임\n\n다른 경로를 선택하세요.", MB_OK, CCommonState::Instance()->m_pWnd);
 		UINT nResult = popup.DoModal();
 		return -2;
 	}
 
 	if (::PathFileExists(sPath)) {
-		CMessagePopup popup(L"Excel 정보 생성", L"\n\n이미 같은 이름의 파일이 존재합니다.\n\n덮어쓰기 하시겠습니까?", MB_YESNO, CCommonState::Instance()->m_pWnd);
+		CMessagePopup popup(L"Excel 파일 생성", L"\n\n같은 이름의 파일이 존재함\n\n덮어쓰기 하겠습니까?", MB_YESNO, CCommonState::Instance()->m_pWnd);
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
 			return -3;
@@ -895,7 +895,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		}
 		HANDLE hHandle = CreateFile(sPath, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 		if (hHandle == INVALID_HANDLE_VALUE) {
-			CMessagePopup popup(L"Excel 정보 생성", L"\n\n파일 저장에 실패하였습니다.\n\n이미 해당 파일이 사용중입니다.", MB_OK, CCommonState::Instance()->m_pWnd);
+			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n해당 파일이 사용중", MB_OK, CCommonState::Instance()->m_pWnd);
 			UINT nResult = popup.DoModal();
 			return -4;
 		}
@@ -903,7 +903,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 
 		CFile::Rename(sPath, sPath + L".tmp");
 		if (::PathFileExists(sPath)) {
-			CMessagePopup popup(L"Excel 정보 생성", L"\n\n파일 저장에 실패하였습니다.\n\n파일을 사용중이거나 권한 문제일 수 있습니다.", MB_OK, CCommonState::Instance()->m_pWnd);
+			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::Instance()->m_pWnd);
 			UINT nResult = popup.DoModal();
 			CFile::Rename(sPath + L".tmp", sPath);
 			return -5;
@@ -922,7 +922,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	if (g_pWaitDataLink) {
 		SAFE_DELETE(g_pWaitDataLink);
 	}
-	g_pWaitDataLink = new CMessagePopup(L"Excel 정보 생성", L"\n\n\nExcel 정보를 생성중입니다. \n\n잠시만 기다려 주세요.", -1, CCommonState::Instance()->m_pWnd);
+	g_pWaitDataLink = new CMessagePopup(L"Excel 파일 생성", L"\n\n\nExcel 파일 생성 중 .. \n\n잠시만 기다려 주세요.", -1, CCommonState::Instance()->m_pWnd);
 	g_pWaitDataLink->Create(IDD_COMMON_POPUP_DIALOG);
 	g_pWaitDataLink->ShowWindow(SW_HIDE);
 
@@ -940,7 +940,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	g_pWaitDataLink->SetForegroundWindow();
 	::SetWindowPos(g_pWaitDataLink->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 
-	g_pWaitDataLink->SetCaptionAddBottom(L"                파일 생성중입니다.               ");
+	g_pWaitDataLink->SetCaptionAddBottom(L"                파일 생성 중 ..               ");
 
 	int nTotalCount = CSaveManager::Instance()->m_listSystem.GetCount() + CPatternManager::Instance()->GetPatternCount() + CSaveManager::Instance()->m_listBC.GetCount() + 7;
 	int nCurrentCount = 1;
@@ -1120,10 +1120,10 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 			switch (nIndex) {
 			case 0:
 			case 1:
-				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"감시지속");
+				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"감시 지속");
 				break;
 			case 2:
-				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"감시비지속");
+				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"감시 비지속");
 				break;
 			default: continue;
 			}
@@ -1190,7 +1190,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	}
 	Sleep(300); // 메시지 출력 대기 시간
 
-	g_pWaitDataLink->SetCaptionAddBottom(L"                저장 중입니다.               ");
+	g_pWaitDataLink->SetCaptionAddBottom(L"                저장 중..               ");
 
 	XL.SaveFileAs(sPath);
 	XL.ReleaseExcel();

@@ -161,7 +161,7 @@ void CStartProjectSelectionDlg::OnTimer(UINT_PTR nIDEvent)
 void CStartProjectSelectionDlg::OnNewProjectClick()
 {
 	if (!m_bFirst) {
-		CMessagePopup popup(L"신규 프로젝트 생성", L"\n\n\n새로운 작업을 시작하시겠습니까?\n\n기존 작업은 초기화 됩니다.", MB_YESNO, this);
+		CMessagePopup popup(L"신규 프로젝트 생성", L"\n\n\n새로운 작업을 시작합니까?\n\n기존 프로젝트는 초기화됨", MB_YESNO, this);
 		UINT nResult = popup.DoModal();
 		if (nResult == IDOK) {
 			GetParent()->PostMessage(SELECTION_PROJECT, 0, 1);
@@ -190,7 +190,7 @@ void CStartProjectSelectionDlg::OnLoadProjectClick()
 		GetParent()->PostMessage(SELECTION_PROJECT, 10, 0);
 	}
 	else {
-		CMessagePopup popup(L"파일 로드 실패", L"\n\n파일 열기에 실패하였습니다.\n\n파일이 깨졌거나 다른 문제 일 수 있습니다.", MB_OK, this);
+		CMessagePopup popup(L"파일 열기 실패", L"\n\n파일 열기에 실패함\n\n다시 시도해 주세요.", MB_OK, this);
 		popup.DoModal();
 		return;
 	}

@@ -52,7 +52,7 @@ LRESULT CMakeDataDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 	switch (nMsg) {
 	case 0:
 	{
-		CMessagePopup popup(L"정보 저장", L"\n\n파일 저장이 완료되었습니다.\n\n파일을 열어 바로 확인하시겠습니까?", MB_YESNO, this);
+		CMessagePopup popup(L"EXCEL 저장", L"\n\n파일 저장 완료\n\n파일을 확인하겠습니까?", MB_YESNO, this);
 		UINT nResult = popup.DoModal();
 		if (nResult == IDOK) {
 			CCommonFunc::ExecuteProgram(m_sExcelPath.GetBuffer(0));
@@ -61,7 +61,7 @@ LRESULT CMakeDataDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 	break;
 	case 1:
 	{
-		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장에 실패하였습니다.", MB_OK, this);
+		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장 실패함", MB_OK, this);
 		popup.DoModal();
 	}
 	break;
@@ -272,7 +272,7 @@ void CMakeDataDlg::OnFolderClick()
 	m_prgCreate.SendMessage(PBM_SETBARCOLOR, 0, (LPARAM)clrBar);
 
 	brInfo.hwndOwner = GetSafeHwnd();
-	brInfo.lpszTitle = _T("연동데이터가 저장될 폴더를 선택하세요");
+	brInfo.lpszTitle = _T("연동데이터 저장 폴더를 선택하세요");
 	brInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
 	brInfo.lParam = (LPARAM)m_sPath.GetBuffer(0);
 	brInfo.lpfn = BrowseCallbackProc;
@@ -291,7 +291,7 @@ void CMakeDataDlg::OnMakeDataClick()
 {
 	int nValue = 0;
 	CString sText;
-	sText.Format(L"\n연동데이터 생성 시\n\n인터넷에 연결이 되어 있어야 합니다.\n\n계속하시겠습니까?", m_sPath);
+	sText.Format(L"\n연동데이터 생성 시\n\n인터넷에 연결이 필요함\n\n계속하시겠습니까?", m_sPath);
 	CMessagePopup popup(L"연동데이터 생성", sText, MB_YESNO, this);
 	UINT nResult = popup.DoModal();
 	if (nResult != IDOK) {
@@ -314,7 +314,7 @@ void CMakeDataDlg::OnMakeDataClick()
 		}
 	}
 	if (::PathFileExists(sPath)) {
-		CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성에 실패하였습니다.", MB_OK, this);
+		CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성 실패", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
@@ -339,7 +339,7 @@ void CMakeDataDlg::OnMakeDataClick()
 		CCommonState::ie()->m_nReturnValue = -99;
 		if (!m_createProcess.SendDataToWebdav(sPath, L"편집정보.slp", CCommonState::ie()->m_sUserID)) {
 			::DeleteFile(sPath);
-			CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성에 실패하였습니다.\n\n인터넷 연결을 확인하여 주십시오.", MB_OK, this);
+			CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성 실패\n\n인터넷 연결을 확인하세요.", MB_OK, this);
 			popup.DoModal();
 			return;
 		}
@@ -348,7 +348,7 @@ void CMakeDataDlg::OnMakeDataClick()
 		}
 		if (CCommonState::ie()->m_nReturnValue != 0) {
 			::DeleteFile(sPath);
-			CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성에 실패하였습니다.\n\n인터넷 연결/관리자 문의하여 주시기 바랍니다.", MB_OK, this);
+			CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성 실패\n\n인터넷 연결/관리자에게 문의하세요.", MB_OK, this);
 			popup.DoModal();
 			return;
 		}
@@ -372,14 +372,14 @@ void CMakeDataDlg::OnMakeDataClick()
 	PostMessage(ROM_SAVE_MSG, 0, 30);
 
 	if (CDataLinkManager::ie()->MakeRedboxOPData(this)) {
-		CMessagePopup popup1(L"연동데이터 생성", L"\n\n연동데이터 생성이 완료되었습니다.\n\n해당 경로로 이동하시겠습니까?", MB_YESNO, this);
+		CMessagePopup popup1(L"연동데이터 생성", L"\n\n연동데이터 생성 완료\n\n해당 경로로 이동할까요?", MB_YESNO, this);
 		UINT nResult = popup1.DoModal();
 		if (nResult == IDOK) {
 			ShellExecute(NULL, L"open", L"explorer.exe", m_sPath, NULL, SW_SHOW);
 		}
 	}
 	else {
-		CMessagePopup popup2(L"연동데이터 생성 실패", L"\n\n연동데이터 생성에 실패하였습니다.", MB_OK, this);
+		CMessagePopup popup2(L"연동데이터 생성 실패", L"\n\n연동데이터 생성 실패", MB_OK, this);
 		popup2.DoModal();
 	}
 
@@ -443,7 +443,7 @@ void CMakeDataDlg::Redisplay()
 	//rt.SetRect(20, 170, 850, 610);
 	//CCommonDisplay::DrawRect(&memDC, false, RGB(150, 150, 150), 0, rt);
 	rt.SetRect(20, 15, 350, 50);
-	CCommonDisplay::DrawCaption(&memDC, L"연동 데이터 생성", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_TOP | DT_SINGLELINE);
+	CCommonDisplay::DrawCaption(&memDC, L"연동데이터 생성", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_TOP | DT_SINGLELINE);
 
 	/*rt.CopyRect(&rect);
 	rt.left += 4;
@@ -468,4 +468,11 @@ void CMakeDataDlg::Redisplay()
 		m_btnPrev.Invalidate();
 		m_btnExcel.Invalidate();
 	}
+
+	//20230419 GBM start - 경로, 폴더 / 연동데이터 생성 버튼, 프로그래스바 화면 미갱신 오류 수정
+	m_btnFolder.Invalidate();
+	m_btnMakeData.Invalidate();
+	m_editPath.Invalidate();
+	m_prgCreate.Invalidate();
+	//20230419 GBM end
 }

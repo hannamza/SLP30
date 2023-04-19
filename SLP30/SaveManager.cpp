@@ -63,7 +63,7 @@ void CSaveManager::SetBroadcast(CString sBlock, short nStair, short nFloor, WCHA
 bool CSaveManager::FileSave(CString sPath)
 {
 	if (::PathFileExists(sPath)) {
-		CMessagePopup popup(L"정보 저장", L"\n\n이미 같은 이름의 파일이 존재합니다.\n\n덮어쓰기 하시겠습니까?", MB_YESNO, NULL);
+		CMessagePopup popup(L"정보 저장", L"\n\n같은 이름의 파일이 존재함\n\n덮어쓰기 하겠습니까?", MB_YESNO, NULL);
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
 			return false;
@@ -73,7 +73,7 @@ bool CSaveManager::FileSave(CString sPath)
 		}
 		CFile::Rename(sPath, sPath + L".tmp");
 		if (::PathFileExists(sPath)) {
-			CMessagePopup popup(L"정보 저장", L"\n\n파일 저장에 실패하였습니다.\n\n파일을 사용중이거나 권한 문제일 수 있습니다.", MB_OK, NULL);
+			CMessagePopup popup(L"정보 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
 			UINT nResult = popup.DoModal();
 			CFile::Rename(sPath + L".tmp", sPath);
 			return false;
@@ -82,7 +82,7 @@ bool CSaveManager::FileSave(CString sPath)
 	FILE* f;
 	f = _wfopen(sPath.GetBuffer(0), L"wb");
 	if (!f) {
-		CMessagePopup popup(L"정보 저장", L"\n\n파일 저장에 실패하였습니다.\n\n파일을 사용중이거나 권한 문제일 수 있습니다.", MB_OK, NULL);
+		CMessagePopup popup(L"정보 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
 		UINT nResult = popup.DoModal();
 		::DeleteFile(sPath + L".tmp");
 		return false;
@@ -201,14 +201,14 @@ bool CSaveManager::FileSave(CString sPath)
 bool CSaveManager::FileLoad(CString sPath)
 {
 	if (!::PathFileExists(sPath)) {
-		CMessagePopup popup(L"불러오기", L"\n\n파일이 존재하지 않습니다.\n\n확인하시고 다시 시도하여 주십시오.", MB_OK, NULL);
+		CMessagePopup popup(L"불러오기", L"\n\n파일이 존재하지 않습니다.\n\n확인하고 다시 시도해 주세요.", MB_OK, NULL);
 		UINT nResult = popup.DoModal();
 		return false;
 	}
 	FILE* f;
 	f = _wfopen(sPath.GetBuffer(0), L"rb");
 	if (!f) {
-		CMessagePopup popup(L"불러오기", L"\n\n파일 읽기에 실패하였습니다.\n\n파일을 사용중이거나 권한 문제일 수 있습니다.", MB_OK, NULL);
+		CMessagePopup popup(L"불러오기", L"\n\n파일 읽기 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
 		UINT nResult = popup.DoModal();
 		return false;
 	}
@@ -427,13 +427,13 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	CString sSamplePath;
 	sSamplePath.Format(L"%s\\sample1.xlsx", wszPath);
 	if (sSamplePath.CompareNoCase(sPath) == 0) {
-		CMessagePopup popup(L"Excel 정보 생성", L"\n\n해당 파일은 프로그램 파일입니다.\n\n다른 경로를 선택하여 주십시오", MB_OK, CCommonState::ie()->m_pWnd);
+		CMessagePopup popup(L"Excel 파일 생성", L"\n\n해당 파일은 프로그램 파일임\n\n다른 경로를 선택하세요.", MB_OK, CCommonState::ie()->m_pWnd);
 		UINT nResult = popup.DoModal();
 		return -1;
 	}
 
 	if (::PathFileExists(sPath)) {
-		CMessagePopup popup(L"Excel 정보 생성", L"\n\n이미 같은 이름의 파일이 존재합니다.\n\n덮어쓰기 하시겠습니까?", MB_YESNO, CCommonState::ie()->m_pWnd);
+		CMessagePopup popup(L"Excel 파일 생성", L"\n\n이미 같은 이름의 파일이 존재함.\n\n덮어쓰기 하겠습니까?", MB_YESNO, CCommonState::ie()->m_pWnd);
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
 			return -1;
@@ -443,7 +443,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		}
 		HANDLE hHandle = CreateFile(sPath, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 		if (hHandle == INVALID_HANDLE_VALUE) {
-			CMessagePopup popup(L"Excel 정보 생성", L"\n\n파일 저장에 실패하였습니다.\n\n이미 해당 파일이 사용중입니다.", MB_OK, CCommonState::ie()->m_pWnd);
+			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n해당 파일이 사용중", MB_OK, CCommonState::ie()->m_pWnd);
 			UINT nResult = popup.DoModal();
 			return -4;
 		}
@@ -451,7 +451,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 
 		CFile::Rename(sPath, sPath + L".tmp");
 		if (::PathFileExists(sPath)) {
-			CMessagePopup popup(L"Excel 정보 생성", L"\n\n파일 저장에 실패하였습니다.\n\n파일을 사용중이거나 권한 문제일 수 있습니다.", MB_OK, CCommonState::ie()->m_pWnd);
+			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::ie()->m_pWnd);
 			UINT nResult = popup.DoModal();
 			CFile::Rename(sPath + L".tmp", sPath);
 			return -4;
@@ -461,7 +461,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 
 	//sample1.xlsx (중계기 일람표 탬플릿) 파일이 없으면 엑셀 저장 실패
 	if (!::CopyFile(sSamplePath, sPath + L".tmp2", true)) {
-		CMessagePopup popup(L"Excel 정보 생성", L"\n\n파일 저장에 실패하였습니다.\n\n파일을 사용중이거나 권한 문제일 수 있습니다.", MB_OK, CCommonState::ie()->m_pWnd);
+		CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::ie()->m_pWnd);
 		UINT nResult = popup.DoModal();
 		return -5;
 	}
@@ -472,7 +472,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	if (g_pWaitPopup) {
 		SAFE_DELETE(g_pWaitPopup);
 	}
-	g_pWaitPopup = new CMessagePopup(L"Excel 정보 생성", L"\n\n\nExcel 정보를 생성중입니다. \n\n잠시만 기다려 주세요.", -1, CCommonState::ie()->m_pWnd);
+	g_pWaitPopup = new CMessagePopup(L"Excel 파일 생성", L"\n\n\nExcel 파일 생성 중 .. \n\n잠시만 기다려 주세요.", -1, CCommonState::ie()->m_pWnd);
 	g_pWaitPopup->Create(IDD_COMMON_POPUP_DIALOG);
 	g_pWaitPopup->ShowWindow(SW_HIDE);
 
@@ -490,7 +490,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	g_pWaitPopup->SetForegroundWindow();
 	::SetWindowPos(g_pWaitPopup->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 
-	g_pWaitPopup->SetCaptionAddBottom(L"                파일 생성중입니다.               ");
+	g_pWaitPopup->SetCaptionAddBottom(L"                파일 생성 중 ..               ");
 
 	CString sTemp;
 	CXLEzAutomation XL(FALSE);
@@ -602,14 +602,14 @@ int CSaveManager::ExcelFileSave(CString sPath)
 			sTemp = L"사용";
 		}
 		else {
-			sTemp = L"사용안함";
+			sTemp = L"사용 안함";
 		}
 		XL.SetCellValue(3, 2 + nIndex, sTemp.GetBuffer(0));
 		if (m_pumpInfo.lamp[nIndex] == 1) {
 			sTemp = L"사용";
 		}
 		else {
-			sTemp = L"사용안함";
+			sTemp = L"사용 안함";
 		}
 		XL.SetCellValue(4, 2 + nIndex, sTemp.GetBuffer(0));
 		++nCurrentCount;
@@ -621,14 +621,14 @@ int CSaveManager::ExcelFileSave(CString sPath)
 			sTemp = L"사용";
 		}
 		else {
-			sTemp = L"사용안함";
+			sTemp = L"사용 안함";
 		}
 		XL.SetCellValue(3, 2 + nIndex, sTemp.GetBuffer(0));
 		++nCurrentCount;
 		g_pWaitPopup->SetCaptionAddBottom(sTemp);
 	}
 
-	g_pWaitPopup->SetCaptionAddBottom(L"                저장 중입니다.               ");
+	g_pWaitPopup->SetCaptionAddBottom(L"                저장 중 ..               ");
 
 	XL.SaveFileAs(sPath);
 	XL.ReleaseExcel();

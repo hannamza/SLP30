@@ -314,7 +314,7 @@ void CCircuitInfoDlg::OnNextClick()
 	//20221018 GBM start - 중계기 일람표가 회로정보가 확정되어 처음 작성될 때 사용자에게 이후의 설비 변경 사항은 추가일 경우 현재 중계기 일람표 아래에 추가되고 삭제일 경우 기존 요소가 공란으로 대체됨을 알려야 함
 	if (CCommonState::ie()->m_bInitCircuit)
 	{
-		CMessagePopup popup(L"중계기 일람표 확정", L"\n회로 설정을 반영하여 중계기 일람표가 확정됩니다.\n이후에도 회로 설정이 가능하지만 확정이후\n회로 추가인 경우 기존 중계기 일람표 하단에 추가,\n회로 삭제인 경우 중계기 일람표에서\n설비 제거가 됩니다.\n\n계속하시겠습니까?", MB_YESNO, this);
+		CMessagePopup popup(L"중계기 일람표 확정", L"\n회로 설정을 적용하여 중계기 일람표 확정됨\n확정이후\n회로 추가인 경우 기존 중계기 일람표 하단에 추가,\n회로 삭제인 경우 중계기 일람표에서\n설비가 제거됨\n\n계속하시겠습니까?", MB_YESNO, this);
 		
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
@@ -369,7 +369,7 @@ void CCircuitInfoDlg::OnNextClick()
 #if 1
 		if (!CCommonState::ie()->m_bInitCircuit) 
 		{
-			CMessagePopup popup(L"중계기 일람표 수정", L"\n회로 설정 수정이 중계기 일람표에 적용됩니다.\n(회로 추가 시: 중계기 일람표 하단 추가,\n회로 삭제 시: 회로 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 회로 삭제)\n계속하시겠습니까?\n(확인: 수정 사항 적용\n취소: 중계기 일람표 기준으로 원복)", MB_YESNO, this);
+			CMessagePopup popup(L"중계기 일람표 변경", L"\n회로 설정 변경이 중계기 일람표에 적용됨\n(회로 추가 시: 중계기 일람표 하단 추가,\n회로 삭제 시: 회로 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 회로 삭제)", MB_YESNO, this);
 
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK)
@@ -399,15 +399,15 @@ void CCircuitInfoDlg::OnNextClick()
 
 					if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 					{
-						strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
 					}
 					else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 					{
-						strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit1, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit1, MAX_CIRCUIT);
 					}
 					else
 					{
-						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.\n(현재 중계기 일람표 기준)", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
 					}
 
 					CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
@@ -543,15 +543,15 @@ void CCircuitInfoDlg::OnNextClick()
 
 				if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 				{
-					strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
+					strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
 				}
 				else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 				{
-					strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit1, MAX_CIRCUIT);
+					strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
 				}
 				else
 				{
-					strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+					strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
 				}
 
 				CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
@@ -700,15 +700,15 @@ void CCircuitInfoDlg::OnPrevClick()
 
 		if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 		{
-			strMsg.Format(L"\n\n0 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, MAX_CIRCUIT);
+			strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
 		}
 		else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 		{
-			strMsg.Format(L"\n\n1 계통 설비의 설정 개수(%d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit1, MAX_CIRCUIT);
+			strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
 		}
 		else
 		{
-			strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정 개수(%d, %d)가\n최대 회로 개수(%d)를 초과했습니다.\n기존 설비 개수로 돌아갑니다.", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+			strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
 		}
 
 		CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
@@ -799,7 +799,7 @@ void CCircuitInfoDlg::Redisplay()
 
 void CCircuitInfoDlg::OnCircuitListInit()
 {
-	CMessagePopup popup(L"중계기 일람표 초기화", L"\n중계기 일람표가 초기화됩니다.\n\n※ 경고 : [확인] 선택 시\n기존에 작성된 중계기 일람표가 모두 삭제되어\n다시 중계기 일람표를 확정해도\n[새 회로번호]가 적용됩니다.\n신중히 선택하시기 바랍니다.", MB_YESNO, this);
+	CMessagePopup popup(L"중계기 일람표 초기화", L"\n중계기 일람표가 초기화됨\n\n※ 경고 : [확인] 선택 시\n기존에 생성된 중계기 일람표가 모두 삭제되어\n다시 중계기 일람표를 확정해도\n[새 회로번호]가 적용됩니다.\n신중히 선택하세요.", MB_YESNO, this);
 
 	UINT nResult = popup.DoModal();
 	if (nResult != IDOK)

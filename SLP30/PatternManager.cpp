@@ -109,7 +109,7 @@ void CPatternManager::AddPatternInfo(SYSTEM_INFO_* pInfo)
 	if (CheckType(5, pInfo)) {
 		AddVisualAlarmPattern(pInfo);
 	}
-	// 전층 (자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+	// 전층 (자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
 	if (CheckType(1, pInfo)) {
 		AddDoorPattern(pInfo);
 	}
@@ -122,7 +122,7 @@ void CPatternManager::AddPatternInfo(SYSTEM_INFO_* pInfo)
 	if ((CheckType(0, pInfo) || CheckType(5, pInfo)) && CheckType(2, pInfo)) {
 		AddAlarmPatternUp(pInfo);
 	}
-	// 계단별 전층 (자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+	// 계단별 전층 (자동폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
 	if (CheckType(1, pInfo)) {
 		AddDoorPatternStair(pInfo);
 	}
@@ -137,8 +137,8 @@ int CPatternManager::CheckType(int nType, SYSTEM_INFO_* pInfo)
 			return true;
 		}
 		break;
-	case 1: // 자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등
-		if (sTemp.Compare(g_lpszCircuitName[설비명_자동폐쇄]) == 0 || sTemp.Compare(g_lpszCircuitName[설비명_창문폐쇄]) == 0 ||
+	case 1: // 자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등
+		if (sTemp.Compare(g_lpszCircuitName[설비명_자동_폐쇄]) == 0 || sTemp.Compare(g_lpszCircuitName[설비명_창문_폐쇄]) == 0 ||
 			sTemp.Compare(g_lpszCircuitName[설비명_옥상문]) == 0) {
 			return true;
 		}
@@ -154,7 +154,7 @@ int CPatternManager::CheckType(int nType, SYSTEM_INFO_* pInfo)
 		}
 		break;	
 	case 4: // 급기댐퍼
-		if (sTemp.Compare(g_lpszCircuitName[설비명_전실급기댐퍼]) == 0) {
+		if (sTemp.Compare(g_lpszCircuitName[설비명_전실_급기댐퍼]) == 0) {
 			return true;
 		}
 		break;
@@ -264,7 +264,7 @@ void CPatternManager::AddAlarmPatternDown(SYSTEM_INFO_* pInfo)
 	}
 }
 
-// 전층(자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+// 전층(자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
 void CPatternManager::AddDoorPattern(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
@@ -272,7 +272,7 @@ void CPatternManager::AddDoorPattern(SYSTEM_INFO_* pInfo)
 	CheckAddPatternSystem(pInfo, 생성_동_전층, m_doorPattern, sPatternName);
 }
 
-// 계단별 지상 전층(자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+// 계단별 지상 전층(자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
 void CPatternManager::AddDoorPatternStair(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
@@ -673,12 +673,12 @@ void CPatternManager::GetAlarmBroadPattern(SYSTEM_INFO_* pInfo, CStringArray & p
 void CPatternManager::GetValve(SYSTEM_INFO_* pInfo, CStringArray & system)
 {
 	// 밸브 , 박준구 차장 요청으로 SVP 감지기B -> SVP T/S 출력 타입 변경
-	if (!GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_SVPT_S/*설비명_SVP감지기B*/], system)) {
+	if (!GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_P_T_확인_SVP], system)) {
 		return;
 	}
 	// 싸이렌, 박준구 차장 요청으로 SVP 감지기A -> SVP P/S 출력 타입 변경
 	if (CSaveManager::ie()->m_makeData.data[연동_싸이렌_작동연동] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_SVPP_S/*설비명_SVP감지기A*/], system);
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_P_S_확인_SVP], system);
 	}
 }
 
@@ -687,11 +687,11 @@ void CPatternManager::GetSiren(SYSTEM_INFO_* pInfo, CStringArray & system)
 {
 	// 싸이렌, 박준구 차장 요청으로 SVP 감지기A -> SVP T/S 출력 타입 변경
 	if (CSaveManager::ie()->m_makeData.data[연동_싸이렌_동작확인] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_SVPP_S/*설비명_SVP감지기A*/], system);
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_P_S_확인_SVP], system);
 	}
 }
 
-// 자동폐쇄, 창문폐쇄, 옥상문, 비상등, 로비폰, 자동문 패턴
+// 자동 폐쇄, 창문 폐쇄, 옥상문, 비상등, 로비폰, 자동문 패턴
 void CPatternManager::GetDoorPattern(SYSTEM_INFO_* pInfo, CStringArray & pattern)
 {
 	int nPattern;
@@ -784,12 +784,12 @@ void CPatternManager::GetExDamper(SYSTEM_INFO_* pInfo, CStringArray & system)
 {
 	CStringArray listCircuit;
 	if (CSaveManager::ie()->m_makeData.data[연동_배기_건물해당층] == 1) {
-		listCircuit.Add(g_lpszCircuitName[설비명_전실배기댐퍼]);
+		listCircuit.Add(g_lpszCircuitName[설비명_전실_배기댐퍼]);
 		GetSystem(pInfo->szBlock, -99, pInfo->nFloor, 0, listCircuit, system); // 건물 해당층
 
 	}
 	else if (CSaveManager::ie()->m_makeData.data[연동_배기_계단별해당층] == 1) {
-		listCircuit.Add(g_lpszCircuitName[설비명_전실배기댐퍼]);
+		listCircuit.Add(g_lpszCircuitName[설비명_전실_배기댐퍼]);
 		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, 0, listCircuit, system); // 계단별 해당층
 		//if (pInfo->nFloor < 0) { // 해당층이 지하면
 		//	GetSystem(pInfo->szBlock, -99, -99, 2, listCircuit, system); // 지하 전층
@@ -835,14 +835,14 @@ void CPatternManager::CPatternManager::GetExFan(SYSTEM_INFO_* pInfo, CStringArra
 // 셔터 1차/2차 폐쇄 (연감지기)
 void CPatternManager::GetSutterSmoke(SYSTEM_INFO_* pInfo, CStringArray & system)
 {
-	if (CSaveManager::ie()->m_makeData.data[연동_셔터_연1_열2] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터1차폐쇄], system); // 계단, 층, 실
+	if (CSaveManager::ie()->m_makeData.data[연동_셔터_광전1_정온2] == 1) {
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터_1차_폐쇄], system); // 계단, 층, 실
 	}
 	else if (CSaveManager::ie()->m_makeData.data[연동_셔터_1차만] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터1차폐쇄], system); // 계단, 층, 실
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터_1차_폐쇄], system); // 계단, 층, 실
 	}
 	else if (CSaveManager::ie()->m_makeData.data[연동_셔터_2차만] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터2차폐쇄], system); // 계단, 층, 실
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터_2차_폐쇄], system); // 계단, 층, 실
 	}
 }
 
@@ -850,14 +850,14 @@ void CPatternManager::GetSutterSmoke(SYSTEM_INFO_* pInfo, CStringArray & system)
 void CPatternManager::GetSutterFire(SYSTEM_INFO_* pInfo, CStringArray & system)
 {
 	CStringArray listCircuit;
-	if (CSaveManager::ie()->m_makeData.data[연동_셔터_연1_열2] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터2차폐쇄], system); // 계단, 층, 실
+	if (CSaveManager::ie()->m_makeData.data[연동_셔터_광전1_정온2] == 1) {
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터_2차_폐쇄], system); // 계단, 층, 실
 	}
 	else if (CSaveManager::ie()->m_makeData.data[연동_셔터_1차만] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터1차폐쇄], system); // 계단, 층, 실
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터_1차_폐쇄], system); // 계단, 층, 실
 	}
 	else if (CSaveManager::ie()->m_makeData.data[연동_셔터_2차만] == 1) {
-		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터2차폐쇄], system); // 계단, 층, 실
+		GetSystem(pInfo->szBlock, pInfo->nStair, pInfo->nFloor, pInfo->szRoomName, g_lpszCircuitName[설비명_셔터_2차_폐쇄], system); // 계단, 층, 실
 	}
 }
 
@@ -865,7 +865,7 @@ void CPatternManager::GetSutterFire(SYSTEM_INFO_* pInfo, CStringArray & system)
 void CPatternManager::GetLamp(CStringArray & system)
 {
 	CStringArray listCircuit;
-	listCircuit.Add(g_lpszCircuitName[설비명_P_L점등]);
+	listCircuit.Add(g_lpszCircuitName[설비명_P_L_점등]);
 	GetSystem(L"-99", -99, -99, 99, listCircuit, system); // 전층
 }
 void CPatternManager::GetLamp(CUIntArray & system)
@@ -887,10 +887,10 @@ void CPatternManager::GetPattern(SYSTEM_INFO_* pInfo, CStringArray & pattern, CS
 		return;
 	}
 	switch (nCircuitIndex) {
-	case 설비명_AN연기SVP감지기:
-	case 설비명_AN정온SVP감지기:
-	case 설비명_SVP감지기A:
-	case 설비명_SVP감지기B:
+	case 설비명_아날로그_광전_SVP:
+	case 설비명_아날로그_정온_SVP:
+	case 설비명_감지기_A_SVP:
+	case 설비명_감지기_B_SVP:
 	//case 설비명_주소형차동SVP감지기A:
 	//case 설비명_주소형차동SVP감지기B:
 		GetValve(pInfo, system);
@@ -900,41 +900,41 @@ void CPatternManager::GetPattern(SYSTEM_INFO_* pInfo, CStringArray & pattern, CS
 	case 설비명_감지기:
 		GetValve(pInfo, system);
 		break;
-	case 설비명_셔터연감지기:
-	case 설비명_AN연기셔터연감지기:
-	case 설비명_주소형연기셔터연감지기:
+	case 설비명_광전_셔터:
+	case 설비명_아날로그_광전_셔터:
+	case 설비명_주소형_광전_셔터:
 		GetValve(pInfo, system);
 		GetSutterSmoke(pInfo, system);
 		break;
-	case 설비명_셔텨열감지기:
-	case 설비명_AN정온셔터열감지기:
-	case 설비명_주소형정온셔터열감지기:
+	case 설비명_광온_셔터:
+	case 설비명_아날로그_정온_셔터:
+	case 설비명_주소형_정온_셔터:
 		GetValve(pInfo, system);
 		GetSutterFire(pInfo, system);
 		break;
-	case 설비명_SVPP_S:
-	case 설비명_AVP_S:
+	case 설비명_P_S_확인_SVP:
+	case 설비명_알람밸브_P_S:
 		GetSiren(pInfo, system);
 		break;
-	case 설비명_전실급기댐퍼:
+	case 설비명_전실_급기댐퍼:
 		GetAirFan(pInfo, system);
 		break;
-	case 설비명_전실배기댐퍼:
+	case 설비명_전실_배기댐퍼:
 		GetExFan(pInfo, system);
 		break;
 	default:
 		break;
 	}
 	// 입력 타입이 화재면 
-	for (int nIndex = 설비명_감지기; nIndex < 설비명_AN연기SVP감지기; nIndex++) { // 화재 타입인 것들 
-		if (CCircuitBasicInfo::Instance()->GetCircuitName(nCircuitIndex) == g_lpszCircuitName[설비명_계단감지기]
-			|| CCircuitBasicInfo::Instance()->GetCircuitName(nCircuitIndex) == g_lpszCircuitName[설비명_ELEV감지기]) {
+	for (int nIndex = 설비명_감지기; nIndex < 설비명_아날로그_광전_SVP; nIndex++) { // 화재 타입인 것들 
+		if (CCircuitBasicInfo::Instance()->GetCircuitName(nCircuitIndex) == g_lpszCircuitName[설비명_감지기_계단]
+			|| CCircuitBasicInfo::Instance()->GetCircuitName(nCircuitIndex) == g_lpszCircuitName[설비명_감지기_ELEV]) {
 			continue;
 		}
 		if (CCircuitBasicInfo::Instance()->GetCircuitInput(nCircuitIndex) == g_lpszInputType[nIndex]) {
 			// 1. 경종/비상방송/시각경보
 			GetAlarmBroadPattern(pInfo, pattern);
-			// 2. 자동폐쇄/창문폐쇄/옥상문/로비폰/자동문/비상등
+			// 2. 자동 폐쇄/창문 폐쇄/옥상문/로비폰/자동문/비상등
 			GetDoorPattern(pInfo, pattern);
 			// 3. 배연창
 			GetSmokeScreen(pInfo, system);

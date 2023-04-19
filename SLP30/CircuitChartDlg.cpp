@@ -187,7 +187,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 	{
 	case 1: // del
 		if (m_pListCtrl) {
-			CMessagePopup popup(L"목록 삭제", L"\n\n선택한 목록을 삭제하시면\n\n마지막 목록에 신규 목록이 1개 추가됩니다.\n\n선택한 목록을 삭제하시겠습니까?", MB_YESNO, this);
+			CMessagePopup popup(L"목록 삭제", L"\n\n선택한 목록을 삭제하면\n\n마지막 목록에 신규 목록이 1개 추가됨\n\n선택한 목록을 삭제하시겠습니까?", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				m_pListCtrl->DelListItem(nSelectItem);
@@ -199,7 +199,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		break;
 	case 2: // up add
 		if (m_pListCtrl) {
-			CMessagePopup popup(L"목록 추가", L"\n\n신규 목록을 추가하시면\n\n마지막 목록 1개가 삭제됩니다.\n\n신규 목록을 추가하시겠습니까?", MB_YESNO, this);
+			CMessagePopup popup(L"목록 추가", L"\n\n신규 목록을 추가하면\n\n마지막 목록 1개가 삭제됨\n\n신규 목록을 추가하시겠습니까?", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				m_pListCtrl->InsertListItemUp(nSelectItem);
@@ -212,7 +212,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		break;
 	case 3: // down add
 		if (m_pListCtrl) {
-			CMessagePopup popup(L"목록 추가", L"\n\n신규 목록을 추가하시면\n\n마지막 목록 1개가 삭제됩니다.\n\n신규 목록을 추가하시겠습니까?", MB_YESNO, this);
+			CMessagePopup popup(L"목록 추가", L"\n\n신규 목록을 추가하면\n\n마지막 목록 1개가 삭제됨\n\n신규 목록을 추가하시겠습니까?", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				m_pListCtrl->InsertListItemDown(nSelectItem);
@@ -239,7 +239,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
 			{
-				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없습니다.\n총 회로번호 개수(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
+				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n총 회로번호 개수(%d) 이상의 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -248,7 +248,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 
 			if (nCurrentIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
 			{
-				strMsg.Format(L"\n\n옮기려는 회로번호(%d)는\n현재 구성된 총 회로번호 개수(%d)보다 큰 수이므로\n옮길 수 없습니다.",
+				strMsg.Format(L"\n\n이동할 회로번호(%d)는\n구성된 총 회로번호 개수(%d)보다 큰 수이므로\n이동할 수 없음",
 					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -259,7 +259,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
-				strMsg.Format(L"\n\n새 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없습니다.\n총 회로번호 개수(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 늘려주세요.",
+				strMsg.Format(L"\n\n새로운 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n총 회로번호 개수(%d) 이상에 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -268,7 +268,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 
 			if (nCurrentIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
-				strMsg.Format(L"\n\n옮기려는 회로번호(%d)는\n현재 구성된 총 회로번호 개수(%d)보다 큰 수이므로\n옮길 수 없습니다.",
+				strMsg.Format(L"\n\n이동할 회로번호(%d)는\n구성된 총 회로번호 개수(%d)보다 큰 수이므로\n옮길 수 없음",
 					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
 				popup.DoModal();
@@ -303,7 +303,7 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 			else
 				nNewCircuitNum = nNewIndex + 1 - nMaxCircuitAddress;
 
-			strMsg.Format(L"\n\n새 회로번호(%d)에는 이미 회로가 존재합니다.\n\n회로번호 변경은\n회로정보가 없는 회로번호만 가능합니다.", nNewCircuitNum);
+			strMsg.Format(L"\n\n새 회로번호(%d)에는 회로가 이미 존재함", nNewCircuitNum);
 
 			CMessagePopup popup(L"이미 회로 있음", strMsg, MB_OK, this);
 			popup.DoModal();
@@ -701,7 +701,7 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 			}
 		}
 		bool bFind = false;
-		for (int nIndex = 설비명_계단감지기; nIndex < 설비명_SVP감지기A; nIndex++) {
+		for (int nIndex = 설비명_감지기_계단; nIndex < 설비명_감지기_A_SVP; nIndex++) {
 			if (pCircuit->sCircuitName.Compare(g_lpszCircuitName[nIndex]) == 0) {
 				bFind = true;
 				break;
@@ -720,8 +720,8 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 				sCircuitCount.Format(L"%d", nCircuitCount + 1);
 				++nCircuitCount;
 				bEmpty = false;
-				if (pCircuit->sCircuitName == g_lpszCircuitName[설비명_계단감지기]
-					|| pCircuit->sCircuitName == g_lpszCircuitName[설비명_ELEV감지기]) {
+				if (pCircuit->sCircuitName == g_lpszCircuitName[설비명_감지기_계단]
+					|| pCircuit->sCircuitName == g_lpszCircuitName[설비명_감지기_ELEV]) {
 					if (nValue % 2 == 1) {
 						nValue++;
 					}
@@ -758,11 +758,11 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 		for (int ii = 0; ii < pCircuit->nCount; ii++) {
 			switch (nCircuitIndex) {
 			case 2: // 알람밸브 PS 1, TS 1
-			case 5: // 전실제연 급기 2
-			case 6: // 전실제연 배기 2
+			case 5: // 전실 제연 급기 2
+			case 6: // 전실 제연 배기 2
 			case 15: // 저수위 감시 2
 			case 3: // 프리액션 밸브 4
-			//case 7: // 상가제연 4
+			//case 7: // 상가 제연 4
 			case 8: // 방화셔터 4
 				if (nValue % 2 == 1) {
 					++nValue;
@@ -792,12 +792,12 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 			}
 			switch (nCircuitIndex) {
 			//case 2: // 알람밸브 PS 1, TS 1
-			//case 5: // 전실제연 급기 2
-			//case 6: // 전실제연 배기 2
+			//case 5: // 전실 제연 급기 2
+			//case 6: // 전실 제연 배기 2
 			//case 15: // 저수위 감시 2
 			//	break;
 			//case 3: // 프리액션 밸브 4
-			//case 7: // 상가제연 4
+			//case 7: // 상가 제연 4
 			//case 8: // 방화셔터 4
 			//	break;
 				//sTemp.Format(L"%d", nValue + 1 - 2);
@@ -807,11 +807,11 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 			case 9: // 배연창 1
 			case 10: // 방화문 1
 			case 13: // 소화전 기동확인 1
-			case 14: // 옥상개폐확인 1
+			case 14: // 옥상 개폐 확인 1
 			case 0: // 소화전 1 
 			case 1: // 발신기 1
-			case 11: // 창폐장치 1
-			case 12: // 자폐장치 1
+			case 11: // 창폐 장치 1
+			case 12: // 자폐 장치 1
 			case 16: // 급기팬
 			case 17: // 배기팬
 				nValue++;

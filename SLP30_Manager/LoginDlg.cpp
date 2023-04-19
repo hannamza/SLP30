@@ -162,8 +162,8 @@ void CLoginDlg::OnFindClick()
 	CString sName, sPhone, sMsg;
 	CReadWriteState state;
 	state.SetFileName(L"cs.ini");
-	state.ReadText(L"고객상담연락처", L"NAME", sName);
-	state.ReadText(L"고객상담연락처", L"PHONE", sPhone);
+	state.ReadText(L"고객상담 연락처", L"NAME", sName);
+	state.ReadText(L"고객상담 연락처", L"PHONE", sPhone);
 	sMsg.Format(L"\n\n아래 연락처로 연락 주시기 바랍니다.\n\n%s: %s", sName, sPhone);
 	CMessagePopup dlg(L"아이디/패스워드 찾기", sMsg, MB_OK);
 	UINT nResult = dlg.DoModal();

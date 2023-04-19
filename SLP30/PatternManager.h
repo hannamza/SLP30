@@ -86,9 +86,9 @@ private:
 	// 지하 전층(경종, 시각경보, 비상방송)
 	void AddAlarmPatternDown(SYSTEM_INFO_* pInfo);
 
-	// 전층(자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+	// 전층(자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
 	void AddDoorPattern(SYSTEM_INFO_* pInfo);
-	// 계단별 전층(자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+	// 계단별 전층(자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
 	void AddDoorPatternStair(SYSTEM_INFO_* pInfo);
 
 	// 전층 급기댐퍼
@@ -120,7 +120,7 @@ private:
 	void GetAlarmBroadPattern(SYSTEM_INFO_* pInfo, CStringArray & pattern);// 경종, 비상방송, 시각경보 패턴
 	void GetValve(SYSTEM_INFO_* pInfo, CStringArray & system);// 싸이렌 | 교차회로 밸브 값 / 아날로그 감지기 밸브 값
 	void GetSiren(SYSTEM_INFO_* pInfo, CStringArray & system);// 싸이렌 동작확인 시 연동(svp ps, av p/s)
-	void GetDoorPattern(SYSTEM_INFO_* pInfo, CStringArray & pattern); // 자동폐쇄, 창문폐쇄, 옥상문, 비상등, 로비폰, 자동문 패턴
+	void GetDoorPattern(SYSTEM_INFO_* pInfo, CStringArray & pattern); // 자동 폐쇄, 창문 폐쇄, 옥상문, 비상등, 로비폰, 자동문 패턴
 	void GetSmokeScreen(SYSTEM_INFO_* pInfo, CStringArray & system); // 배연창
 	void GetAirDamper(SYSTEM_INFO_* pInfo, CStringArray & pattern); // 전실급기댐퍼
 	void GetExDamper(SYSTEM_INFO_* pInfo, CStringArray & system); // 전실배기댐퍼
@@ -136,8 +136,8 @@ private:
 	CList<pPatternInfo, pPatternInfo> m_visualalarmPattern; // 동별 전층(시각경보, 비상방송)
 	CList<pPatternInfo, pPatternInfo> m_alarmPatternUp;		// 계단별 지상 층별(경종, 시각경보, 비상방송)
 
-	CList<pPatternInfo, pPatternInfo> m_doorPattern;		// 동별 전층(자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
-	CList<pPatternInfo, pPatternInfo> m_doorPatternStair;	// 계단별 전층(자동폐쇄, 창문폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+	CList<pPatternInfo, pPatternInfo> m_doorPattern;		// 동별 전층(자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
+	CList<pPatternInfo, pPatternInfo> m_doorPatternStair;	// 계단별 전층(자동 폐쇄, 창문 폐쇄, 옥상개폐, 로비폰, 자동문, 비상등)
 
 	CList<pPatternInfo, pPatternInfo> m_damperPatternAll;	// 동별 전층 급기댐퍼
 	CList<pPatternInfo, pPatternInfo> m_damperPatternStair;	// 계단별 급기댐퍼

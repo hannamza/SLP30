@@ -72,7 +72,7 @@ BOOL CSetupMakeDataDlg::OnInitDialog()
 		case 연동_밸브_교차:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"소화설비용 감지기 교차회로 연동", this); break;
 		case 연동_밸브_아날로그:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"소화설비용 감지기 1개 연동", this); break;
 		case 연동_싸이렌_작동연동:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"밸브용 감지기 작동시 연동", this); break;
-		case 연동_싸이렌_동작확인:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"밸브 동작확인시 연동", this); break;
+		case 연동_싸이렌_동작확인:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"밸브 동작 확인시 연동", this); break;
 		case 연동_문_전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 전층 연동", this); break;
 		case 연동_문_계단별전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 계단별 전층 연동", this); break;
 		case 연동_배연창_건물해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 해당층 연동", this); break;
@@ -81,9 +81,9 @@ BOOL CSetupMakeDataDlg::OnInitDialog()
 		case 연동_급기_계단별전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 계단별 전층 연동", this); break;
 		case 연동_배기_건물해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 해당층 연동", this); break;
 		case 연동_배기_계단별해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 계단별 해당층 연동", this); break;
-		case 연동_급기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"계단별 급기댐퍼 연동시 연동", this); break;
-		case 연동_배기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"계단별 배기댐퍼 연동시 연동", this); break;
-		case 연동_셔터_연1_열2:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"셔터 연기감지기 작동시 1차 폐쇄 연동, 셔터 열감지기 작동시 2차 폐쇄 연동", this); break;
+		case 연동_급기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"계단별 급기댐퍼 작동시 연동", this); break;
+		case 연동_배기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"계단별 배기댐퍼 작동시 연동", this); break;
+		case 연동_셔터_광전1_정온2:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"셔터 연기감지기 작동시 1차 폐쇄 연동, 셔터 열감지기 작동시 2차 폐쇄 연동", this); break;
 		case 연동_셔터_1차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"셔터 연기, 열 감지기 구분 없이 감지기 작동 시 1차 폐쇄 연동", this); break;
 		case 연동_셔터_2차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"셔터 연기, 열 감지기 구분 없이 감지기 작동 시 2차 폐쇄 연동", this); break;
 		}
@@ -104,7 +104,7 @@ BOOL CSetupMakeDataDlg::OnInitDialog()
 	CSaveManager::ie()->m_makeData.data[연동_배기_건물해당층] = 1;
 	CSaveManager::ie()->m_makeData.data[연동_급기팬_계단별] = 1;
 	CSaveManager::ie()->m_makeData.data[연동_배기팬_계단별] = 1;
-	CSaveManager::ie()->m_makeData.data[연동_셔터_연1_열2] = 1;
+	CSaveManager::ie()->m_makeData.data[연동_셔터_광전1_정온2] = 1;
 
 	m_bInit = true;
 
@@ -237,10 +237,10 @@ LRESULT CSetupMakeDataDlg::ChangeCheckButtonState(WPARAM wParam, LPARAM lParam)
 	case 연동_배기팬_계단별:
 		m_pCheck[연동_배기팬_계단별]->SetCheck(true);
 		break;
-	case 연동_셔터_연1_열2:
+	case 연동_셔터_광전1_정온2:
 	case 연동_셔터_1차만:
 	case 연동_셔터_2차만:
-		m_pCheck[연동_셔터_연1_열2]->SetCheck(false);
+		m_pCheck[연동_셔터_광전1_정온2]->SetCheck(false);
 		m_pCheck[연동_셔터_1차만]->SetCheck(false);
 		m_pCheck[연동_셔터_2차만]->SetCheck(false);
 		m_pCheck[nIndex]->SetCheck(true);
@@ -319,13 +319,13 @@ void CSetupMakeDataDlg::Redisplay()
 		case 13: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
 		case 14: sTemp = L"배연창"; nTerm = (nDefault * 2); bRect = true; break;
 		case 15: sTemp = L""; nTerm = nSpace; break;
-		case 16: sTemp = L"전실급기댐퍼"; nTerm = (nDefault * 2); bRect = true; break;
-		case 17: sTemp = L"전실배기댐퍼"; nTerm = (nDefault * 2); bRect = true; break;
+		case 16: sTemp = L"전실 급기댐퍼"; nTerm = (nDefault * 2); bRect = true; break;
+		case 17: sTemp = L"전실 배기댐퍼"; nTerm = (nDefault * 2); bRect = true; break;
 		case 18: sTemp = L"급기팬"; bRect = true; break;
 		case 19: sTemp = L"배기팬"; bRect = true; break;
 		case 20: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
-		case 21: sTemp = L"셔터1차폐쇄"; nTerm = (nDefault * 2); break;
-		case 22: sTemp = L"셔터2차폐쇄"; nTerm = (nDefault * 2); rtemp1.top = rtemp.top; break;
+		case 21: sTemp = L"셔터 1차 폐쇄"; nTerm = (nDefault * 2); break;
+		case 22: sTemp = L"셔터 2차 폐쇄"; nTerm = (nDefault * 2); rtemp1.top = rtemp.top; break;
 		case 23: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
 		default: break;
 		}

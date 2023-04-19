@@ -454,7 +454,7 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 			if (m_pWaitPopup) {
 				SAFE_DELETE(m_pWaitPopup);
 			}
-			m_pWaitPopup = new CMessagePopup(L"회로 정보 생성", L"\n\n\n회로 정보를 생성중입니다. \n\n잠시만 기다려 주세요.", -1, this);
+			m_pWaitPopup = new CMessagePopup(L"회로 정보 생성", L"\n\n\n회로 정보를 생성 중.. \n\n잠시만 기다려 주세요.", -1, this);
 			m_pWaitPopup->Create(IDD_COMMON_POPUP_DIALOG, this);
 			m_pWaitPopup->ShowWindow(SW_HIDE);
 

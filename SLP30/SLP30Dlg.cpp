@@ -88,7 +88,7 @@ BOOL CSLP30Dlg::OnInitDialog()
 	CSharedMemoryManager::New();
 	if (!CSharedMemoryManager::ie()->CreateSharedMemory()) {
 #ifndef ENGLISH_MODE
-		CMessagePopup popup(L"공유메모리 생성 실패", L"\n\n공유메모리 생성에 실패하였습니다.", MB_OK, this);
+		CMessagePopup popup(L"공유메모리 생성 실패", L"\n\n공유메모리 생성에 실패함", MB_OK, this);
 #else
 		CMessagePopup popup(L"SM Creation Failed", L"\n\nSM Creation Failed.", MB_OK, this);
 #endif	
@@ -98,7 +98,7 @@ BOOL CSLP30Dlg::OnInitDialog()
 	}
 	if (!CSharedMemoryManager::ie()->OpenSharedMemory()) {
 #ifndef ENGLISH_MODE
-		CMessagePopup popup(L"공유메모리 Open 실패", L"\n\n공유메모리 Open에 실패하였습니다.", MB_OK, this);
+		CMessagePopup popup(L"공유메모리 Open 실패", L"\n\n공유메모리 Open에 실패함", MB_OK, this);
 #else	
 		CMessagePopup popup(L"SM Open Failed", L"\n\nSM Open Failed.", MB_OK, this);
 #endif
@@ -326,7 +326,7 @@ void CSLP30Dlg::OnTimer(UINT_PTR nIDEvent)
 
 			if (bTimeout) {
 #ifndef ENGLISH_MODE
-				CMessagePopup dlg(L"로그인", L"\n\n서버에 접속할 수 없습니다.\n\n서버 또는 네트워크 문제일 수 있습니다.", MB_OK);
+				CMessagePopup dlg(L"로그인", L"\n\n서버에 접속할 수 없음\n\n서버 또는 네트워크 문제일 수 있음", MB_OK);
 #else
 				CMessagePopup dlg(L"Login", L"\n\nThe Server could not be contacted.\n\nIt could be a server or network issue.", MB_OK);
 #endif
@@ -334,7 +334,7 @@ void CSLP30Dlg::OnTimer(UINT_PTR nIDEvent)
 			}
 			else {
 #ifndef ENGLISH_MODE
-				CMessagePopup dlg(L"로그인", L"\n\n로그인 아이디 또는 비밀번호가 맞지 않습니다.\n\n다시 시도하여 주십시오.", MB_OK);
+				CMessagePopup dlg(L"로그인", L"\n\n로그인 아이디 또는 비밀번호 오류\n\n다시 시도해 주세요.", MB_OK);
 #else
 				CMessagePopup dlg(L"Login", L"\n\nLogin ID or password is incorrect.\n\nPlease try again.", MB_OK);
 #endif

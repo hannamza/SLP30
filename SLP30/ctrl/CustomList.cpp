@@ -1504,7 +1504,7 @@ void CCustomList::OnListCircuitNoChange()
 
 		if (dlg.m_strNewCircuitNo.Compare(L"") == 0)
 		{
-			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호가 입력되지 않았습니다.", MB_OK, this);
+			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호가 입력안됨", MB_OK, this);
 			popup.DoModal();
 			return;
 		}
@@ -1514,7 +1514,7 @@ void CCustomList::OnListCircuitNoChange()
 
 		if (nNewCircuitNum <= 0 || nNewCircuitNum > MAX_CIRCUIT)
 		{
-			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호는 1 ~ 250번까지\n입력할 수 있습니다.", MB_OK, this);
+			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호는 1 ~ 250번까지\n입력 가능함", MB_OK, this);
 			popup.DoModal();
 			return;
 		}

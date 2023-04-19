@@ -115,27 +115,27 @@ BOOL CCircuitBasicInfoDlg::OnInitDialog()
 	int nY = 188;
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
 		switch (nIndex) {
-		case 0:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[소화전] PBL SET 있는 경우 체크하여 주십시오", this); break;
-		case 1:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[발신기] PBL SET 있는 경우 체크하여 주십시오", this); break;
-		case 2:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[알람밸브] 스프링클러 설비중 알람밸브가 있는 경우 체크하여 주십시오", this); break;
-		case 3:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[프리액션밸브] 스프링클러 설비중 프리액션밸브가 있는 경우 체크하여 주십시오", this); break;
-		case 4:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[시각경보] 시각경보 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 5:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[전실제연] 전실제연 급기설비가 있는 경우 체크하여 주십시오", this); break;
-		case 6:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[전실제연] 전실제연 배기설비가 있는 경우 체크하여 주십시오", this); break;
-		case 7:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[상가제연] 상가제연 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 8:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[방화셔터] 방화셔터 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 9:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[배연창] 배연창 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 10:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[방화문] 방화문 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 11:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[창폐장치] 창문폐쇄장치가 있는 경우 체크하여 주십시오", this); break;
-		case 12:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[자폐장치] 자동폐쇄장치가 있는 경우 체크하여 주십시오", this); break;
-		case 13:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[소화전기동확인] 소화전기동 표시등이 있는 경우 체크하여 주십시오", this); break;
-		case 14:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[옥상개폐확인] 옥상개폐 확인이 있는 경우 체크하여 주십시오", this); break;
-		case 15:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[저수위감시] 저수위감시가 있는 경우 체크하여 주십시오", this); break;
-		case 16:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[제연급기팬] 급기팬 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 17:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[제연배기팬] 배기팬 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 18:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[감지기] 주소형, 차동, 연기/아날로그 연기, 정온/계단감지기/ELEV감지기/감지기가 있는 경우 체크하여 주십시오", this); break;
-		case 19:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[TS 설비] TS 설비가 있는 경우 체크하여 주십시오", this); break;
-		case 20:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[피난사다리] 피난사다리가 있는 경우 체크하여 주십시오", this); break;
+		case 0:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[소화전] PBL SET", this); break;
+		case 1:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[발신기] PBL SET", this); break;
+		case 2:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[알람밸브] 스프링클러 알람밸브", this); break;
+		case 3:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[프리액션밸브] 스프링클러 프리액션밸브", this); break;
+		case 4:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[시각경보] 시각경보 설비", this); break;
+		case 5:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[전실 제연] 전실 제연 급기설비", this); break;
+		case 6:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[전실 제연] 전실 제연 배기설비", this); break;
+		case 7:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[상가 제연] 상가 제연 설비", this); break;
+		case 8:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[방화 셔터] 방화 셔터 설비", this); break;
+		case 9:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[배연창] 배연창 설비", this); break;
+		case 10:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[방화문] 방화문 설비", this); break;
+		case 11:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[창폐 장치] 창문 폐쇄장치", this); break;
+		case 12:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[자폐 장치] 자동 폐쇄장치", this); break;
+		case 13:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[소화전 기동 확인] 소화전 기동 표시등", this); break;
+		case 14:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[옥상 개폐 확인] 옥상 개폐 확인", this); break;
+		case 15:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[저수위 감시] 저수위 감시", this); break;
+		case 16:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[제연 급기팬] 급기팬 설비", this); break;
+		case 17:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[제연 배기팬] 배기팬 설비", this); break;
+		case 18:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[감지기] 아날로그형, 주소형, 일반형", this); break;
+		case 19:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[TS 설비] TS 설비", this); break;
+		case 20:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[피난사다리] 피난사다리", this); break;
 		}
 		
 		m_pCheck[nIndex]->Create(IDD_COMMON_CHILD_DIALOG, this);
@@ -255,37 +255,37 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	sFloor.Trim();
 	sBase.Trim();
 	if (sBD.GetLength() == 0) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물명을 입력하여 주십시오.", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n건물명을 입력하세요.", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (sBlock.GetLength() == 0 || !CCommonFunc::CheckDigit(sBlock.GetBuffer(0))) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 수를 입력하여 주십시오.\n\n(숫자만 입력 가능합니다.)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 개수를 입력하세요.\n\n(숫자만 입력 가능)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (sBlockName.GetLength() == 0) {// || !CCommonFunc::CheckDigit(sBlockName.GetBuffer(0))) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 이름을 입력하여 주십시오.\n\n(입력범위: 1 ~ 99999, 예) 101,102,103)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 이름을 입력하세요.\n\n(예: 101,102,103,가,나,다)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (sStair.GetLength() == 0 || !CCommonFunc::CheckDigit(sStair.GetBuffer(0))) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n계단수를 입력하여 주십시오.\n\n(숫자만 입력 가능합니다.)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n계단수를 입력하세요.\n\n(숫자만 입력 가능)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (sFloor.GetLength() == 0 || !CCommonFunc::CheckDigit(sFloor.GetBuffer(0))) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지상층을 입력하여 주십시오.\n\n(숫자만 입력 가능합니다.)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지상층수를 입력하세요.\n\n(숫자만 입력 가능)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (sBase.GetLength() == 0 || !CCommonFunc::CheckDigit(sBase.GetBuffer(0))) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지하층을 입력하여 주십시오.\n\n(숫자만 입력 가능합니다.)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지하층수를 입력하세요.\n\n(숫자만 입력 가능)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (sRoofTop.GetLength() == 0 || !CCommonFunc::CheckDigit(sRoofTop.GetBuffer(0))) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층을 입력하여 주십시오.\n\n(숫자만 입력 가능합니다.)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층수를 입력하세요.\n\n(숫자만 입력 가능)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
@@ -303,7 +303,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 	int nBlock = _ttoi(sBlock.GetBuffer());
 	//int nBlockName = _ttoi(sBlockName.GetBuffer());
 	if (nBlock < 0 || nBlock > 3) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 정보를 다시 입력하여 주십시오.\n\n(입력범위: 0 ~ 3동, 0: 사용안함)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 정보를 다시 입력하세요.\n\n(입력범위: 0 ~ 3동, 0: 사용안함)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
@@ -313,22 +313,22 @@ void CCircuitBasicInfoDlg::OnNextClick()
 		return;
 	}*/
 	if (nStair < 1 || nStair > 3) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n계단 정보를 다시 입력하여 주십시오.\n\n(입력범위: 1 ~ 3계단)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n계단수를 다시 입력하세요.\n\n(입력범위: 1 ~ 3계단)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (nFloor < 1 || nFloor > 25) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지상층 정보를 다시 입력하여 주십시오.\n\n(입력범위: 1 ~ 25층)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지상층수를 다시 입력하세요.\n\n(입력범위: 1 ~ 25F)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (nBase < 0 || nBase > 5) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지하층 정보를 다시 입력하여 주십시오.\n\n(입력범위: 0 ~ 5층)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n지하층수를 다시 입력하세요.\n\n(입력범위: 0 ~ 5F)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
 	if (nRooftop < 0 || nRooftop > 1) {
-		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층 정보를 다시 입력하여 주십시오.\n\n(입력범위: 0 ~ 1층)", MB_OK, this);
+		CMessagePopup popup(L"회로 기본 입력", L"\n\n\n옥탑층수를 다시 입력하세요.\n\n(입력범위: 0 ~ 1층)", MB_OK, this);
 		popup.DoModal();
 		return;
 	}
@@ -338,7 +338,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 		sToken.TrimLeft();
 		sToken.TrimRight();
 		if (!bResult || sToken.GetLength() == 0) {
-			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 이름 정보를 다시 입력하여 주십시오.\n\n(입력범위: 1 ~ 99999, 예) 101,102,103)", MB_OK, this);
+			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n동 이름을 다시 입력하세요.\n\n(예: 101,102,103,가,나,다)", MB_OK, this);
 			popup.DoModal();
 			return;
 		}
@@ -362,7 +362,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 			|| CCircuitBasicInfo::Instance()->m_nFloor != _ttoi(sFloor.GetBuffer()) || CCircuitBasicInfo::Instance()->m_nBasement != _ttoi(sBase.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nRooftop != _ttoi(sRoofTop.GetBuffer())
 			|| CCircuitBasicInfo::Instance()->m_nBlock != _ttoi(sBlock.GetBuffer()) || !bCompare) {
-			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n새로운 [회로 정보 선택]을 반영하시겠습니까?\n\n(확인: 편집 적용 / 취소: 편집 취소)", MB_YESNO, this);
+			CMessagePopup popup(L"회로 기본 입력", L"\n\n\n새로운 [회로 정보 선택]을 적용하시겠습니까?", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				bChange = true;
@@ -379,7 +379,7 @@ void CCircuitBasicInfoDlg::OnNextClick()
 #if 1
 		if (!m_bBuildingInfoComplate)
 		{
-			CMessagePopup popup(L"건물 정보 확정", L"\n\n\n건물 정보는 한번 결정되면 편집이 불가능합니다.\n\n반영하시겠습니까?\n\n(이후에 [회로 정보 선택]은 변경 가능)", MB_YESNO, this);
+			CMessagePopup popup(L"건물 정보 확정", L"\n\n\n건물 정보 확정 후 변경 불가능함\n\n적용하시겠습니까?", MB_YESNO, this);
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK) {
 				CCircuitBasicInfo::Instance()->m_sBuildingName = sBD;
