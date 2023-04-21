@@ -42,7 +42,7 @@ BEGIN_MESSAGE_MAP(CCircuitChartDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // CCircuitChartDlg 메시지 처리기입니다.
-const TCHAR* g_editHeader[] = { _T("중계기No"), _T("회로No"), _T("설비명"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("실명"), _T("설비번호"), NULL };
+const TCHAR* g_editHeader[] = { _T("중계기No"), _T("회로No"), _T("회로명"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("실명"), _T("설비번호"), NULL };
 const int g_editSize[] = { 80, 70, 200, 80, 120, 90, 90, 100, 75, 0 }; // pixel
 
 //20221026 GBM start - 중계기No, 실명, 설비번호만 수정가능하도록 함
