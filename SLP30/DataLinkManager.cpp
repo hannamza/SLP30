@@ -156,7 +156,11 @@ bool CDataLinkManager::LcdContentsWrite(SYSTEM_INFO_* pInfo, FILE* f, long & lSi
 		}
 	}
 	(wcslen(pInfo->szRoomName) > 0) ? strTxt.Format(L" %s ", pInfo->szRoomName) : strTxt = L" ";
+#ifndef ENGLISH_MODE
 	sText.Format(L"%s동 %d계단 %s%s%s", pInfo->szBlock, pInfo->nStair, sFloor, strTxt, pInfo->szCircuitName);
+#else
+	sText.Format(L"%sB.BLCK %dLINE %s%s%s", pInfo->szBlock, pInfo->nStair, sFloor, strTxt, pInfo->szCircuitName);
+#endif
 	if (pInfo->nCircuitNo > 0) {
 		strTxt.Format(L"%s-%d", sText, pInfo->nCircuitNo);
 	}
@@ -561,9 +565,15 @@ bool CDataLinkManager::WritePsInfo(FILE* mainf, FILE* lcdf, long & lMainPt, long
 			continue;
 		}
 		switch (nIndex) {
+#ifndef ENGLISH_MODE
 		case 0: strLcdTxt = L"옥내소화전 주펌프 입력 P/S 확인"; break;
 		case 1: strLcdTxt = L"옥내소화전 예비펌프 입력 P/S 확인"; break;
 		case 2: strLcdTxt = L"옥내소화전 보조펌프 입력 P/S 확인"; break;
+#else
+		case 0: strLcdTxt = L"HYDRANT MAIN PUMP P/S ACT"; break;
+		case 1: strLcdTxt = L"HYDRANT SPARE PUMP P/S ACT"; break;
+		case 2: strLcdTxt = L"HYDRANT AUX PUMP P/S ACT"; break;
+#endif
 		default: continue;
 		}
 		LcdContentsWriteCommon(lcdf, strLcdTxt, lLcdPt);
@@ -626,10 +636,17 @@ bool CDataLinkManager::WritePumpInfo(FILE* mainf, FILE* lcdf, long & lMainPt, lo
 			continue;
 		}
 		switch (nIndex) {
+#ifndef ENGLISH_MODE
 		case 0: strLcdTxt = L"옥내소화전 주펌프 기동확인"; break;
 		case 1: strLcdTxt = L"옥내소화전 예비펌프 기동확인"; break;
 		case 2: strLcdTxt = L"옥내소화전 보조펌프 기동확인"; break;
 		case 3: strLcdTxt = L"비상발전기 기동확인"; break;
+#else
+		case 0: strLcdTxt = L"HYDRANT MAIN PUMP OPERATION ACT"; break;
+		case 1: strLcdTxt = L"HYDRANT SPARE PUMP OPERATION ACT"; break;
+		case 2: strLcdTxt = L"HYDRANT AUX PUMP OPERATION ACT"; break;
+		case 3: strLcdTxt = L"EMERGENCY GENERATOR OPERATION CHECK"; break;
+#endif
 		default: continue;
 		}
 		CPatternManager::ie()->GetLamp(system);
@@ -809,9 +826,15 @@ bool CDataLinkManager::MakeCRTData()
 			continue;
 		}
 		switch (nIndex) {
+#ifndef ENGLISH_MODE
 		case 0: sName = L"주펌프 입력"; break; //압력스위치 01
 		case 1: sName = L"예비펌프 입력"; break; //압력스위치 02
 		case 2: sName = L"보조펌프 입력"; break; //압력스위치 03
+#else
+		case 0: sName = L"MAIN PUMP INPUT"; break; //압력스위치 01
+		case 1: sName = L"SPARE PUMP INPUT"; break; //압력스위치 02
+		case 2: sName = L"AUX PUMP INPUT"; break; //압력스위치 03
+#endif
 		default: break;
 		}
 		sText.Format(L"%02d%02d%d%03d,%02d,%02d,%s\n", 0, 63, 0, nIndex+1, 1, 0, sName);
@@ -826,10 +849,17 @@ bool CDataLinkManager::MakeCRTData()
 		}
 		nInput = 2;
 		switch (nIndex) {
+#ifndef ENGLISH_MODE
 		case 0: sName = L"주펌프"; break;
 		case 1: sName = L"예비펌프"; break;
 		case 2: sName = L"보조펌프"; break;
 		case 3: sName = L"비상발전기"; nInput = 3; break;
+#else
+		case 0: sName = L"MAIN PUMP"; break;
+		case 1: sName = L"SPARE PUMP"; break;
+		case 2: sName = L"AUX PUMP"; break;
+		case 3: sName = L"GENERATOR"; nInput = 3; break;
+#endif
 		default: break;
 		}
 		sText.Format(L"%02d%02d%d%03d,%02d,%02d,%s\n", 0, 63, 1, nIndex + 1, nInput, 0, sName);
@@ -879,13 +909,21 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	sSamplePath.Format(L"%s\\sample2.xlsx", wszPath);
 
 	if (sSamplePath.CompareNoCase(sPath) == 0) {
-		CMessagePopup popup(L"Excel 파일 생성", L"\n\n해당 파일은 프로그램 파일임\n\n다른 경로를 선택하세요.", MB_OK, CCommonState::Instance()->m_pWnd);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"EXCEL 저장", L"\n\n해당 파일은 프로그램 파일임\n\n다른 경로를 선택하세요.", MB_OK, CCommonState::Instance()->m_pWnd);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nThis file is a program file.\n\nSelect another file or path.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
 		UINT nResult = popup.DoModal();
 		return -2;
 	}
 
 	if (::PathFileExists(sPath)) {
-		CMessagePopup popup(L"Excel 파일 생성", L"\n\n같은 이름의 파일이 존재함\n\n덮어쓰기 하겠습니까?", MB_YESNO, CCommonState::Instance()->m_pWnd);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"EXCEL 저장", L"\n\n같은 이름의 파일이 존재함\n\n덮어쓰기 하겠습니까?", MB_YESNO, CCommonState::Instance()->m_pWnd);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nA File with same name already exist.\n\nDo you overwrite this file?", MB_YESNO, CCommonState::Instance()->m_pWnd);
+#endif
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
 			return -3;
@@ -895,7 +933,11 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		}
 		HANDLE hHandle = CreateFile(sPath, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 		if (hHandle == INVALID_HANDLE_VALUE) {
-			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n해당 파일이 사용중", MB_OK, CCommonState::Instance()->m_pWnd);
+#ifndef ENGLISH_MODE
+			CMessagePopup popup(L"EXCEL 저장", L"\n\n파일 저장 실패\n\n해당 파일이 사용중", MB_OK, CCommonState::Instance()->m_pWnd);
+#else
+			CMessagePopup popup(L"Save as Excel", L"\n\nFailed to save Excel\n\nThe file is already in use.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
 			UINT nResult = popup.DoModal();
 			return -4;
 		}
@@ -903,7 +945,11 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 
 		CFile::Rename(sPath, sPath + L".tmp");
 		if (::PathFileExists(sPath)) {
-			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::Instance()->m_pWnd);
+#ifndef ENGLISH_MODE
+			CMessagePopup popup(L"EXCEL 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::Instance()->m_pWnd);
+#else
+			CMessagePopup popup(L"Save as Excel", L"\n\nFailed to save Excel\n\nThe file is in use\nor there is a permission issue.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
 			UINT nResult = popup.DoModal();
 			CFile::Rename(sPath + L".tmp", sPath);
 			return -5;
@@ -922,7 +968,12 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	if (g_pWaitDataLink) {
 		SAFE_DELETE(g_pWaitDataLink);
 	}
-	g_pWaitDataLink = new CMessagePopup(L"Excel 파일 생성", L"\n\n\nExcel 파일 생성 중 .. \n\n잠시만 기다려 주세요.", -1, CCommonState::Instance()->m_pWnd);
+
+#ifndef ENGLISH_MODE
+	g_pWaitDataLink = new CMessagePopup(L"EXCEL 저장", L"\n\n\nExcel 파일 생성 중 .. \n\n잠시만 기다려 주세요.", -1, CCommonState::Instance()->m_pWnd);
+#else
+	g_pWaitDataLink = new CMessagePopup(L"Save as Excel", L"\n\n\nSaving the excel file is in progress.\n\nWait for a moment.", -1, CCommonState::Instance()->m_pWnd);
+#endif
 	g_pWaitDataLink->Create(IDD_COMMON_POPUP_DIALOG);
 	g_pWaitDataLink->ShowWindow(SW_HIDE);
 
@@ -940,7 +991,12 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	g_pWaitDataLink->SetForegroundWindow();
 	::SetWindowPos(g_pWaitDataLink->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 
+#ifndef ENGLISH_MODE
 	g_pWaitDataLink->SetCaptionAddBottom(L"                파일 생성 중 ..               ");
+#else
+	//아래에서 (Total/Completed) 와 위치가 겹침
+	g_pWaitDataLink->SetCaptionAddBottom(L"                   Saving ..                  ");
+#endif
 
 	int nTotalCount = CSaveManager::Instance()->m_listSystem.GetCount() + CPatternManager::Instance()->GetPatternCount() + CSaveManager::Instance()->m_listBC.GetCount() + 7;
 	int nCurrentCount = 1;
@@ -962,7 +1018,11 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		// get equip item
 		pInfo = CSaveManager::Instance()->m_listSystem.GetAt(CSaveManager::Instance()->m_listSystem.FindIndex(nIndex));
 		if (wcslen(pInfo->szCircuitName) == 0) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+			sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 			++nCurrentCount;
 			g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 			continue;
@@ -970,7 +1030,11 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		// get equip index
 		nCircuitIndex = CCircuitBasicInfo::Instance()->GetIndexCircuitName(pInfo->szCircuitName);
 		if (nCircuitIndex == -1) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+			sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 			++nCurrentCount;
 			g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 			continue;
@@ -986,20 +1050,34 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		sOutput = CCircuitBasicInfo::Instance()->GetCircuitOutput(nCircuitIndex);
 		XL.SetCellValue(4, 2 + (nIndex * 2), sOutput);
 		if (bBlock) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%s동%d계단 %s", pInfo->szBlock, pInfo->nStair, pInfo->szCircuitName);
 			XL.SetCellValue(5, 2 + (nIndex * 2), sTemp);
 			sTemp.Format(L"%s동 %d계단", pInfo->szBlock, pInfo->nStair);
 			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
+#else
+			sTemp.Format(L"%sB.BLCK%dLINE %s", pInfo->szBlock, pInfo->nStair, pInfo->szCircuitName);
+			XL.SetCellValue(5, 2 + (nIndex * 2), sTemp);
+			sTemp.Format(L"%sB.BLCK %dLINE", pInfo->szBlock, pInfo->nStair);
+			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
+#endif
 		}
 		else if (CCircuitBasicInfo::Instance()->m_nStair <= 1) {
 			sTemp.Format(L"%s", pInfo->szCircuitName);
 			XL.SetCellValue(5, 2 + (nIndex * 2), sTemp);
 		}
 		else {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%d계단 %s", pInfo->nStair, pInfo->szCircuitName);
 			XL.SetCellValue(5, 2 + (nIndex * 2), sTemp);
 			sTemp.Format(L"%d계단", pInfo->nStair);
 			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
+#else
+			sTemp.Format(L"%dLINE %s", pInfo->nStair, pInfo->szCircuitName);
+			XL.SetCellValue(5, 2 + (nIndex * 2), sTemp);
+			sTemp.Format(L"%dLINE", pInfo->nStair);
+			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
+#endif
 		}
 		if (pInfo->bRooftop)	//옥탑층
 		{
@@ -1017,11 +1095,19 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		if (bBlock) {
 			if (pInfo->bRooftop)	//옥탑층
 			{
+#ifndef ENGLISH_MODE
 				sTemp.Format(L"%s동 %d계단 %s%s%s", pInfo->szBlock, pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
+#else
+				sTemp.Format(L"%sB.BLCK %dLINE %s%s%s", pInfo->szBlock, pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
+#endif
 			}
 			else
 			{
+#ifndef ENGLISH_MODE
 				sTemp.Format(L"%s동 %d계단 %s%dF%s%s", pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+#else
+				sTemp.Format(L"%sB.BLCK %dLINE %s%dF%s%s", pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+#endif
 			}
 		}
 		else if (CCircuitBasicInfo::Instance()->m_nStair <= 1) {
@@ -1037,11 +1123,19 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		else {
 			if (pInfo->bRooftop)	//옥탑층
 			{
+#ifndef ENGLISH_MODE
 				sTemp.Format(L"%d계단 %s%s%s", pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
+#else
+				sTemp.Format(L"%dLINE %s%s%s", pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
+#endif
 			}
 			else
 			{
+#ifndef ENGLISH_MODE
 				sTemp.Format(L"%d계단 %s%dF%s%s", pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+#else
+				sTemp.Format(L"%dLINE %s%dF%s%s", pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+#endif
 			}
 		}
 		XL.SetCellValue(32, 2 + (nIndex * 2), sTemp);
@@ -1060,7 +1154,11 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 			XL.SetCellValue(7 + i, 3 + (nIndex * 2), sTemp);
 		}
 
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+		sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 		++nCurrentCount;
 		g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 	}
@@ -1070,7 +1168,11 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	for (int nIndex = 0; nIndex < nCount; nIndex++) {
 		pPtn = CPatternManager::Instance()->GetPatternInfo(nIndex);
 		if (!pPtn) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+			sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 			++nCurrentCount;
 			g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 			continue;
@@ -1084,8 +1186,11 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 		for (int i = 0; i < pPtn->arrayBroad.GetCount(); i++) {
 			XL.SetCellValue(4 + i, 2 + (nIndex * 2), L"A" + pPtn->arrayBroad.GetAt(i));
 		}
-
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+		sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 		++nCurrentCount;
 		g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 	}
@@ -1098,17 +1203,29 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 
 		if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑층
 		{
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%s동 %s", pBc->szBlock, strRooftop);
+#else
+			sTemp.Format(L"%sB.BLCK %s", pBc->szBlock, strRooftop);
+#endif
 		}
 		else
 		{
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%s동 %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+#else
+			sTemp.Format(L"%sB.BLCK %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+#endif
 		}
 		
 		XL.SetCellValue(2, 3 + nIndex, sTemp);
 		XL.SetCellValue(3, 3 + nIndex, pBc->BC_CONTAIN);
 
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+		sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 		++nCurrentCount;
 		g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 	}
@@ -1118,6 +1235,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	for (int nIndex = 0; nIndex < 3; nIndex++) {
 		if (CSaveManager::Instance()->m_PSInfo.use[nIndex] == 1) {
 			switch (nIndex) {
+#ifndef ENGLISH_MODE
 			case 0:
 			case 1:
 				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"감시 지속");
@@ -1125,24 +1243,53 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 			case 2:
 				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"감시 비지속");
 				break;
+#else
+			case 0:
+			case 1:
+				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"SUPVISORY (LATCH)");
+				break;
+			case 2:
+				XL.SetCellValue(3, 2 + (nTempIndex * 2), L"SUPVISORY (UNLATCH)");
+				break;
+#endif
 			default: continue;
 			}
+#ifndef ENGLISH_MODE
 			XL.SetCellValue(26, 2 + (nTempIndex * 2), L"옥내소화전");
+#else
+			XL.SetCellValue(26, 2 + (nTempIndex * 2), L"HYDRANT");
+#endif
 			//sTemp.Format(L"압력스위치 %02d", nIndex + 1);
 			switch (nIndex) {
+#ifndef ENGLISH_MODE
 			case 0: sOutput = L"주펌프 입력"; break;
 			case 1: sOutput = L"예비펌프 입력"; break;
 			case 2: sOutput = L"보조펌프 입력"; break;
+#else
+			case 0: sOutput = L"MAIN PUMP INPUT"; break;
+			case 1: sOutput = L"SPARE PUMP INPUT"; break;
+			case 2: sOutput = L"AUX PUMP INPUT"; break;
+#endif
 			default: continue;
 			}
 			XL.SetCellValue(27, 2 + (nTempIndex * 2), sOutput);
+#ifndef ENGLISH_MODE
 			XL.SetCellValue(28, 2 + (nTempIndex * 2), L"P/S");
 			XL.SetCellValue(29, 2 + (nTempIndex * 2), L"확인");
 			sTemp.Format(L"옥내소화전 %s P/S 확인", sOutput);
+#else
+			XL.SetCellValue(28, 2 + (nTempIndex * 2), L"P/S");
+			XL.SetCellValue(29, 2 + (nTempIndex * 2), L"ACT");
+			sTemp.Format(L"HYDRANT %s P/S ACT", sOutput);
+#endif
 			XL.SetCellValue(31, 2 + (nTempIndex * 2), sTemp);
 			++nTempIndex;
 		}
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+		sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 		++nCurrentCount;
 		g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 	}
@@ -1153,44 +1300,83 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	for (int nIndex = 0; nIndex < 4; nIndex++) {
 		if (CSaveManager::Instance()->m_pumpInfo.use[nIndex] == 1) {
 			switch (nIndex) {
+#ifndef ENGLISH_MODE
 			case 0: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"주펌프 입력"); break;
 			case 1: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"예비펌프 입력"); break;
 			case 2: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"보조펌프 입력"); break;
 			case 3: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"비상발전기 전원"); break;
+#else
+			case 0: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"MAIN PUMP INPUT"); break;
+			case 1: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"SPARE PUMP INPUT"); break;
+			case 2: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"AUX PUMP INPUT"); break;
+			case 3: XL.SetCellValue(3, 2 + (nTempIndex * 2), L"GENERATOR POWER"); break;
+#endif
 			default: break;
 			}
+#ifndef ENGLISH_MODE
 			XL.SetCellValue(26, 2 + (nTempIndex * 2), L"옥내소화전");
+#else
+			XL.SetCellValue(26, 2 + (nTempIndex * 2), L"HYDRANT");
+#endif
 			for (int i = 0; i < system.GetCount(); i++) {
 				sOutput = system.GetAt(i);
 				XL.SetCellValue(6 + i, 2 + (nTempIndex * 2), sOutput);
 			}
 			switch (nIndex) {
+#ifndef ENGLISH_MODE
 			case 0:	sInput = L"주펌프 "; break;
 			case 1:	sInput = L"예비펌프 "; break;
 			case 2:	sInput = L"보조펌프 "; break;
+#else
+			case 0:	sInput = L"MAIN PUMP "; break;
+			case 1:	sInput = L"SPARE PUMP "; break;
+			case 2:	sInput = L"AUX PUMP "; break;
+#endif
 			default: sInput = L""; break;
 			}
 
 			XL.SetCellValue(27, 2 + (nTempIndex * 2), sInput);
+#ifndef ENGLISH_MODE
 			XL.SetCellValue(28, 2 + (nTempIndex * 2), L"기동");
 			XL.SetCellValue(29, 2 + (nTempIndex * 2), L"확인");
+#else
+			XL.SetCellValue(28, 2 + (nTempIndex * 2), L"OPERATION");
+			XL.SetCellValue(29, 2 + (nTempIndex * 2), L"ACT");
+#endif
 			if (nIndex == 3) {
+#ifndef ENGLISH_MODE
 				XL.SetCellValue(26, 2 + (nTempIndex * 2), L"비상발전기");
 				sTemp = L"비상발전기 기동확인";
+#else
+				XL.SetCellValue(26, 2 + (nTempIndex * 2), L"GENERATOR");
+				sTemp = L"EMERGENCY GENERATOR OPERATION CHECK";
+#endif
 			}
 			else {
+#ifndef ENGLISH_MODE
 				sTemp.Format(L"옥내소화전 %s 기동확인", sInput);
+#else
+				sTemp.Format(L"HYDRANT %s OPERATION ACT", sInput);
+#endif
 			}
 			XL.SetCellValue(31, 2 + (nTempIndex * 2), sTemp);
 			++nTempIndex;
 		}
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+		sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 		++nCurrentCount;
 		g_pWaitDataLink->SetCaptionAddBottom(sTemp);
 	}
 	Sleep(300); // 메시지 출력 대기 시간
 
+#ifndef ENGLISH_MODE
 	g_pWaitDataLink->SetCaptionAddBottom(L"                저장 중..               ");
+#else
+	g_pWaitDataLink->SetCaptionAddBottom(L"                Saving..               ");
+#endif
 
 	XL.SaveFileAs(sPath);
 	XL.ReleaseExcel();

@@ -60,10 +60,15 @@ void CSaveManager::SetBroadcast(CString sBlock, short nStair, short nFloor, WCHA
 	m_listBC.AddTail(pInfo);
 }
 
+//.slp 파일저장
 bool CSaveManager::FileSave(CString sPath)
 {
 	if (::PathFileExists(sPath)) {
-		CMessagePopup popup(L"정보 저장", L"\n\n같은 이름의 파일이 존재함\n\n덮어쓰기 하겠습니까?", MB_YESNO, NULL);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"편집정보 저장", L"\n\n같은 이름의 파일이 존재함\n\n덮어쓰기 하겠습니까?", MB_YESNO, NULL);
+#else
+		CMessagePopup popup(L"Save Edit Info", L"\n\nA File with same name already exist.\n\nDo you overwrite this file?", MB_YESNO, NULL);
+#endif
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
 			return false;
@@ -73,7 +78,11 @@ bool CSaveManager::FileSave(CString sPath)
 		}
 		CFile::Rename(sPath, sPath + L".tmp");
 		if (::PathFileExists(sPath)) {
-			CMessagePopup popup(L"정보 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
+#ifndef ENGLISH_MODE
+			CMessagePopup popup(L"편집정보 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
+#else
+			CMessagePopup popup(L"Save Edit Info", L"\n\nFailed to save File\n\nThe file is in use\nor there is a permission issue.", MB_OK, NULL);
+#endif
 			UINT nResult = popup.DoModal();
 			CFile::Rename(sPath + L".tmp", sPath);
 			return false;
@@ -82,7 +91,11 @@ bool CSaveManager::FileSave(CString sPath)
 	FILE* f;
 	f = _wfopen(sPath.GetBuffer(0), L"wb");
 	if (!f) {
-		CMessagePopup popup(L"정보 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"편집정보 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
+#else
+		CMessagePopup popup(L"Save Edit Info", L"\n\nFailed to save File\n\nThe file is in use\nor there is a permission issue.", MB_OK, NULL);
+#endif
 		UINT nResult = popup.DoModal();
 		::DeleteFile(sPath + L".tmp");
 		return false;
@@ -201,14 +214,22 @@ bool CSaveManager::FileSave(CString sPath)
 bool CSaveManager::FileLoad(CString sPath)
 {
 	if (!::PathFileExists(sPath)) {
-		CMessagePopup popup(L"불러오기", L"\n\n파일이 존재하지 않습니다.\n\n확인하고 다시 시도해 주세요.", MB_OK, NULL);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"편집정보 불러오기", L"\n\n파일이 존재하지 않습니다.\n\n확인하고 다시 시도해 주세요.", MB_OK, NULL);
+#else
+		CMessagePopup popup(L"Load Edit Info", L"\n\nFile does NOT exist.\n\nCheck and try again.", MB_OK, NULL);
+#endif
 		UINT nResult = popup.DoModal();
 		return false;
 	}
 	FILE* f;
 	f = _wfopen(sPath.GetBuffer(0), L"rb");
 	if (!f) {
-		CMessagePopup popup(L"불러오기", L"\n\n파일 읽기 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"편집정보 불러오기", L"\n\n파일 읽기 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, NULL);
+#else
+		CMessagePopup popup(L"Load Edit Info", L"\n\nFailed to open File\n\nThe file is in use\nor there is a permission issue.", MB_OK, NULL);
+#endif
 		UINT nResult = popup.DoModal();
 		return false;
 	}
@@ -286,12 +307,21 @@ bool CSaveManager::FileLoad(CString sPath)
 			pCircuit->sStair = pInfo->info[nIndex].szStair;
 			pCircuit->sSystem = pInfo->info[nIndex].szSystem;
 
+#ifndef ENGLISH_MODE
 			if (wcscmp(pInfo->info[nIndex].szSystem, L"0 계통") == 0) {
 				CCommonState::ie()->m_selectCircuit_0.AddTail(pCircuit);
 			}
 			else if (wcscmp(pInfo->info[nIndex].szSystem, L"1 계통") == 0) {
 				CCommonState::ie()->m_selectCircuit_1.AddTail(pCircuit);
 			}
+#else
+			if (wcscmp(pInfo->info[nIndex].szSystem, L"LOOP 0") == 0) {
+				CCommonState::ie()->m_selectCircuit_0.AddTail(pCircuit);
+			}
+			else if (wcscmp(pInfo->info[nIndex].szSystem, L"LOOP 1") == 0) {
+				CCommonState::ie()->m_selectCircuit_1.AddTail(pCircuit);
+			}
+#endif
 			else {
 				SAFE_DELETE(pCircuit);
 				SAFE_DELETE(pCount);
@@ -427,13 +457,35 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	CString sSamplePath;
 	sSamplePath.Format(L"%s\\sample1.xlsx", wszPath);
 	if (sSamplePath.CompareNoCase(sPath) == 0) {
-		CMessagePopup popup(L"Excel 파일 생성", L"\n\n해당 파일은 프로그램 파일임\n\n다른 경로를 선택하세요.", MB_OK, CCommonState::ie()->m_pWnd);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"Excel 저장", L"\n\n해당 파일은 프로그램 파일임\n\n다른 경로를 선택하세요.", MB_OK, CCommonState::ie()->m_pWnd);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nThis file is a program file.\n\nSelect another file or path.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
 		UINT nResult = popup.DoModal();
 		return -1;
 	}
 
+	//sample2.xlsx 선택 여부도 검사
+	CString sSamplePath2;
+	sSamplePath2.Format(L"%s\\sample2.xlsx", wszPath);
+	if (sSamplePath2.CompareNoCase(sPath) == 0) {
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"Excel 저장", L"\n\n해당 파일은 프로그램 파일임\n\n다른 경로를 선택하세요.", MB_OK, CCommonState::ie()->m_pWnd);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nThis file is a program file.\n\nSelect another file or path.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
+		UINT nResult = popup.DoModal();
+		return -1;
+	}
+	//
+
 	if (::PathFileExists(sPath)) {
-		CMessagePopup popup(L"Excel 파일 생성", L"\n\n이미 같은 이름의 파일이 존재함.\n\n덮어쓰기 하겠습니까?", MB_YESNO, CCommonState::ie()->m_pWnd);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"Excel 저장", L"\n\n이미 같은 이름의 파일이 존재함.\n\n덮어쓰기 하겠습니까?", MB_YESNO, CCommonState::ie()->m_pWnd);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nA File with same name already exist.\n\nDo you overwrite this file?", MB_YESNO, CCommonState::Instance()->m_pWnd);
+#endif
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
 			return -1;
@@ -443,7 +495,11 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		}
 		HANDLE hHandle = CreateFile(sPath, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 		if (hHandle == INVALID_HANDLE_VALUE) {
-			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n해당 파일이 사용중", MB_OK, CCommonState::ie()->m_pWnd);
+#ifndef ENGLISH_MODE
+			CMessagePopup popup(L"Excel 저장", L"\n\n파일 저장 실패\n\n해당 파일이 사용중", MB_OK, CCommonState::ie()->m_pWnd);
+#else
+			CMessagePopup popup(L"Save as Excel", L"\n\nFailed to save Excel\n\nThe file is already in use.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
 			UINT nResult = popup.DoModal();
 			return -4;
 		}
@@ -451,7 +507,11 @@ int CSaveManager::ExcelFileSave(CString sPath)
 
 		CFile::Rename(sPath, sPath + L".tmp");
 		if (::PathFileExists(sPath)) {
-			CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::ie()->m_pWnd);
+#ifndef ENGLISH_MODE
+			CMessagePopup popup(L"Excel 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::ie()->m_pWnd);
+#else
+			CMessagePopup popup(L"Save as Excel", L"\n\nFailed to save Excel\n\nThe file is in use\nor there is a permission issue.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
 			UINT nResult = popup.DoModal();
 			CFile::Rename(sPath + L".tmp", sPath);
 			return -4;
@@ -461,7 +521,11 @@ int CSaveManager::ExcelFileSave(CString sPath)
 
 	//sample1.xlsx (중계기 일람표 탬플릿) 파일이 없으면 엑셀 저장 실패
 	if (!::CopyFile(sSamplePath, sPath + L".tmp2", true)) {
-		CMessagePopup popup(L"Excel 파일 생성", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::ie()->m_pWnd);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"Excel 저장", L"\n\n파일 저장 실패\n\n파일을 사용중이거나 권한 문제있음", MB_OK, CCommonState::ie()->m_pWnd);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nFailed to save Excel\n\nThe file is in use\nor there is a permission issue.", MB_OK, CCommonState::Instance()->m_pWnd);
+#endif
 		UINT nResult = popup.DoModal();
 		return -5;
 	}
@@ -472,7 +536,11 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	if (g_pWaitPopup) {
 		SAFE_DELETE(g_pWaitPopup);
 	}
-	g_pWaitPopup = new CMessagePopup(L"Excel 파일 생성", L"\n\n\nExcel 파일 생성 중 .. \n\n잠시만 기다려 주세요.", -1, CCommonState::ie()->m_pWnd);
+#ifndef ENGLISH_MODE
+	g_pWaitPopup = new CMessagePopup(L"EXCEL 저장", L"\n\n\nExcel 파일 생성 중 .. \n\n잠시만 기다려 주세요.", -1, CCommonState::Instance()->m_pWnd);
+#else
+	g_pWaitPopup = new CMessagePopup(L"Save as Excel", L"\n\n\nSaving the excel file is in progress.\n\nWait for a moment.", -1, CCommonState::Instance()->m_pWnd);
+#endif
 	g_pWaitPopup->Create(IDD_COMMON_POPUP_DIALOG);
 	g_pWaitPopup->ShowWindow(SW_HIDE);
 
@@ -490,7 +558,12 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	g_pWaitPopup->SetForegroundWindow();
 	::SetWindowPos(g_pWaitPopup->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 
+#ifndef ENGLISH_MODE
 	g_pWaitPopup->SetCaptionAddBottom(L"                파일 생성 중 ..               ");
+#else
+	//아래에서 (Total/Completed) 와 위치가 겹침
+	g_pWaitPopup->SetCaptionAddBottom(L"                   Saving ..                  ");
+#endif
 
 	CString sTemp;
 	CXLEzAutomation XL(FALSE);
@@ -527,7 +600,11 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		}
 		if (wcslen(pInfo->szBlock/*szCircuitName*/) > 0) {
 			sTemp = pInfo->szBlock;
+#ifndef ENGLISH_MODE
 			sTemp += L"동";
+#else
+			sTemp += L"B.BLCK";
+#endif
 			XL.SetCellValue(nColumn + 6, 4 + nRow, sTemp); // 동(건물명)
 		}
 		sTemp = CCircuitBasicInfo::Instance()->GetCircuitInput(CCircuitBasicInfo::Instance()->GetIndexCircuitName(pInfo->szCircuitName));
@@ -540,7 +617,11 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		XL.SetCellValue(nColumn + 13, 4 + nRow, sTemp); // 출력내용
 
 		if (pInfo->nStair > 0) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%d계단", pInfo->nStair);
+#else
+			sTemp.Format(L"%dLINE", pInfo->nStair);
+#endif
 		}
 		XL.SetCellValue(nColumn + 8, 4 + nRow, sTemp.GetBuffer(0)); // 계단
 		sTemp = L"";
@@ -561,7 +642,11 @@ int CSaveManager::ExcelFileSave(CString sPath)
 
 		++nRow;
 
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+		sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 		++nCurrentCount;
 		g_pWaitPopup->SetCaptionAddBottom(sTemp);
 	}
@@ -570,6 +655,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	BC_INFO* pBc = NULL;
 	for (int nIndex = 0; nIndex < m_listBC.GetCount(); nIndex++) {
 		pBc = m_listBC.GetAt(m_listBC.FindIndex(nIndex));
+#ifndef ENGLISH_MODE
 		if (wcslen(pInfo->szBlock) > 0) {
 			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑
 			{
@@ -590,14 +676,41 @@ int CSaveManager::ExcelFileSave(CString sPath)
 				sTemp.Format(L"%d계단 %s%dF", pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
 			}
 		}
+#else
+		if (wcslen(pInfo->szBlock) > 0) {
+			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑
+			{
+				sTemp.Format(L"%sB.BLCK %dLINE %s", pBc->szBlock, pBc->nStair, strRooftop);
+			}
+			else
+			{
+				sTemp.Format(L"%sB.BLCK %dLINE %s%dF", pBc->szBlock, pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			}
+		}
+		else {
+			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑
+			{
+				sTemp.Format(L"%dLINE %s", pBc->nStair, strRooftop);
+			}
+			else
+			{
+				sTemp.Format(L"%dLINE %s%dF", pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			}
+		}
+#endif
 		XL.SetCellValue(2, 3 + nIndex, sTemp.GetBuffer(0));
 		XL.SetCellValue(3, 3 + nIndex, pBc->BC_CONTAIN);
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d / %d (전체/완료)", nTotalCount, nCurrentCount);
+#else
+		sTemp.Format(L"%d / %d (Total/Completed)", nTotalCount, nCurrentCount);
+#endif
 		++nCurrentCount;
 		g_pWaitPopup->SetCaptionAddBottom(sTemp);
 	}
 	XL.ChangeWorksheet(3);
 	for (int nIndex = 0; nIndex < 4; nIndex++) {
+#ifndef ENGLISH_MODE
 		if (m_pumpInfo.use[nIndex] == 1) {
 			sTemp = L"사용";
 		}
@@ -612,23 +725,52 @@ int CSaveManager::ExcelFileSave(CString sPath)
 			sTemp = L"사용 안함";
 		}
 		XL.SetCellValue(4, 2 + nIndex, sTemp.GetBuffer(0));
+#else
+		if (m_pumpInfo.use[nIndex] == 1) {
+			sTemp = L"USED";
+		}
+		else {
+			sTemp = L"NOT USED";
+		}
+		XL.SetCellValue(3, 2 + nIndex, sTemp.GetBuffer(0));
+		if (m_pumpInfo.lamp[nIndex] == 1) {
+			sTemp = L"USED";
+		}
+		else {
+			sTemp = L"NOT USED";
+		}
+		XL.SetCellValue(4, 2 + nIndex, sTemp.GetBuffer(0));
+#endif
 		++nCurrentCount;
 		g_pWaitPopup->SetCaptionAddBottom(sTemp);
 	}
 	XL.ChangeWorksheet(4);
 	for (int nIndex = 0; nIndex < 3; nIndex++) {
+#ifndef ENGLISH_MODE
 		if (m_PSInfo.use[nIndex] == 1) {
 			sTemp = L"사용";
 		}
 		else {
 			sTemp = L"사용 안함";
 		}
+#else
+		if (m_PSInfo.use[nIndex] == 1) {
+			sTemp = L"USED";
+	}
+		else {
+			sTemp = L"NOT USED";
+		}
+#endif
 		XL.SetCellValue(3, 2 + nIndex, sTemp.GetBuffer(0));
 		++nCurrentCount;
 		g_pWaitPopup->SetCaptionAddBottom(sTemp);
 	}
 
-	g_pWaitPopup->SetCaptionAddBottom(L"                저장 중 ..               ");
+#ifndef ENGLISH_MODE
+	g_pWaitPopup->SetCaptionAddBottom(L"                저장 중..               ");
+#else
+	g_pWaitPopup->SetCaptionAddBottom(L"                Saving..               ");
+#endif
 
 	XL.SaveFileAs(sPath);
 	XL.ReleaseExcel();
@@ -682,6 +824,8 @@ void CSaveManager::DeleteSystemInfo()
 							if (sCircuitName.IsEmpty())
 								continue;
 
+#ifndef ENGLISH_MODE
+
 							//계통
 							sSystem.Format(L"%d 계통", pSI->nSystem);
 
@@ -690,6 +834,16 @@ void CSaveManager::DeleteSystemInfo()
 
 							//계단
 							sStair.Format(L"%d계단", pSI->nStair);
+#else
+							//계통
+							sSystem.Format(L"LOOP %d", pSI->nSystem);
+
+							//동
+							sBlock.Format(L"%sB.BLCK", pSI->szBlock);
+
+							//계단
+							sStair.Format(L"%dLINE", pSI->nStair);
+#endif
 
 							//층
 							if (pSI->nFloor < 0)
@@ -748,6 +902,7 @@ void CSaveManager::DeleteSystemInfo()
 						if (sCircuitName.IsEmpty())
 							continue;
 
+#ifndef ENGLISH_MODE
 						//계통
 						sSystem.Format(L"%d 계통", pSI->nSystem);
 
@@ -756,6 +911,16 @@ void CSaveManager::DeleteSystemInfo()
 
 						//계단
 						sStair.Format(L"%d계단", pSI->nStair);
+#else
+						//계통
+						sSystem.Format(L"LOOP %d", pSI->nSystem);
+
+						//동
+						sBlock.Format(L"%sB.BLCK", pSI->szBlock);
+
+						//계단
+						sStair.Format(L"%dLINE", pSI->nStair);
+#endif
 
 						//층
 						if (pSI->nFloor < 0)
@@ -843,7 +1008,11 @@ void CSaveManager::AddSystemInfo()
 						sRoomName = L"";
 						sBlock = iterSCCR->sBlock;
 
+#ifndef ENGLISH_MODE
 						if (iterSCCR->sSystem.Compare(L"0 계통") == 0)
+#else
+						if (iterSCCR->sSystem.Compare(L"LOOP 0") == 0)
+#endif
 						{
 							nSystem = 0;
 						}
@@ -872,10 +1041,17 @@ void CSaveManager::AddSystemInfo()
 							CCommonState::ie()->m_nTotalCountCircuit_1 += nCircuitSize;
 						}
 
+#ifndef ENGLISH_MODE
 						sStair = iterSCCR->sStair;
 						sStair.Replace(L"계단", L"");
 						nStair = _wtoi(sStair.GetBuffer(0));
 						sBlock.Replace(L"동", L"");
+#else
+						sStair = iterSCCR->sStair;
+						sStair.Replace(L"LINE", L"");
+						nStair = _wtoi(sStair.GetBuffer(0));
+						sBlock.Replace(L"B.BLCK", L"");
+#endif
 
 						sFloor = iterSCCR->sFloor;
 						if (sFloor.Find(L"B") >= 0) {
@@ -927,7 +1103,11 @@ void CSaveManager::AddSystemInfo()
 					sRoomName = L"";
 					sBlock = iterSCCR->sBlock;
 
+#ifndef ENGLISH_MODE
 					if (iterSCCR->sSystem.Compare(L"0 계통") == 0)
+#else
+					if (iterSCCR->sSystem.Compare(L"LOOP 0") == 0)
+#endif
 					{
 						nSystem = 0;
 					}
@@ -956,10 +1136,17 @@ void CSaveManager::AddSystemInfo()
 						CCommonState::ie()->m_nTotalCountCircuit_1 += nCircuitSize;
 					}
 
+#ifndef ENGLISH_MODE
 					sStair = iterSCCR->sStair;
 					sStair.Replace(L"계단", L"");
 					nStair = _wtoi(sStair.GetBuffer(0));
 					sBlock.Replace(L"동", L"");
+#else
+					sStair = iterSCCR->sStair;
+					sStair.Replace(L"LINE", L"");
+					nStair = _wtoi(sStair.GetBuffer(0));
+					sBlock.Replace(L"B.BLCK", L"");
+#endif
 
 					sFloor = iterSCCR->sFloor;
 					if (sFloor.Find(L"B") >= 0) {

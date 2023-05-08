@@ -45,7 +45,11 @@ CCircuitEditDlg::CCircuitEditDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
-		_T("굴림")); // lpszFacename 
+#ifndef ENGLISH_MODE
+		_T("굴림")); // lpszFacename
+#else
+		_T("arial")); // lpszFacename
+#endif
 
 	for (int nIndex = 0; nIndex < 4; nIndex++) {
 		m_pTabButton[nIndex] = NULL;
@@ -112,14 +116,22 @@ BOOL CCircuitEditDlg::OnInitDialog()
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	CCommonState::ie()->m_pEditWnd = this;
 
+#ifndef ENGLISH_MODE
 	m_pTabButton[0] = new CTextTabBtn(0, L"0 계통", this);
+#else
+	m_pTabButton[0] = new CTextTabBtn(0, L"LOOP 0", this);
+#endif
 	m_pTabButton[0]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pTabButton[0]->MoveWindow(170, 14, 89, 37);
 	m_pTabButton[0]->ShowWindow(SW_SHOW);
 
 	m_pTabButton[0]->SetCheck(true);
 
+#ifndef ENGLISH_MODE
 	m_pTabButton[1] = new CTextTabBtn(1, L"1 계통", this);
+#else
+	m_pTabButton[1] = new CTextTabBtn(1, L"LOOP 1", this);
+#endif
 	m_pTabButton[1]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pTabButton[1]->MoveWindow(265, 14, 89, 37);
 	m_pTabButton[1]->ShowWindow(SW_SHOW);
@@ -129,16 +141,30 @@ BOOL CCircuitEditDlg::OnInitDialog()
 	m_pTabButton[2]->MoveWindow(360, 14, 89, 37);
 	m_pTabButton[2]->ShowWindow(SW_SHOW);
 
+#ifndef ENGLISH_MODE
 	m_pTabButton[3] = new CTextTabBtn(3, L"비상방송", this);
+#else
+	m_pTabButton[3] = new CTextTabBtn(3, L"P.Address", this);
+#endif
 	m_pTabButton[3]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pTabButton[3]->MoveWindow(455, 14, 89, 37);
 	m_pTabButton[3]->ShowWindow(SW_SHOW);
 
+#ifndef ENGLISH_MODE
 	m_btnNext.Create(IDB_BMP_NEXT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
 	m_btnPrev.Create(IDB_BMP_PREV, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
 	m_btnSave.Create(IDB_BMP_SAVE, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
-	m_btnSave.ShowWindow(SW_HIDE);
 	m_btnExcel.Create(IDB_BMP_EXCEL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON4);
+#else
+	m_btnNext.Create(IDB_BMP_NEXT_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
+	m_btnPrev.Create(IDB_BMP_PREV_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+	m_btnSave.Create(IDB_BMP_SAVE_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+	m_btnExcel.Create(IDB_BMP_EXCEL_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON4);
+#endif
+
+	
+
+	m_btnSave.ShowWindow(SW_HIDE);
 
 	m_pCircuitChartDlg[0] = new CCircuitChartDlg(this, 0);
 	m_pCircuitChartDlg[0]->Create(IDD_COMMON_CHILD_DIALOG, this);
@@ -258,7 +284,11 @@ void CCircuitEditDlg::MakePattern()
 		info.nFloor = pBcInfo->nFloor;
 		info.nStair = pBcInfo->nStair;
 		wcscpy_s(info.szBlock, pBcInfo->szBlock);
+#ifndef ENGLISH_MODE
 		wcscpy_s(info.szCircuitName, L"비상방송");
+#else
+		wcscpy_s(info.szCircuitName, L"P.Address");
+#endif
 		info.nNo = nIndex + 1;
 		CPatternManager::ie()->AddPatternInfo(&info);
 	}
@@ -269,7 +299,11 @@ void CCircuitEditDlg::OnNextClick()
 	//중계기 일람표를 한번이라도 저장했는지 여부
 	if (!m_bExcelSaved)
 	{
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"중계기 일람표\nExcel 저장 미실행", L"\n\n\n\n[중계기 일람표 Excel 저장]을 반드시 실행해야\n\n연동데이터 생성 편집단계로 진행 가능함", MB_OK, this);
+#else
+		CMessagePopup popup(L"Save Module Table\nas Excel File", L"\n\n\n\n[LOGIC TABLE SAVE AS EXCEL]\nshould be executed to proceed\nto the Site Data Creation Step.", MB_OK, this);
+#endif
 		UINT nResult = popup.DoModal();
 		return;
 	}
@@ -335,7 +369,11 @@ void CCircuitEditDlg::OnSaveClick()
 
 int CCircuitEditDlg::ExcelSave()
 {
+#ifndef ENGLISH_MODE
 	CString str = _T("Excel 파일(*.xlsx)|*.xlsx|");
+#else
+	CString str = _T("Excel File(*.xlsx)|*.xlsx|");
+#endif
 	CFileDialog dlg(false, _T("*.xlsx"), _T("slp.xlsx"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
 	CString strPathName;
 	if (dlg.DoModal() == IDOK) {
@@ -393,7 +431,11 @@ void CCircuitEditDlg::OnExcelClick()
 			m_bExcelSaved = true;
 	}
 	else if (nResult == -2) {
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장 실패함", MB_OK, this);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\n\nFailed to save Excel", MB_OK, this);
+#endif
 		popup.DoModal();
 	}
 }
@@ -405,7 +447,11 @@ LRESULT CCircuitEditDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 	switch (nMsg) {
 	case 0:
 	{
-		CMessagePopup popup(L"정보 저장", L"\n\n파일 저장 완료됨\n\n파일을 확인하겠습니까?", MB_YESNO, this);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"EXCEL 저장", L"\n\n파일 저장 완료됨\n\n파일을 확인하겠습니까?", MB_YESNO, this);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nSaved\n\nDo you open the file to check?", MB_YESNO, this);
+#endif
 		UINT nResult = popup.DoModal();
 		if (nResult == IDOK) {
 			CCommonFunc::ExecuteProgram(m_sExcelPath.GetBuffer(0));
@@ -414,7 +460,11 @@ LRESULT CCircuitEditDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 		break;
 	case 1:
 	{
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장 실패함", MB_OK, this);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\n\nFailed to save Excel", MB_OK, this);
+#endif
 		popup.DoModal();
 	}
 		break;
@@ -426,8 +476,13 @@ LRESULT CCircuitEditDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 
 int CCircuitEditDlg::FileSave()
 {
+#ifndef ENGLISH_MODE
 	CString str = _T("SLP 파일(*.slp)|*.slp|");
 	CFileDialog dlg(false, _T("*.slp"), _T("편집정보.slp"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#else
+	CString str = _T("SLP File(*.slp)|*.slp|");
+	CFileDialog dlg(false, _T("*.slp"), _T("Edit Info.slp"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#endif
 	CString strPathName;
 	if (dlg.DoModal() == IDOK) {
 		strPathName = dlg.GetPathName();
@@ -467,7 +522,11 @@ int CCircuitEditDlg::FileSave()
 	}*/
 
 	if (CSaveManager::ie()->FileSave(strPathName)) {
-		CMessagePopup popup(L"저장", L"\n\n\n저장 완료됨", MB_OK, this);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"편집정보 저장", L"\n\n\n저장 완료됨", MB_OK, this);
+#else
+		CMessagePopup popup(L"Save Edit Info", L"\n\n\nSaved", MB_OK, this);
+#endif
 		popup.DoModal();
 	}
 
@@ -590,7 +649,11 @@ void CCircuitEditDlg::Redisplay()
 	CCommonDisplay::DrawRect(&memDC, true, RGB(255, 255, 255), RGB(255, 255, 255), rect);
 
 	rt.SetRect(20, 15, 350, 50);
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawCaption(&memDC, L"중계기 일람표", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+#else
+	CCommonDisplay::DrawCaption(&memDC, L"Module Table", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+#endif
 
 	rt.CopyRect(&rect);
 	rt.left += 4;

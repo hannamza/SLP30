@@ -133,8 +133,14 @@ BOOL CMessagePopup::OnInitDialog()
 	}
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+
+#ifndef ENGLISH_MODE
 	m_btnOk.Create(IDB_BMP_CONFIRM, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
 	m_btnCancel.Create(IDB_BMP_CANCEL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+#else
+	m_btnOk.Create(IDB_BMP_CONFIRM_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
+	m_btnCancel.Create(IDB_BMP_CANCEL_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+#endif
 
 	if (nX == -1 || nY == -1) {
 		this->SetWindowPos(NULL, 0, 0, nBkWidth, nBkHeight, SWP_NOMOVE);

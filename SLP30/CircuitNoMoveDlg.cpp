@@ -15,7 +15,11 @@ CCircuitNoMoveDlg::CCircuitNoMoveDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_CIRCUIT_NO_CHANGE, pParent)
 {
 	m_nNewCircuitNum = -1;
-	m_font.CreatePointFont(200, TEXT("±¼¸²"));
+#ifndef ENGLISH_MODE
+	m_font.CreatePointFont(100, TEXT("±¼¸²"));
+#else
+	m_font.CreatePointFont(100, TEXT("arial"));
+#endif
 }
 
 CCircuitNoMoveDlg::~CCircuitNoMoveDlg()
@@ -52,8 +56,13 @@ BOOL CCircuitNoMoveDlg::OnInitDialog()
 	m_ctrlEditNewCircuitNo.MoveWindow(110, 170, 194, 30);
 	m_ctrlEditNewCircuitNo.SetFont(&m_font);
 
+#ifndef ENGLISH_MODE
 	m_btnConfirm.Create(IDB_BMP_CONFIRM, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON10);
 	m_btnCancel.Create(IDB_BMP_CANCEL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON11);
+#else
+	m_btnConfirm.Create(IDB_BMP_CONFIRM_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON10);
+	m_btnCancel.Create(IDB_BMP_CANCEL_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON11);
+#endif
 
 	m_btnConfirm.MoveWindow(67, 236, 132, 44);
 	m_btnCancel.MoveWindow(218, 236, 132, 44);
@@ -93,7 +102,11 @@ void CCircuitNoMoveDlg::Redisplay()
 
 	CDC* _pDC = GetDC();
 
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawImageGdiplusPNG(_pDC, IDB_PNG_CIRCUIT_NO_CHANGE, 0, 0);
+#else
+	CCommonDisplay::DrawImageGdiplusPNG(_pDC, IDB_PNG_CIRCUIT_NO_CHANGE_EN, 0, 0);
+#endif
 
 	ReleaseDC(_pDC);
 }

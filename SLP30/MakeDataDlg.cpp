@@ -52,7 +52,11 @@ LRESULT CMakeDataDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 	switch (nMsg) {
 	case 0:
 	{
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"EXCEL 저장", L"\n\n파일 저장 완료\n\n파일을 확인하겠습니까?", MB_YESNO, this);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\nSaved\n\nDo you open the file to check?", MB_YESNO, this);
+#endif
 		UINT nResult = popup.DoModal();
 		if (nResult == IDOK) {
 			CCommonFunc::ExecuteProgram(m_sExcelPath.GetBuffer(0));
@@ -61,7 +65,11 @@ LRESULT CMakeDataDlg::OnExcelSaveMsg(WPARAM wParam, LPARAM lParam)
 	break;
 	case 1:
 	{
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"EXCEL 저장", L"\n\n\nEXCEL 저장 실패함", MB_OK, this);
+#else
+		CMessagePopup popup(L"Save as Excel", L"\n\n\nFailed to save Excel", MB_OK, this);
+#endif
 		popup.DoModal();
 	}
 	break;
@@ -91,7 +99,11 @@ CMakeDataDlg::CMakeDataDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
+#ifndef ENGLISH_MODE
 		_T("굴림")); // lpszFacename 
+#else
+		_T("arial")); // lpszFacename 
+#endif
 
 	m_bInit = false;
 	m_pThread = NULL;
@@ -140,7 +152,12 @@ BOOL CMakeDataDlg::OnInitDialog()
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	m_btnFolder.Create(IDB_BMP_FOLDER, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
+
+#ifndef ENGLISH_MODE
 	m_btnMakeData.Create(IDB_BMP_MAKEDATA, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+#else
+	m_btnMakeData.Create(IDB_BMP_MAKEDATA_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+#endif
 
 	m_editPath.MoveWindow(49, 87, 475, 22);
 	m_prgCreate.MoveWindow(49, 138, 761, 17);
@@ -160,8 +177,15 @@ BOOL CMakeDataDlg::OnInitDialog()
 	m_prgCreate.SetRange(0, 100);
 
 	//m_btnNext.Create(IDB_BMP_NEXT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+
+#ifndef ENGLISH_MODE
 	m_btnPrev.Create(IDB_BMP_PREV, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON4);
 	m_btnExcel.Create(IDB_BMP_DATAEXCEL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON5);
+#else
+	m_btnPrev.Create(IDB_BMP_PREV_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON4);
+	m_btnExcel.Create(IDB_BMP_DATAEXCEL_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON5);
+#endif
+
 	m_btnPrev.ShowWindow(SW_HIDE);
 
 	m_bInit = true;
@@ -272,7 +296,11 @@ void CMakeDataDlg::OnFolderClick()
 	m_prgCreate.SendMessage(PBM_SETBARCOLOR, 0, (LPARAM)clrBar);
 
 	brInfo.hwndOwner = GetSafeHwnd();
+#ifndef ENGLISH_MODE
 	brInfo.lpszTitle = _T("연동데이터 저장 폴더를 선택하세요");
+#else
+	brInfo.lpszTitle = _T("Select the folder where Data will be saved");
+#endif
 	brInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
 	brInfo.lParam = (LPARAM)m_sPath.GetBuffer(0);
 	brInfo.lpfn = BrowseCallbackProc;
@@ -291,8 +319,13 @@ void CMakeDataDlg::OnMakeDataClick()
 {
 	int nValue = 0;
 	CString sText;
+#ifndef ENGLISH_MODE
 	sText.Format(L"\n연동데이터 생성 시\n\n인터넷에 연결이 필요함\n\n계속하시겠습니까?", m_sPath);
 	CMessagePopup popup(L"연동데이터 생성", sText, MB_YESNO, this);
+#else
+	sText.Format(L"\n\n\nTo Generate Site Logic Data,\nIt should be connected to LAN\n\nDo you want to continue?", m_sPath);
+	CMessagePopup popup(L"Site Logic Data\nGeneration", sText, MB_YESNO, this);
+#endif
 	UINT nResult = popup.DoModal();
 	if (nResult != IDOK) {
 		return;
@@ -314,7 +347,11 @@ void CMakeDataDlg::OnMakeDataClick()
 		}
 	}
 	if (::PathFileExists(sPath)) {
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성 실패", MB_OK, this);
+#else
+		CMessagePopup popup(L"Site Logic Data\nGeneration", L"\n\n\nFailed to generate Data.", MB_OK, this);
+#endif
 		popup.DoModal();
 		return;
 	}
@@ -337,9 +374,17 @@ void CMakeDataDlg::OnMakeDataClick()
 		// 서버 전송
 		PostMessage(ROM_SAVE_MSG, 0, 5);
 		CCommonState::ie()->m_nReturnValue = -99;
+#ifndef ENGLISH_MODE
 		if (!m_createProcess.SendDataToWebdav(sPath, L"편집정보.slp", CCommonState::ie()->m_sUserID)) {
+#else
+		if (!m_createProcess.SendDataToWebdav(sPath, L"Edit Info.slp", CCommonState::ie()->m_sUserID)) {
+#endif
 			::DeleteFile(sPath);
+#ifndef ENGLISH_MODE
 			CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성 실패\n\n인터넷 연결을 확인하세요.", MB_OK, this);
+#else
+			CMessagePopup popup(L"Site Logic Data\nGeneration", L"\n\n\nFailed to generate Data.\n\nCheck LAN cable connection.", MB_OK, this);
+#endif
 			popup.DoModal();
 			return;
 		}
@@ -348,7 +393,11 @@ void CMakeDataDlg::OnMakeDataClick()
 		}
 		if (CCommonState::ie()->m_nReturnValue != 0) {
 			::DeleteFile(sPath);
+#ifndef ENGLISH_MODE
 			CMessagePopup popup(L"연동데이터 생성", L"\n\n연동데이터 생성 실패\n\n인터넷 연결/관리자에게 문의하세요.", MB_OK, this);
+#else
+			CMessagePopup popup(L"Site Logic Data\nGeneration", L"\n\n\nFailed to generate Data.\n\nContact your LAN administrator.", MB_OK, this);
+#endif
 			popup.DoModal();
 			return;
 		}
@@ -360,10 +409,17 @@ void CMakeDataDlg::OnMakeDataClick()
 
 	int nSlpIndex = 1;
 	CString sTempPath;
+#ifndef ENGLISH_MODE
 	sTempPath.Format(L"%s\\편집정보.slp", m_sPath);
 	while (::PathFileExists(sTempPath)) {
 		sTempPath.Format(L"%s\\편집정보(%d).slp", m_sPath, nSlpIndex++);
 	}
+#else
+	sTempPath.Format(L"%s\\Edit Info.slp", m_sPath);
+	while (::PathFileExists(sTempPath)) {
+		sTempPath.Format(L"%s\\Edit Info(%d).slp", m_sPath, nSlpIndex++);
+	}
+#endif
 
 	CopyFile(sPath, sTempPath, true);
 
@@ -372,14 +428,22 @@ void CMakeDataDlg::OnMakeDataClick()
 	PostMessage(ROM_SAVE_MSG, 0, 30);
 
 	if (CDataLinkManager::ie()->MakeRedboxOPData(this)) {
+#ifndef ENGLISH_MODE
 		CMessagePopup popup1(L"연동데이터 생성", L"\n\n연동데이터 생성 완료\n\n해당 경로로 이동할까요?", MB_YESNO, this);
+#else
+		CMessagePopup popup1(L"Site Logic Data\nGeneration", L"\n\n\nData Generation Completed\n\nDo you open the folder with path\nwhere the data is?", MB_YESNO, this);
+#endif
 		UINT nResult = popup1.DoModal();
 		if (nResult == IDOK) {
 			ShellExecute(NULL, L"open", L"explorer.exe", m_sPath, NULL, SW_SHOW);
 		}
 	}
 	else {
+#ifndef ENGLISH_MODE
 		CMessagePopup popup2(L"연동데이터 생성 실패", L"\n\n연동데이터 생성 실패", MB_OK, this);
+#else
+		CMessagePopup popup2(L"Site Logic Data\nGeneration Failed", L"\n\n\nFailed to generate Data", MB_OK, this);
+#endif
 		popup2.DoModal();
 	}
 
@@ -402,8 +466,13 @@ void CMakeDataDlg::OnPrevClick()
 
 void CMakeDataDlg::OnExcelClick()
 {
+#ifndef ENGLISH_MODE
 	CString str = _T("Excel 파일(*.xlsx)|*.xlsx|");
 	CFileDialog dlg(false, _T("*.xlsx"), _T("연동데이터.xlsx"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#else
+	CString str = _T("Excel File(*.xlsx)|*.xlsx|");
+	CFileDialog dlg(false, _T("*.xlsx"), _T("Site Logic Data.xlsx"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#endif
 	if (dlg.DoModal() == IDOK) {
 		m_sExcelPath = dlg.GetPathName();
 		// 파일 경로를 가져와 사용할 경우, Edit Control에 값 저장
@@ -443,7 +512,11 @@ void CMakeDataDlg::Redisplay()
 	//rt.SetRect(20, 170, 850, 610);
 	//CCommonDisplay::DrawRect(&memDC, false, RGB(150, 150, 150), 0, rt);
 	rt.SetRect(20, 15, 350, 50);
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawCaption(&memDC, L"연동데이터 생성", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_TOP | DT_SINGLELINE);
+#else
+	CCommonDisplay::DrawCaption(&memDC, L"Site Logic Data Generation", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_TOP | DT_SINGLELINE);
+#endif
 
 	/*rt.CopyRect(&rect);
 	rt.left += 4;

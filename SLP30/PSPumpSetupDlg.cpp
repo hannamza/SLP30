@@ -30,7 +30,11 @@ CPSPumpSetupDlg::CPSPumpSetupDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
-		_T("굴림")); // lpszFacename 
+#ifndef ENGLISH_MODE
+		_T("굴림")); // lpszFacename
+#else
+		_T("arial")); // lpszFacename
+#endif
 }
 
 CPSPumpSetupDlg::~CPSPumpSetupDlg()
@@ -54,13 +58,21 @@ BEGIN_MESSAGE_MAP(CPSPumpSetupDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // CPSPumpSetupDlg 메시지 처리기입니다.
+#ifndef ENGLISH_MODE
 const TCHAR* g_editHeaderPS[] = { _T("번호"), _T("압력 스위치"), _T("사용여부"), NULL };
+#else
+const TCHAR* g_editHeaderPS[] = { _T("No."), _T("P/S"), _T("USE"), NULL };
+#endif
 const int g_editSizePS[] = { 100, 250, 200, 0 }; // pixel
 const int g_editTypePS[] = { POPUP_TYPE_SEQ, POPUP_TYPE_NONE, POPUP_TYPE_SPACE, 0 };
 const int g_editAlignPS[] = { DT_CENTER, DT_CENTER, DT_CENTER, -1 }; // option, row align text, default: DT_LEFT
 const int g_editLimitPS[] = { 0, 0, 0, -1 }; // 0: 무제한, > 0 : 텍스트 사이즈 제한
 
+#ifndef ENGLISH_MODE
 const TCHAR* g_editHeaderPump[] = { _T("번호"), _T("펌프"), _T("사용여부"), _T("기동램프출력"), NULL };
+#else
+const TCHAR* g_editHeaderPump[] = { _T("No."), _T("PUMP"), _T("USE"), _T("P/L ON"), NULL };
+#endif
 const int g_editSizePump[] = { 100, 175, 125, 150, 0 }; // pixel
 const int g_editTypePump[] = { POPUP_TYPE_SEQ, POPUP_TYPE_NONE, POPUP_TYPE_SPACE, POPUP_TYPE_SPACE, 0 };
 const int g_editAlignPump[] = { DT_CENTER, DT_CENTER, DT_CENTER, DT_CENTER, -1 }; // option, row align text, default: DT_LEFT
@@ -95,8 +107,14 @@ BOOL CPSPumpSetupDlg::OnInitDialog()
 
 	/*m_pPSCtrl->AddListItemState(1, L"감시 지속");
 	m_pPSCtrl->AddListItemState(1, L"감시 비지속");*/
+
+#ifndef ENGLISH_MODE
 	m_pPSCtrl->AddListItemState(2, L"사용");
-	m_pPSCtrl->AddListItemState(2, L"사용안함");
+	m_pPSCtrl->AddListItemState(2, L"사용 안함");
+#else
+	m_pPSCtrl->AddListItemState(2, L"USED");
+	m_pPSCtrl->AddListItemState(2, L"NOT USED");
+#endif
 
 	m_pPSCtrl->SendMessage(WM_INITIALUPDATE);
 
@@ -124,10 +142,18 @@ BOOL CPSPumpSetupDlg::OnInitDialog()
 	/*m_pPumpCtrl->AddListItemState(1, L"주펌프 입력");
 	m_pPumpCtrl->AddListItemState(1, L"예비펌프 입력");
 	m_pPumpCtrl->AddListItemState(1, L"보조펌프 입력");*/
+
+#ifndef ENGLISH_MODE
 	m_pPumpCtrl->AddListItemState(2, L"사용");
 	m_pPumpCtrl->AddListItemState(2, L"사용 안함");
 	m_pPumpCtrl->AddListItemState(3, L"사용");
 	m_pPumpCtrl->AddListItemState(3, L"사용 안함");
+#else
+	m_pPumpCtrl->AddListItemState(2, L"USED");
+	m_pPumpCtrl->AddListItemState(2, L"NOT USED");
+	m_pPumpCtrl->AddListItemState(3, L"USED");
+	m_pPumpCtrl->AddListItemState(3, L"NOT USED");
+#endif
 
 	m_pPumpCtrl->SendMessage(WM_INITIALUPDATE);
 
@@ -215,7 +241,11 @@ bool CPSPumpSetupDlg::SaveInformation()
 	CString sTemp;
 	for (int nIndex = 0; nIndex < 3; nIndex++) {
 		m_pPSCtrl->GetItemText(nIndex, 2, sTemp);
+#ifndef ENGLISH_MODE
 		if (sTemp.Compare(L"사용") == 0) {
+#else
+		if (sTemp.Compare(L"USED") == 0) {
+#endif
 			CSaveManager::ie()->m_PSInfo.use[nIndex] = 1;
 		}
 		else {
@@ -224,7 +254,11 @@ bool CPSPumpSetupDlg::SaveInformation()
 	}
 	for (int nIndex = 0; nIndex < 4; nIndex++) {
 		m_pPumpCtrl->GetItemText(nIndex, 2, sTemp);
+#ifndef ENGLISH_MODE
 		if (sTemp.Compare(L"사용") == 0) {
+#else
+		if (sTemp.Compare(L"USED") == 0) {
+#endif
 			CSaveManager::ie()->m_pumpInfo.use[nIndex] = 1;
 		}
 		else {
@@ -232,7 +266,11 @@ bool CPSPumpSetupDlg::SaveInformation()
 		}
 
 		m_pPumpCtrl->GetItemText(nIndex, 3, sTemp);
+#ifndef ENGLISH_MODE
 		if (sTemp.Compare(L"사용") == 0) {
+#else
+		if (sTemp.Compare(L"USED") == 0) {
+#endif
 			CSaveManager::ie()->m_pumpInfo.lamp[nIndex] = 1;
 		}
 		else {
@@ -250,14 +288,24 @@ void CPSPumpSetupDlg::DisplayLoadFile()
 	DisplayListItem();
 
 	for (int nIndex = 0; nIndex < 3; nIndex++) {
+#ifndef ENGLISH_MODE
 		if (CSaveManager::ie()->m_PSInfo.use[nIndex] == 0) {
 			m_pPSCtrl->SetItemText(nIndex, 2, L"사용 안함");
 		}
 		else {
 			m_pPSCtrl->SetItemText(nIndex, 2, L"사용");
 		}
+#else
+		if (CSaveManager::ie()->m_PSInfo.use[nIndex] == 0) {
+			m_pPSCtrl->SetItemText(nIndex, 2, L"NOT USED");
+		}
+		else {
+			m_pPSCtrl->SetItemText(nIndex, 2, L"USED");
+		}
+#endif
 	}
 	for (int nIndex = 0; nIndex < 4; nIndex++) {
+#ifndef ENGLISH_MODE
 		if (CSaveManager::ie()->m_pumpInfo.use[nIndex] == 0) {
 			m_pPumpCtrl->SetItemText(nIndex, 2, L"사용 안함");
 		}
@@ -270,6 +318,20 @@ void CPSPumpSetupDlg::DisplayLoadFile()
 		else {
 			m_pPumpCtrl->SetItemText(nIndex, 3, L"사용");
 		}
+#else
+		if (CSaveManager::ie()->m_pumpInfo.use[nIndex] == 0) {
+			m_pPumpCtrl->SetItemText(nIndex, 2, L"NOT USED");
+		}
+		else {
+			m_pPumpCtrl->SetItemText(nIndex, 2, L"USED");
+		}
+		if (CSaveManager::ie()->m_pumpInfo.lamp[nIndex] == 0) {
+			m_pPumpCtrl->SetItemText(nIndex, 3, L"NOT USED");
+		}
+		else {
+			m_pPumpCtrl->SetItemText(nIndex, 3, L"USED");
+		}
+#endif
 	}
 }
 
@@ -281,19 +343,32 @@ void CPSPumpSetupDlg::DisplayListItem()
 	m_pPSCtrl->DeleteAllItems();
 
 	m_pPSCtrl->AddItem(3);
+#ifndef ENGLISH_MODE
 	m_pPSCtrl->SetItemText(0, 1, L"P/S 확인");
 	m_pPSCtrl->SetItemText(1, 1, L"P/S 확인");
 	m_pPSCtrl->SetItemText(2, 1, L"P/S 확인");
+#else
+	m_pPSCtrl->SetItemText(0, 1, L"P/S ACT");
+	m_pPSCtrl->SetItemText(1, 1, L"P/S ACT");
+	m_pPSCtrl->SetItemText(2, 1, L"P/S ACT");
+#endif
 	//m_pPSCtrl->AddItem();
 	//m_pPSCtrl->AddItem();
 
 	m_pPumpCtrl->DeleteAllItems();
 
 	m_pPumpCtrl->AddItem(4);
+#ifndef ENGLISH_MODE
 	m_pPumpCtrl->SetItemText(0, 1, L"주펌프 입력");
 	m_pPumpCtrl->SetItemText(1, 1, L"예비펌프 입력");
 	m_pPumpCtrl->SetItemText(2, 1, L"보조펌프 입력");
 	m_pPumpCtrl->SetItemText(3, 1, L"비상발전기 전원");
+#else
+	m_pPumpCtrl->SetItemText(0, 1, L"MAIN PUMP INPUT");
+	m_pPumpCtrl->SetItemText(1, 1, L"SPARE PUMP INPUT");
+	m_pPumpCtrl->SetItemText(2, 1, L"AUX PUMP INPUT");
+	m_pPumpCtrl->SetItemText(3, 1, L"GENERATOR POWER");
+#endif
 	//m_pPumpCtrl->AddItem();
 	//m_pPumpCtrl->AddItem();
 }
@@ -313,12 +388,20 @@ void CPSPumpSetupDlg::Redisplay()
 	CCommonDisplay::DrawRect(&memDC, true, RGB(255, 255, 255), RGB(255, 255, 255), rect);
 
 	rt.SetRect(20, 40, 470, 80);
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawCaption(&memDC, L"압력 스위치", RGB(80, 80, 80), m_font, false, 0, rt, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+#else
+	CCommonDisplay::DrawCaption(&memDC, L"P/S", RGB(80, 80, 80), m_font, false, 0, rt, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+#endif
 	rt.SetRect(20, 260, 470, 300);
 	CCommonDisplay::DrawCaption(&memDC, L"PUMP", RGB(80, 80, 80), m_font, false, 0, rt, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
 	rt.SetRect(20, 475, 600, 500);
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawCaption(&memDC, L"[Space Bar] 키를 눌러 사용여부를 변경하세요", RGB(255, 111, 0), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+#else
+	CCommonDisplay::DrawCaption(&memDC, L"Press [Space Bar] key to change the status of use.", RGB(255, 111, 0), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+#endif
 
 	_pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
 

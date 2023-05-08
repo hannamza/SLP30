@@ -731,5 +731,11 @@
     <Image Include="res\RLP_images_EN\login.png">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\RLP_images_EN\excelbtn.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\RLP_images_EN\texttabbtn1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

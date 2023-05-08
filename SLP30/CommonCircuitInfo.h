@@ -65,6 +65,7 @@ enum {
 	설비명_피난사다리확인,	//54
 };
 
+#ifndef ENGLISH_MODE
 static const TCHAR* g_lpszCircuitName[] = {
 	_T("소화전"),		// 0
 	_T("발신기"),		// 1
@@ -124,9 +125,73 @@ static const TCHAR* g_lpszCircuitName[] = {
 	_T("옥상문"),	// 51
 	_T("시각경보"),		// 52
 	_T("T/S 확인"),		// 53
-	_T("피난사다리확인"),	// 54
+	_T("피난사다리 확인"),	// 54
 	NULL };
+#else
+static const TCHAR* g_lpszCircuitName[] = {
+	_T("HYDR"),		// 0
+	_T("M.STAT"),		// 1
+	_T("DET (STA)"),	// 2
+	_T("DET (ELV)"),	// 3
+	_T("DET"),		// 4
+	_T("AN SMK"),		// 5
+	_T("AN HFD"),		// 6
+	_T("AN SMK (STA)"),	// 7
+	_T("AN SMK (ELV)"),	// 8
+	_T("AD SMK"),	// 9
+	_T("AD HFD"),	// 10
+	_T("AD ROR"),	// 11
+	_T("AD SMK (STA)"),		// 12
+	_T("AD SMK (ELV)"),		// 13
+	_T("DA (SVP)"),		// 14
+	_T("DB (SVP)"),		// 15
+	_T("AN SMK (SVP)"), // 16
+	_T("AN HFD (SVP)"), // 17
+	_T("AD RORA (SVP)"),	// 18
+	_T("AD RORB (SVP)"),	// 19
+	_T("SVP P/S"), // 20
+	_T("SVP T/S"), // 21
+	_T("AV P/S"), // 22
+	_T("AV T/S"), // 23
+	_T("SMK (SHT)"),		// 24
+	_T("HFD (SHT)"),		// 25
+	_T("AN SMK (SHT)"),		// 26
+	_T("AN HFD (SHT)"),		// 27
+	_T("AD SMK (SHT)"),		// 28
+	_T("AD HFD (SHT)"),	// 29
+	_T("SHT (1ST)"),	// 30
+	_T("SHT (2ND)"),	// 31
+	_T("SD (VEST)"), // 32
+	_T("SDM (VEST)"), // 33
+	_T("ED (VEST)"),	// 34
+	_T("EDM (VEST)"),		// 35
+	_T("A.DOCL"),		// 36
+	_T("W.CLOS"),		// 37
+	_T("WIND"),		// 38
+	_T("DOOR"),		// 39
+	_T("P/L ON"),		// 40
+	_T("E/S ON"),		// 41	//EMERGENCY EXIT SIGN ON -> 사용하지 않는 걸로 보임
+	//_T("가스감지기A"),	// 42
+	//_T("가스감지기B"),		// 43
+	//_T("가스방출확인"),		// 44
+	//_T("가스수동기동"), // 45
+	_T("LW F/S"), // 42
+	_T("PUMP P/S"),	// 43
+	_T("PUMP T/S"),		// 44
+	_T("SMDM ACT"),		// 45
+	_T("HSMD ACT"), // 46
+	_T("MVD ACT"),		// 47
+	_T("S.FAN"),		// 48
+	_T("E.FAN"),		// 49
+	_T("LW T/S"),		// 50
+	_T("R.DOOR"),	// 51
+	_T("STROBE"),		// 52
+	_T("T/S ACT"),		// 53
+	_T("E/L ACT"),	// 54
+	NULL };
+#endif
 
+#ifndef ENGLISH_MODE
 static const TCHAR* g_lpszInputType[] = {
 	_T("화재"),	// 0
 	_T("화재"),	// 1
@@ -188,6 +253,69 @@ static const TCHAR* g_lpszInputType[] = {
 	_T("감시"),	// 53
 	_T("감시"),	// 54
 	NULL };
+#else
+static const TCHAR* g_lpszInputType[] = {
+	_T("ALARM"),	// 0
+	_T("ALARM"),	// 1
+	_T("ALARM"),	// 2
+	_T("ALARM"),	// 3
+	_T("ALARM"),	// 4
+	_T("AN SMK"),	// 5
+	_T("AN HFD"),	// 6
+	_T("AN SMK"),	// 7
+	_T("AN SMK"),	// 8
+	_T("AD SMK"),	// 9
+	_T("AD HFD"),	// 10
+	_T("AD ROR"),	// 11
+	_T("AD SMK"),	// 12
+	_T("AD SMK"),	// 13
+	_T("DA (SVP)"),	// 14
+	_T("DB (SVP)"),	// 15
+	_T("AN SMK"), // 16
+	_T("AN HFD"), // 17
+	_T("AD ROR"),	// 18
+	_T("AD ROR"),	// 19
+	_T("ALARM"), // 20
+	_T("SUPV"), // 21
+	_T("ALARM"), // 22
+	_T("SUPV"), // 23
+	_T("ALARM"),	// 24
+	_T("ALARM"),	// 25
+	_T("AN SMK"),	// 26
+	_T("AN HFD"),	// 27
+	_T("AD SMK"),	// 28
+	_T("AD HFD"),	// 29
+	_T("SUPV"),	// 30
+	_T("SUPV"),	// 31
+	_T("SUPV"), // 32
+	_T("ALARM"), // 33
+	_T("SUPV"),	// 34
+	_T("ALARM"),	// 35
+	_T("SUPV"),	// 36
+	_T("SUPV"), // 37
+	_T("SUPV"),	// 38
+	_T("SUPV"),	// 39
+	_T("SUPV"),	// 40
+	_T("SUPV"),	// 41
+	//_T("화재"),	// 42
+	//_T("화재"),	// 43
+	//_T("화재"),	// 44
+	//_T("화재"), // 45
+	_T("SUPV"), // 42
+	_T("SUPV"),	// 43
+	_T("SUPV"),	// 44
+	_T("ALARM"),	// 45
+	_T("SUPV"), // 46
+	_T("SUPV"),	// 47
+	_T("SUPV"),	// 48
+	_T("SUPV"),	// 49
+	_T("SUPV"),	// 50
+	_T("SUPV"),	// 51
+	_T("SUPV"),	// 52
+	_T("SUPV"),	// 53
+	_T("SUPV"),	// 54
+	NULL };
+#endif
 
 static const TCHAR* g_lpszInputNo[] = {
 	_T("1"),	// 0
@@ -375,6 +503,7 @@ enum {
 	출력타입_54,
 };
 
+#ifndef ENGLISH_MODE
 static const TCHAR* g_lpszOutputCircuit[] = {
 	_T("지구 경종"),	// 0
 	_T("지구 경종"),	// 1
@@ -436,7 +565,71 @@ static const TCHAR* g_lpszOutputCircuit[] = {
 	_T(""),	// 53
 	_T(""),	// 54
 	NULL };
+#else
+static const TCHAR* g_lpszOutputCircuit[] = {
+	_T("L.BELL"),	// 0
+	_T("L.BELL"),	// 1
+	_T(""),	// 2
+	_T(""),	// 3
+	_T(""),	// 4
+	_T(""),	// 5
+	_T(""),	// 6
+	_T(""),	// 7
+	_T(""),	// 8
+	_T(""),	// 9
+	_T(""),	// 10
+	_T(""),	// 11
+	_T(""),	// 12
+	_T(""),	// 13
+	_T(""),	// 14
+	_T(""),	// 15
+	_T(""), // 16
+	_T(""), // 17
+	_T(""),	// 18
+	_T(""),	// 19
+	_T("SIREN"), // 20
+	_T("VALVE"), // 21
+	_T(""), // 22
+	_T(""), // 23
+	_T(""),	// 24
+	_T(""),	// 25
+	_T(""),	// 26
+	_T(""),	// 27
+	_T(""),	// 28
+	_T(""),	// 29
+	_T("SHT (1ST)"),	// 30
+	_T("SHT (2ND"),	// 31
+	_T("SMC (VEST)"), // 32
+	_T(""), // 33
+	_T("SMC (VEST"),	// 34
+	_T(""),	// 35
+	_T("A.DOCL"),	// 36
+	_T("W.CLOS"), // 37
+	_T("WIND"),	// 38
+	_T("DOOR"),	// 39
+	_T("HYDR ON"),	// 40
+	_T("E/S OFF"),	// 41
+	//_T(""),	// 42
+	//_T(""),	// 43
+	//_T(""),	// 44
+	//_T(""), // 45
+	_T(""), // 42
+	_T(""),	// 43
+	_T(""),	// 44
+	_T(""),	// 45
+	_T("LRMD"), // 46
+	_T("MVD"),	// 47
+	_T("S.FAN"),	// 48
+	_T("E.FAN"),	// 49
+	_T(""),	// 50
+	_T("R.DOOR"),	// 51
+	_T("STROBE"),	// 52
+	_T(""),	// 53
+	_T(""),	// 54
+	NULL };
+#endif
 
+#ifndef ENGLISH_MODE
 static const TCHAR* g_lpszOutputType[] = {
 	_T("지구 경종"),	// 0
 	_T("지구 경종"),	// 1
@@ -499,7 +692,72 @@ static const TCHAR* g_lpszOutputType[] = {
 	_T(""),	// 54
 	NULL
 };
+#else
+static const TCHAR* g_lpszOutputType[] = {
+	_T("L.BELL"),	// 0
+	_T("L.BELL"),	// 1
+	_T(""),	// 2
+	_T(""),	// 3
+	_T(""),	// 4
+	_T(""),	// 5
+	_T(""),	// 6
+	_T(""),	// 7
+	_T(""),	// 8
+	_T(""),	// 9
+	_T(""),	// 10
+	_T(""),	// 11
+	_T(""),	// 12
+	_T(""),	// 13
+	_T(""),	// 14
+	_T(""),	// 15
+	_T(""), // 16
+	_T(""), // 17
+	_T(""),	// 18
+	_T(""),	// 19
+	_T("SIREN"), // 20
+	_T("P-ACT"), // 21
+	_T(""), // 22
+	_T(""), // 23
+	_T(""),	// 24
+	_T(""),	// 25
+	_T(""),	// 26
+	_T(""),	// 27
+	_T(""),	// 28
+	_T(""),	// 29
+	_T("SHT"),	// 30
+	_T("SHT"),	// 31
+	_T("SMC (VEST)"), // 32
+	_T(""), // 33
+	_T("SMC (VEST)"),	// 34
+	_T(""),	// 35
+	_T("D.CNTR"),	// 36
+	_T("W.CNTR"), // 37
+	_T("W.CNTR"),	// 38
+	_T("D.CNTR"),	// 39
+	_T("ETC"),	// 40
+	_T("ETC"),	// 41
+	//_T(""),	// 42
+	//_T(""),	// 43
+	//_T(""),	// 44
+	//_T(""), // 45
+	_T(""), // 42
+	_T(""),	// 43
+	_T(""),	// 44
+	_T(""),	// 45
+	_T("HSC (VEST)"), // 46
+	_T("SMC (VEST)"),	// 47
+	_T("C.FAN"),	// 48
+	_T("C.FAN"),	// 49
+	_T(""),	// 50
+	_T("D.CNTR"),	// 51
+	_T("STROBE"),	// 52
+	_T(""),	// 53
+	_T(""),	// 54
+	NULL
+	};
+#endif
 
+#ifndef ENGLISH_MODE
 // CCircuitBasicInfo::CCircuitBasicInfo()
 static const TCHAR* g_lpszCircuitParent[] = {
 	_T("소화전"),			// 0
@@ -526,6 +784,34 @@ static const TCHAR* g_lpszCircuitParent[] = {
 	_T("피난사다리 확인"),			// 20
 	NULL
 };
+#else
+// CCircuitBasicInfo::CCircuitBasicInfo()
+static const TCHAR* g_lpszCircuitParent[] = {
+	_T("HYDR"),			// 0
+	_T("M.STAT"),			// 1
+	_T("A.VALV"),			// 2
+	_T("PA VALV"),		// 3
+	_T("STROBE"),			// 4
+	//_T("가스소화설비"),
+	_T("SCC (VEST)"),		// 5
+	_T("ESC (VEST)"),		// 6
+	_T("HSC (VEST)"),			// 7
+	_T("SHT"),			// 8
+	_T("WIND"),			// 9
+	_T("DOOR"),			// 10
+	_T("W.CLOS"),			// 11
+	_T("A.DOCL"),			// 12
+	_T("HYDR ON"),	// 13
+	_T("RDOOR ACT"),		// 14
+	_T("LW ACT"),		// 15
+	_T("S.FAN"),		// 16
+	_T("E.FAN"),		// 17
+	_T("DET"),			// 18
+	_T("T/S ACT"),			// 19
+	_T("E/L ACT"),			// 20
+	NULL
+};
+#endif
 
 enum {
 	연동_경종_전층 = 0, 

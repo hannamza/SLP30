@@ -240,3 +240,9 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Debug_ENG
+/Release_ENG
+/SLP30_Manager/Debug_ENG
+/SLP30_Manager/Release_ENG
+/WebDavClient/Debug_ENG
+/WebDavClient/Release_ENG

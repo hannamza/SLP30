@@ -29,7 +29,11 @@ CSetupMakeDataDlg::CSetupMakeDataDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
+#ifndef ENGLISH_MODE
 		_T("굴림")); // lpszFacename 
+#else
+		_T("arial")); // lpszFacename
+#endif
 }
 
 CSetupMakeDataDlg::~CSetupMakeDataDlg()
@@ -66,6 +70,7 @@ BOOL CSetupMakeDataDlg::OnInitDialog()
 
 	for (int nIndex = 0; nIndex < CHECK_COUNT; nIndex++) {
 		switch (nIndex) {
+#ifndef ENGLISH_MODE
 		case 연동_경종_전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 전층연동", this); break;
 		case 연동_경종_계단별직상층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"계단별 직상층 연동(아파트)", this); break;
 		case 연동_경종_동별직상층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 직상층 연동", this); break;
@@ -83,9 +88,31 @@ BOOL CSetupMakeDataDlg::OnInitDialog()
 		case 연동_배기_계단별해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"동별 계단별 해당층 연동", this); break;
 		case 연동_급기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"계단별 급기댐퍼 작동시 연동", this); break;
 		case 연동_배기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"계단별 배기댐퍼 작동시 연동", this); break;
-		case 연동_셔터_광전1_정온2:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"셔터 연기감지기 작동시 1차 폐쇄 연동, 셔터 열감지기 작동시 2차 폐쇄 연동", this); break;
-		case 연동_셔터_1차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"셔터 연기, 열 감지기 구분 없이 감지기 작동 시 1차 폐쇄 연동", this); break;
-		case 연동_셔터_2차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"셔터 연기, 열 감지기 구분 없이 감지기 작동 시 2차 폐쇄 연동", this); break;
+		case 연동_셔터_광전1_정온2:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"광전 (셔터) 작동시 1차 폐쇄 연동, 정온 (셔터) 작동시 2차 폐쇄 연동", this); break;
+		case 연동_셔터_1차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"광전 (셔터), 정온 (셔터) 구분 없이 감지기 작동 시 1차 폐쇄 연동", this); break;
+		case 연동_셔터_2차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"광전 (셔터), 정온 (셔터) 구분 없이 감지기 작동 시 2차 폐쇄 연동", this); break;
+#else
+		case 연동_경종_전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock All Floor each Block", this); break;
+		case 연동_경종_계단별직상층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock Upper Floor each Line (Apartment)", this); break;
+		case 연동_경종_동별직상층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock Upper Floor each Block", this); break;
+		case 연동_밸브_교차:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock Cross Circuit Detector for Extinguish Equipment", this); break;
+		case 연동_밸브_아날로그:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock One Detector for Extinguish Equipment", this); break;
+		case 연동_싸이렌_작동연동:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock when Valve dedicated Detector operates", this); break;
+		case 연동_싸이렌_동작확인:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock when acting valve operation", this); break;
+		case 연동_문_전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock All Floor each Block", this); break;
+		case 연동_문_계단별전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock All Floor each Block / Line", this); break;
+		case 연동_배연창_건물해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock Related Floor each Block", this); break;
+		case 연동_배연창_계단별해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock Related Floor each Block / Line", this); break;
+		case 연동_급기_건물전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock All Floor each Block", this); break;
+		case 연동_급기_계단별전층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock All Floor each Block / Line", this); break;
+		case 연동_배기_건물해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock Related Floor each Block", this); break;
+		case 연동_배기_계단별해당층:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock Related Floor each Block / Line", this); break;
+		case 연동_급기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock when Supply Damper operates each Line", this); break;
+		case 연동_배기팬_계단별:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"Interlock when Exhaust Damper operates each Line", this); break;
+		case 연동_셔터_광전1_정온2:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[FIRE SHUTTER] 1st closing-Smoke Detector / 2nd closing-Heat Detector", this); break;
+		case 연동_셔터_1차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[FIRE SHUTTER] 1st closing regardless of Detector Type", this); break;
+		case 연동_셔터_2차만:m_pCheck[nIndex] = new CCheckTextBtn(nIndex, L"[FIRE SHUTTER] 2st closing regardless of Detector Type", this); break;
+#endif
 		}
 
 		m_pCheck[nIndex]->Create(IDD_COMMON_CHILD_DIALOG, this);
@@ -296,6 +323,7 @@ void CSetupMakeDataDlg::Redisplay()
 		nTerm = nDefault;
 		bRect = false;
 		switch (nIndex) {
+#ifndef ENGLISH_MODE
 		case 0:
 			sTemp = L"경종";
 			rtemp.SetRect(rt.left + 10, rt.top + 3, rt.left + 150, rt.top + 8);
@@ -327,6 +355,74 @@ void CSetupMakeDataDlg::Redisplay()
 		case 21: sTemp = L"셔터 1차 폐쇄"; nTerm = (nDefault * 2); break;
 		case 22: sTemp = L"셔터 2차 폐쇄"; nTerm = (nDefault * 2); rtemp1.top = rtemp.top; break;
 		case 23: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+#else
+		case 0:
+			sTemp = L"BELL";
+#ifndef ENGLISH_MODE		// 영문 변환 시 문자열이 길어서 UI Rect 크기 수정
+			rtemp.SetRect(rt.left + 10, rt.top + 3, rt.left + 150, rt.top + 8);
+#else
+			rtemp.SetRect(rt.left + 10, rt.top + 3, rt.left + 230, rt.top + 8);
+#endif
+			rtemp1.left = rtemp.right - 1;
+			rtemp1.right = rtemp1.left + 808;
+			rtemp2.CopyRect(rtemp);
+			rtemp2.left = rtemp.right + 10;
+			break;
+		case 1:	sTemp = L"STROBE"; rtemp1.top = rtemp.top; break;
+		case 2:	sTemp = L"P.ADDRESS"; break;
+		case 3: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+		case 4: sTemp = L"VALVE"; nTerm = (nDefault * 2); bRect = true; break;
+		case 5: sTemp = L"SIREN"; nTerm = (nDefault * 2); bRect = true; break;
+		case 6: sTemp = L""; nTerm = nSpace; break;
+		case 7: sTemp = L"AUTOMATIC DOOR CLOSER"; break;
+		case 8: sTemp = L"SMOKE WINDOWS CLOSE"; rtemp1.top = rtemp.top; break;
+		case 9: sTemp = L"ROOF DOOR"; break;
+		case 10: sTemp = L"LOBBY PHONE"; break;
+		case 11: sTemp = L"AUTOMATIC DOOR"; break;
+		case 12: sTemp = L"EMERGENCY LIGHT"; break;
+		case 13: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+		case 14: sTemp = L"SMOKE WINDOW"; nTerm = (nDefault * 2); bRect = true; break;
+		case 15: sTemp = L""; nTerm = nSpace; break;
+		case 16: sTemp = L"SUPPLY SMOKE DAMPER (VESTIBULE)"; nTerm = (nDefault * 2); bRect = true; break;
+		case 17: sTemp = L"EXHAUST SMOKE DAMPER (VESTIBULE)"; nTerm = (nDefault * 2); bRect = true; break;
+		case 18: sTemp = L"SUPPLY FAN"; bRect = true; break;
+		case 19: sTemp = L"EXHAUST FAN"; bRect = true; break;
+		case 20: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+		case 21: sTemp = L"SHUTTER (1ST CLOSE)"; nTerm = (nDefault * 2); break;
+		case 22: sTemp = L"SHUTTER (2ND CLOSE)"; nTerm = (nDefault * 2); rtemp1.top = rtemp.top; break;
+		case 23: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+// 		case 0:
+// 			sTemp = L"BELL";
+// 			rtemp.SetRect(rt.left + 10, rt.top + 3, rt.left + 150, rt.top + 8);
+// 			rtemp1.left = rtemp.right - 1;
+// 			rtemp1.right = rtemp1.left + 808;
+// 			rtemp2.CopyRect(rtemp);
+// 			rtemp2.left = rtemp.right + 10;
+// 			break;
+// 		case 1:	sTemp = L"STROBE"; rtemp1.top = rtemp.top; break;
+// 		case 2:	sTemp = L"P.ADDR"; break;
+// 		case 3: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+// 		case 4: sTemp = L"VALVE"; nTerm = (nDefault * 2); bRect = true; break;
+// 		case 5: sTemp = L"SIREN"; nTerm = (nDefault * 2); bRect = true; break;
+// 		case 6: sTemp = L""; nTerm = nSpace; break;
+// 		case 7: sTemp = L"A.DOCL"; break;
+// 		case 8: sTemp = L"W.CLOS"; rtemp1.top = rtemp.top; break;
+// 		case 9: sTemp = L"R.DOOR"; break;
+// 		case 10: sTemp = L"PHONE"; break;
+// 		case 11: sTemp = L"A.DOOR"; break;
+// 		case 12: sTemp = L"E.LIGHT"; break;
+// 		case 13: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+// 		case 14: sTemp = L"WIND"; nTerm = (nDefault * 2); bRect = true; break;
+// 		case 15: sTemp = L""; nTerm = nSpace; break;
+// 		case 16: sTemp = L"SD(VEST)"; nTerm = (nDefault * 2); bRect = true; break;
+// 		case 17: sTemp = L"ED(VEST)"; nTerm = (nDefault * 2); bRect = true; break;
+// 		case 18: sTemp = L"S.FAN"; bRect = true; break;
+// 		case 19: sTemp = L"E.FAN"; bRect = true; break;
+// 		case 20: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+// 		case 21: sTemp = L"SHT(1ST)"; nTerm = (nDefault * 2); break;
+// 		case 22: sTemp = L"SHT(2ND)"; nTerm = (nDefault * 2); rtemp1.top = rtemp.top; break;
+// 		case 23: sTemp = L""; rtemp1.bottom = rtemp.bottom; nTerm = nSpace; break;
+#endif
 		default: break;
 		}
 		rtemp.top = rtemp.bottom - 1;

@@ -253,7 +253,11 @@ void CTextTabBtn::Redisplay()
 		CRect rt1;
 		GetClientRect(&rt1);
 		if (rt1.Width() > 89) {
+#ifndef ENGLISH_MODE
 			CCommonDisplay::DrawImageGdiplusBMP(&memDC, IDB_BMP_TEXTTAB1, 0, 0, rect.Width(), rect.Height(), 0, rect.Height(), rect.Width(), rect.Height());
+#else
+			CCommonDisplay::DrawImageGdiplusBMP(&memDC, IDB_BMP_TEXTTAB1_EN, 0, 0, rect.Width(), rect.Height(), 0, rect.Height(), rect.Width(), rect.Height());
+#endif
 		}
 		else {
 			CCommonDisplay::DrawImageGdiplusBMP(&memDC, IDB_BMP_TEXTTAB, 0, 0, rect.Width(), rect.Height(), 0, rect.Height(), rect.Width(), rect.Height());
@@ -263,7 +267,11 @@ void CTextTabBtn::Redisplay()
 		CRect rt1;
 		GetClientRect(&rt1);
 		if (rt1.Width() > 89) {
+#ifndef ENGLISH_MODE
 			CCommonDisplay::DrawImageGdiplusBMP(&memDC, IDB_BMP_TEXTTAB1, 0, 0, rect.Width(), rect.Height(), 0, 0, rect.Width(), rect.Height());
+#else
+			CCommonDisplay::DrawImageGdiplusBMP(&memDC, IDB_BMP_TEXTTAB1_EN, 0, 0, rect.Width(), rect.Height(), 0, 0, rect.Width(), rect.Height());
+#endif
 		}
 		else {
 			CCommonDisplay::DrawImageGdiplusBMP(&memDC, IDB_BMP_TEXTTAB, 0, 0, rect.Width(), rect.Height(), 0, 0, rect.Width(), rect.Height());

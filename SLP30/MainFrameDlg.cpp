@@ -114,11 +114,18 @@ BOOL CMainFrameDlg::OnInitDialog()
 	m_pSetupDlg->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pSetupDlg->ShowWindow(SW_HIDE);*/
 
+#ifndef ENGLISH_MODE
 	m_btnStart.Create(IDB_BMP_SELPROJECT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
-	m_btnStart.MoveWindow(45, 43, 111, 29);
 	m_btnCircuit.Create(IDB_BMP_CIRCUIT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
-	m_btnCircuit.MoveWindow(181, 43, 80, 29);
 	m_btnData.Create(IDB_BMP_CREATEDATA, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#else
+	m_btnStart.Create(IDB_BMP_SELPROJECT_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
+	m_btnCircuit.Create(IDB_BMP_CIRCUIT_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+	m_btnData.Create(IDB_BMP_CREATEDATA_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#endif
+
+	m_btnStart.MoveWindow(45, 43, 111, 29);	
+	m_btnCircuit.MoveWindow(181, 43, 80, 29);	
 	m_btnData.MoveWindow(286, 43, 131, 29);
 
 	m_btnData.EnableWindow(false);
@@ -327,7 +334,7 @@ void CMainFrameDlg::SetTabButton(int nIndex)
 #ifndef ENGLISH_MODE
 			m_strCurrentConfigMsg += L"▶ 중계기 일람표 확정  ";
 #else
-			m_strCurrentConfigMsg += L"▶ Repeater list is fixed  ";
+			m_strCurrentConfigMsg += L"▶ Confirmation of Module Table  ";
 #endif
 
 			CCommonState::ie()->m_bInitCircuit = false;
@@ -422,7 +429,7 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 #ifndef ENGLISH_MODE
 		m_strCurrentConfigMsg = L"▶ 건물 정보 확정 ▶ 중계기 일람표 확정 ";
 #else
-		m_strCurrentConfigMsg = L"▶ 건물 정보 확정 ▶ 중계기 일람표 확정 ";
+		m_strCurrentConfigMsg = L"▶ Confirmation of Building Information ▶ Confirmation of  Module Table ";
 #endif
 		m_pCircuitBasicDlg->LoadInfo();
 		m_pCircuitDlg->LoadInfo();
@@ -436,7 +443,11 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 		{
 			if (m_strCurrentConfigMsg.Compare(L"") == 0)
 			{
+#ifndef ENGLISH_MODE
 				m_strCurrentConfigMsg = L"▶ 건물 정보 확정 ";
+#else
+				m_strCurrentConfigMsg = L"▶ Confirmation of Building Information ";
+#endif
 			}
 		}
 		//20221024 GBM end
@@ -454,7 +465,11 @@ LRESULT CMainFrameDlg::OnSelectionProject(WPARAM wParam, LPARAM lParam)
 			if (m_pWaitPopup) {
 				SAFE_DELETE(m_pWaitPopup);
 			}
-			m_pWaitPopup = new CMessagePopup(L"회로 정보 생성", L"\n\n\n회로 정보를 생성 중.. \n\n잠시만 기다려 주세요.", -1, this);
+#ifndef ENGLISH_MODE
+			m_pWaitPopup = new CMessagePopup(L"설비 정보 생성", L"\n\n\n설비 정보를 생성 중.. \n\n잠시만 기다려 주세요.", -1, this);
+#else
+			m_pWaitPopup = new CMessagePopup(L"Equipment Settings\nGeneration", L"\n\n\nEquipment Settings Generation is in progress.\n\nWait for a moment.", -1, this);
+#endif
 			m_pWaitPopup->Create(IDD_COMMON_POPUP_DIALOG, this);
 			m_pWaitPopup->ShowWindow(SW_HIDE);
 
@@ -563,7 +578,11 @@ void CMainFrameDlg::Redisplay()
 
 LRESULT CMainFrameDlg::OnCircuitListInitMsg(WPARAM wParam, LPARAM lParam)
 {
+#ifndef ENGLISH_MODE
 	m_strCurrentConfigMsg = L"▶ 건물 정보 확정  " ;	// 중계기 일람표 확정 문구 삭제
+#else
+	m_strCurrentConfigMsg = L"▶ Confirmation of Building Information  ";	// 중계기 일람표 확정 문구 삭제
+#endif
 	Invalidate();
 
 	m_pCircuitEditDlg->SetExcelSaveFlag(false);

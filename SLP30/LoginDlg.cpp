@@ -58,9 +58,15 @@ BOOL CLoginDlg::OnInitDialog()
 	m_editID.MoveWindow(146, 118, 194, 28);
 	m_editPW.MoveWindow(146, 179, 194, 28);
 
+#ifndef ENGLISH_MODE
 	m_btnConfirm.Create(IDB_BMP_CONFIRM, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
 	m_btnCancel.Create(IDB_BMP_CANCEL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
 	m_btnFind.Create(IDB_BMP_FIND, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#else
+	m_btnConfirm.Create(IDB_BMP_CONFIRM_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
+	m_btnCancel.Create(IDB_BMP_CANCEL_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+	m_btnFind.Create(IDB_BMP_FIND_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#endif
 
 	m_btnConfirm.MoveWindow(67, 236, 132, 44);
 	m_btnCancel.MoveWindow(218, 236, 132, 44);
@@ -179,10 +185,17 @@ void CLoginDlg::OnFindClick()
 	CString sName, sPhone, sMsg;
 	CReadWriteState state;
 	state.SetFileName(L"cs.ini");
-	state.ReadText(L"고객상담 연락처", L"NAME", sName);
-	state.ReadText(L"고객상담 연락처", L"PHONE", sPhone);
+#ifndef ENGLISH_MODE
+	state.ReadText(L"고객상담연락처", L"NAME", sName);
+	state.ReadText(L"고객상담연락처", L"PHONE", sPhone);
 	sMsg.Format(L"\n\n아래 연락처로 연락바랍니다.\n\n%s: %s", sName, sPhone);
 	CMessagePopup dlg(L"아이디/패스워드 찾기", sMsg, MB_OK);
+#else
+	state.ReadText(L"C/S Center", L"NAME", sName);
+	state.ReadText(L"C/S Center", L"PHONE", sPhone);
+	sMsg.Format(L"\n\nPlease contact to information below\n\n%s: %s", sName, sPhone);
+	CMessagePopup dlg(L"FIND ID / PASSWORD", sMsg, MB_OK);
+#endif
 	UINT nResult = dlg.DoModal();
 }
 
@@ -202,7 +215,11 @@ void CLoginDlg::Redisplay()
 	//CCommonDisplay::DrawColorBg(&memDC, RGB(252, 252, 252), rect);
 	//CCommonDisplay::DrawImageGdiplusPNG(&memDC, IDB_PNG_LOGIN, 0, 0);
 
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawImageGdiplusPNG(_pDC, IDB_PNG_LOGIN, 0, 0);
+#else
+	CCommonDisplay::DrawImageGdiplusPNG(_pDC, IDB_PNG_LOGIN_EN, 0, 0);
+#endif
 
 	//bitmap.DeleteObject();
 	//::DeleteObject(memDC);

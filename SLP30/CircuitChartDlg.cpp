@@ -42,7 +42,11 @@ BEGIN_MESSAGE_MAP(CCircuitChartDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // CCircuitChartDlg 메시지 처리기입니다.
+#ifndef ENGLISH_MODE
 const TCHAR* g_editHeader[] = { _T("중계기No"), _T("회로No"), _T("회로명"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("실명"), _T("설비번호"), NULL };
+#else
+const TCHAR* g_editHeader[] = { _T("MOD No"), _T("CCT No"), _T("CCT Name"), _T("B.Name"), _T("B.BLCK"), _T("LINE"), _T("FLOOR"), _T("RM NAME"), _T("EQP No."), NULL };
+#endif
 const int g_editSize[] = { 80, 70, 200, 80, 120, 90, 90, 100, 75, 0 }; // pixel
 
 //20221026 GBM start - 중계기No, 실명, 설비번호만 수정가능하도록 함
@@ -239,18 +243,31 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
 			{
+#ifndef ENGLISH_MODE
 				strMsg.Format(L"\n\n새로운 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n\n총 회로번호 개수(%d) 이상의 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
+#else
+				strMsg.Format(L"\n\n\nNew Circuit No.(%d) cannot be greater than\ntotal number of configured Circuit(%d).\n\nReturn to [Previous]\nand increase the number of Equipment.",
+					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
+				CMessagePopup popup(L"Exceeding\nthe total number of circuit", strMsg, MB_OK, this);
+#endif
 				popup.DoModal();
 				break;
 			}
 
 			if (nCurrentIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_0)
 			{
+#ifndef ENGLISH_MODE
 				strMsg.Format(L"\n\n이동할 회로번호(%d)는\n구성된 총 회로번호 개수(%d)보다 큰 수이므로\n이동할 수 없음",
 					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
+#else
+				strMsg.Format(L"\n\n\nThe number of Circuit to move(%d)\ncan NOT be moved\nbecause it is greater than\ntotal number of configured Circuit(%d).",
+					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_0, CCommonState::ie()->m_nTotalCountCircuit_0);
+				CMessagePopup popup(L"Exceeding\nthe total number of circuit", strMsg, MB_OK, this);
+#endif
+				
 				popup.DoModal();
 				break;
 			}
@@ -259,18 +276,30 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 		{
 			if (nNewIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
+#ifndef ENGLISH_MODE
 				strMsg.Format(L"\n\n새로운 회로번호(%d)가\n현재 구성된 총 회로번호 개수(%d)보다 클 수 없음\n\n총 회로번호 개수(%d) 이상의 설비를 넣으려면\n[이전]으로 돌아가 원하는 설비 개수를 추가하세요.",
 					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
+#else
+				strMsg.Format(L"\n\n\nNew Circuit No.(%d) cannot be greater than\ntotal number of configured Circuit(%d).\n\nReturn to [Previous]\nand increase the number of Equipment.",
+					nNewIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
+				CMessagePopup popup(L"Exceeding\nthe total number of circuit", strMsg, MB_OK, this);
+#endif
 				popup.DoModal();
 				break;
 			}
 
 			if (nCurrentIndex + 1 > CCommonState::ie()->m_nTotalCountCircuit_1)
 			{
+#ifndef ENGLISH_MODE
 				strMsg.Format(L"\n\n이동할 회로번호(%d)는\n구성된 총 회로번호 개수(%d)보다 큰 수이므로\n이동할 수 없음",
 					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
 				CMessagePopup popup(L"총 회로번호 개수 초과", strMsg, MB_OK, this);
+#else
+				strMsg.Format(L"\n\n\nThe number of Circuit to move(%d)\ncan NOT be moved\nbecause it is greater than\ntotal number of configured Circuit(%d).",
+					nCurrentIndex + 1, CCommonState::ie()->m_nTotalCountCircuit_1, CCommonState::ie()->m_nTotalCountCircuit_1);
+				CMessagePopup popup(L"Exceeding\nthe total number of circuit", strMsg, MB_OK, this);
+#endif
 				popup.DoModal();
 				break;
 			}
@@ -303,9 +332,14 @@ LRESULT CCircuitChartDlg::OnListControl(WPARAM wParam, LPARAM lParam)
 			else
 				nNewCircuitNum = nNewIndex + 1 - nMaxCircuitAddress;
 
+#ifndef ENGLISH_MODE
 			strMsg.Format(L"\n\n새로운 회로번호(%d)에는 회로가 이미 존재함", nNewCircuitNum);
-
 			CMessagePopup popup(L"이미 회로 있음", strMsg, MB_OK, this);
+#else
+			strMsg.Format(L"\n\n\nNew Circuit Number(%d) already exists", nNewCircuitNum);
+			CMessagePopup popup(L"Circuit already exists", strMsg, MB_OK, this);
+#endif
+
 			popup.DoModal();
 			break;
 		}
@@ -364,7 +398,12 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 		m_pListCtrl->GetItemText(nIndex, 7, sRoomName);
 		m_pListCtrl->GetItemText(nIndex, 8, sCircuitNo);
 
+#ifndef ENGLISH_MODE
 		sStair.Replace(L"계단", L"");
+#else
+		sStair.Replace(L"LINE", L"");
+#endif
+
 		nStair = _wtoi(sStair.GetBuffer(0));
 
 		bool bRooftop = false;
@@ -389,7 +428,11 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 		nSystemNo = _wtoi(sSystemNo.GetBuffer(0));
 		nCircuitNo = _wtoi(sCircuitNo.GetBuffer(0));
 
+#ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
+#else
+		sBlock.Replace(L"B.BLCK", L"");
+#endif
 
 		CSaveManager::ie()->SetSystemInfo(sBDName.GetBuffer(0), sCircuitName.GetBuffer(0), sRoomName.GetBuffer(0), sBlock.GetBuffer(0),
 			(short)nStair, (short)nSystemNo, (short)nChartIndex, (short)nFloor, (bool)bRooftop, (short)nCircuitNo);
@@ -411,12 +454,20 @@ void CCircuitChartDlg::SetupPopupList()
 	for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nBlock; nIndex++) {
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sTemp = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndex);
+#ifndef ENGLISH_MODE
 			sTemp += L"동";
+#else
+			sTemp += L"B.BLCK";
+#endif
 			m_pListCtrl->AddPopupListItem(4, sTemp);
 		}
 	}
 	for (int nIndex = 0; nIndex < nStairCount; nIndex++) {
+#ifndef ENGLISH_MODE
 		sTemp.Format(L"%d계단", nIndex + 1);
+#else
+		sTemp.Format(L"%dLINE", nIndex + 1);
+#endif
 		m_pListCtrl->AddPopupListItem(5, sTemp);
 	}
 	int nBasement = CCircuitBasicInfo::Instance()->m_nBasement;
@@ -458,7 +509,11 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 		m_pListCtrl->SetItemText(nValue, 2, pInfo->szCircuitName);
 		m_pListCtrl->SetItemText(nValue, 3, pInfo->szBDName);
 		if (wcslen(pInfo->szBlock) > 0) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%s동", pInfo->szBlock);
+#else
+			sTemp.Format(L"%sB.BLCK", pInfo->szBlock);
+#endif
 		}
 		else {
 			sTemp = L"";
@@ -466,7 +521,11 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 		m_pListCtrl->SetItemText(nValue, 4, sTemp);
 
 		if (pInfo->nStair > 0) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%d계단", (int)pInfo->nStair);
+#else
+			sTemp.Format(L"%dLINE", (int)pInfo->nStair);
+#endif
 		}
 		else {
 			sTemp = L"";
@@ -511,9 +570,15 @@ bool CCircuitChartDlg::DisplayListItem(int nChartIndex)
 
 	SetupPopupList();
 
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nChartIndex == 1)
 		sSystem = L"1 계통";
+#else
+	CString sSystem = L"LOOP 0";
+	if (nChartIndex == 1)
+		sSystem = L"LOOP 1";
+#endif
 
 	CString sBlock, sStair, sFloor, sCircuitName, sCircuitCount, sTemp;
 	pSelectCircuit pCircuit = NULL;

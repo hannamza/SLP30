@@ -57,7 +57,11 @@ BOOL CCircuitSetupDlg::OnInitDialog()
 	int nX = 20;
 	CString sText;
 	for (int nIndex = 0; nIndex < STAIR_TAB_COUNT; nIndex++) {
+#ifndef ENGLISH_MODE
 		sText.Format(L"%d계단", nIndex + 1);
+#else
+		sText.Format(L"%dLINE", nIndex + 1);
+#endif
 		m_pTabButton[nIndex] = new CTextTabBtn(nIndex, sText, this);
 		m_pTabButton[nIndex]->Create(IDD_COMMON_CHILD_DIALOG, this);
 		if (nIndex < CCircuitBasicInfo::Instance()->m_nStair) {
@@ -66,12 +70,20 @@ BOOL CCircuitSetupDlg::OnInitDialog()
 		else {
 			m_pTabButton[nIndex]->ShowWindow(SW_HIDE);	
 		}
+#ifndef ENGLISH_MODE
 		m_pTabButton[nIndex]->MoveWindow(nX, 3, 100, 37);
+#else
+		m_pTabButton[nIndex]->MoveWindow(nX, 3, 150, 37);
+#endif
 
 		if (nIndex == 0) {
 			m_pTabButton[nIndex]->SetCheck(true);
 		}
+#ifndef ENGLISH_MODE
 		nX += 105;
+#else
+		nX += 155;
+#endif
 	}
 
 	m_bInit = true;
@@ -207,10 +219,17 @@ CCustomListCtrl* CCircuitSetupDlg::NewCircuitListCtrl(CCustomListCtrl* pListCtrl
 //20221013 GBM start - 메모리에 저장되어 있는 기존 설비 개수 정보를 리스트에 표현
 void CCircuitSetupDlg::FillDataInCircuitListCtrl(int nSystem)
 {
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
 	CString sBlock, sStair, sTemp, sFloor;
 	pSelectCircuit pCircuit = NULL;
 	CCustomListCtrl* pList = NULL;
@@ -234,12 +253,20 @@ void CCircuitSetupDlg::FillDataInCircuitListCtrl(int nSystem)
 		}
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+#ifndef ENGLISH_MODE
 			sBlock += L"동";
+#else
+			sBlock += L"B.BLCK";
+#endif
 		}
 		++nBlockIndex;
 
 		for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) {
+#ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
+#else
+			sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 
 			pList = m_p_List[nStairIndex];
 			++nStairIndex;
@@ -365,10 +392,18 @@ CCustomListCtrl* CCircuitSetupDlg::GetStairValue(CString sBlock, CString sStair)
 	CString sTemp, sTemp1;
 	for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount(); nIndex++) {
 		sTemp = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndex);
+#ifndef ENGLISH_MODE
 		sTemp += L"동";
+#else
+		sTemp += L"B.BLCK";
+#endif
 		if (sTemp == sBlock) {
 			for (int i = 0; i < CCircuitBasicInfo::Instance()->m_nStair; i++) {
+#ifndef ENGLISH_MODE
 				sTemp1.Format(L"%d계단", i + 1);
+#else
+				sTemp1.Format(L"%dLINE", i + 1);
+#endif
 				if (sTemp1 == sStair) {
 					int nValue = (nIndex * CCircuitBasicInfo::Instance()->m_nStair) + i;
 					return m_p_List[nValue];
@@ -419,7 +454,11 @@ int CCircuitSetupDlg::GetCircuitValue(CString sCircuit)
 bool CCircuitSetupDlg::LoadInfo(int nSystem)
 {
 	CString sSystem, sCount;
+#ifndef ENGLISH_MODE
 	sSystem.Format(L"%d 계통", nSystem);
+#else
+	sSystem.Format(L"LOOP %d", nSystem);
+#endif
 	int nCount = 0;
 	switch (nSystem) {
 	case 0: nCount = CCommonState::ie()->m_selectCircuit_0.GetCount(); break;
@@ -460,7 +499,11 @@ bool CCircuitSetupDlg::LoadInfo(int nSystem)
 void CCircuitSetupDlg::MakeHeader(CStringArray & arrayList)
 {
 	arrayList.RemoveAll();
-	arrayList.Add(L"   구분   ");
+#ifndef ENGLISH_MODE
+	arrayList.Add(L"   설비   ");
+#else
+	arrayList.Add(L"EQUIPMENT");
+#endif
 	for (int nIndex = 0; nIndex < CIRCUIT_PARENT; nIndex++) {
 		if (!CCircuitBasicInfo::Instance()->m_bCheck[nIndex]) {
 			continue;
@@ -484,7 +527,11 @@ void CCircuitSetupDlg::MakeHeaderWidth(CUIntArray & arrayList)
 {
 	int nCount = m_arrayHeaderName.GetCount();
 	--nCount;
+#ifndef ENGLISH_MODE
 	arrayList.Add(50);
+#else
+	arrayList.Add(160);
+#endif
 	for (int nIndex = 0; nIndex < nCount; nIndex++) {
 		//20230419 GBM - 컬럼 넓이 고정
 #if 1
@@ -589,10 +636,17 @@ LRESULT CCircuitSetupDlg::OnTabButtnClick(WPARAM wParam, LPARAM lParam)
 
 bool CCircuitSetupDlg::CompareNewCircuitInfo(int nSystem)
 {
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
 	CString sBlock, sStair, sTemp, sFloor;
 	pSelectCircuit pCircuit = NULL;
 	CCustomListCtrl* pList = NULL;
@@ -618,12 +672,20 @@ bool CCircuitSetupDlg::CompareNewCircuitInfo(int nSystem)
 		}
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+#ifndef ENGLISH_MODE
 			sBlock += L"동";
+#else
+			sBlock += L"B.BLCK";
+#endif
 		}
 		++nBlockIndex;
 
 		for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) {
+#ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
+#else
+			sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 
 			pList = m_p_List[nStairIndex];
 			++nStairIndex;
@@ -699,10 +761,18 @@ bool CCircuitSetupDlg::CompareNewCircuitInfoNeo(int nSystem)
 		}
 	}
 
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
+	
 	CString sBlock, sStair, sTemp, sFloor;
 	CCustomListCtrl* pList = NULL;
 	CStringArray header;
@@ -727,12 +797,20 @@ bool CCircuitSetupDlg::CompareNewCircuitInfoNeo(int nSystem)
 		}
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+#ifndef ENGLISH_MODE
 			sBlock += L"동";
+#else
+			sBlock += L"B.BLCK";
+#endif
 		}
 		++nBlockIndex;
 
 		for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) {
+#ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
+#else
+			sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 
 			pList = m_p_List[nStairIndex];
 			++nStairIndex;
@@ -818,10 +896,18 @@ bool CCircuitSetupDlg::SaveCircuitInfo(int nSystem)
 {
 	CCommonState::ie()->ReleaseCircuit(nSystem);
 
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
+
 	CString sBlock, sStair, sTemp, sFloor;
 	pSelectCircuit pCircuit = NULL;
 	CCustomListCtrl* pList = NULL;
@@ -845,12 +931,20 @@ bool CCircuitSetupDlg::SaveCircuitInfo(int nSystem)
 		}
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+#ifndef ENGLISH_MODE
 			sBlock += L"동";
+#else
+			sBlock += L"B.BLCK";
+#endif
 		}
 		++nBlockIndex;
 
 		for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) {
+#ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
+#else
+			sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 
 			pList = m_p_List[nStairIndex];
 			++nStairIndex;
@@ -921,12 +1015,22 @@ void CCircuitSetupDlg::Redisplay()
 			int nBlockIndex = (nIndex > 0) ? (nIndex / CCircuitBasicInfo::Instance()->m_nStair) : 0;
 			if (CCircuitBasicInfo::Instance()->m_nBlock > 0 
 				&& CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount() == CCircuitBasicInfo::Instance()->m_nBlock) {
+#ifndef ENGLISH_MODE
 				sStair.Format(L"%s동 %d계단",
 					CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex)
 					, ((nIndex > 0) ? (nIndex % CCircuitBasicInfo::Instance()->m_nStair) : 0) + 1);
+#else
+				sStair.Format(L"%sB.BLCK %dLINE",
+					CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex)
+					, ((nIndex > 0) ? (nIndex % CCircuitBasicInfo::Instance()->m_nStair) : 0) + 1);
+#endif
 			}
 			else {
+#ifndef ENGLISH_MODE
 				sStair.Format(L"%d계단", nIndex + 1);
+#else
+				sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 			}
 			m_pTabButton[nIndex]->SetCaption(sStair);
 		}
@@ -962,10 +1066,17 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem, bool bFil
 	CString sBlock, sStair, sFloor, sCircuitName;
 	bool bFind = false;
 
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
 
 	if (nSystem == 0)
 	{
@@ -1068,10 +1179,17 @@ void CCircuitSetupDlg::CopyNewCircuitInfoToOldCircuitInfo(int nSystem, bool bFil
 
 void CCircuitSetupDlg::MakeAddCircuitInfoAndDeleteCircuitInfo(int nSystem)
 {
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
 
 	std::vector<selectCircuitCompRet> vecAddSelectCircuit;
 	std::vector<selectCircuitCompRet> vecDeleteSelectCircuit;

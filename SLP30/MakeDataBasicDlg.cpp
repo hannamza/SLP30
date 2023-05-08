@@ -31,7 +31,11 @@ CMakeDataBasicDlg::CMakeDataBasicDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
+#ifndef ENGLISH_MODE
 		_T("굴림")); // lpszFacename 
+#else
+		_T("arial")); // lpszFacename 
+#endif
 
 	m_nDisplay = 0;
 	m_bInit = false;
@@ -70,9 +74,16 @@ BOOL CMakeDataBasicDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+
+#ifndef ENGLISH_MODE
 	m_btnNext.Create(IDB_BMP_NEXT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
 	m_btnPrev.Create(IDB_BMP_PREV, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
 	m_btnSave.Create(IDB_BMP_SAVE, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#else
+	m_btnNext.Create(IDB_BMP_NEXT_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
+	m_btnPrev.Create(IDB_BMP_PREV_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+	m_btnSave.Create(IDB_BMP_SAVE_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#endif
 
 	m_pMakeData = new CMakeDataDlg(this);
 	m_pMakeData->Create(IDD_DIALOG_DATA, this);
@@ -213,8 +224,14 @@ void CMakeDataBasicDlg::OnSaveClick()
 {
 	m_pSetupData->SaveData();
 
+#ifndef ENGLISH_MODE
 	CString str = _T("SLP 파일(*.slp)|*.slp|");
 	CFileDialog dlg(false, _T("*.slp"), _T("편집정보.slp"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#else
+	CString str = _T("SLP File(*.slp)|*.slp|");
+	CFileDialog dlg(false, _T("*.slp"), _T("Edit Info.slp"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#endif
+
 	CString strPathName;
 	if (dlg.DoModal() == IDOK) {
 		strPathName = dlg.GetPathName();
@@ -236,7 +253,11 @@ void CMakeDataBasicDlg::OnSaveClick()
 	}*/
 
 	if (CSaveManager::ie()->FileSave(strPathName)) {
-		CMessagePopup popup(L"저장", L"\n\n\n저장이 완료됨", MB_OK, this);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"편집정보 저장", L"\n\n\n저장이 완료됨", MB_OK, this);
+#else
+		CMessagePopup popup(L"Save Edit Info", L"\n\n\nSaved", MB_OK, this);
+#endif
 		popup.DoModal();
 	}
 }
@@ -256,7 +277,11 @@ void CMakeDataBasicDlg::Redisplay()
 	CCommonDisplay::DrawRect(&memDC, true, RGB(255, 255, 255), RGB(255, 255, 255), rect);
 
 	rt.SetRect(20, 15, 350, 50);
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawCaption(&memDC, L"연동 설정", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+#else
+	CCommonDisplay::DrawCaption(&memDC, L"Site Logic Data Settings", RGB(80, 80, 80), m_font, false, 0, rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+#endif
 	rt.CopyRect(&rect);
 	rt.left += 4;
 	rt.right -= 4;

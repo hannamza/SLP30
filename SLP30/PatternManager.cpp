@@ -4,7 +4,11 @@
 
 CPatternManager::CPatternManager()
 {
+#ifndef ENGLISH_MODE
 	m_alarmPatternDown.sPatternName = L"경종/비상방송/시각경보 지하";
+#else
+	m_alarmPatternDown.sPatternName = L"BELL/P.ADDRESS/STROBE BASEMENT";
+#endif
 }
 
 
@@ -159,9 +163,15 @@ int CPatternManager::CheckType(int nType, SYSTEM_INFO_* pInfo)
 		}
 		break;
 	case 5: // 시각경보
+#ifndef ENGLISH_MODE
 		if (sTemp.Compare(g_lpszCircuitName[설비명_시각경보]) == 0 || sTemp.Compare(L"비상방송") == 0) {
 			return true;
 		}
+#else
+		if (sTemp.Compare(g_lpszCircuitName[설비명_시각경보]) == 0 || sTemp.Compare(L"P.Address") == 0) {
+			return true;
+		}
+#endif
 		break;
 	default:
 		break;
@@ -229,14 +239,22 @@ pPatternInfo CPatternManager::GetPatternInfo(int nPatternIndex)
 void CPatternManager::AddAlarmPattern(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
+#ifndef ENGLISH_MODE
 	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"경종");
+#else
+	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"BELL");
+#endif
 	CheckAddPatternSystem(pInfo, 생성_동_전층, m_alarmPattern, sPatternName);
 }
 // 전층(시각경보, 비상방송)
 void CPatternManager::AddVisualAlarmPattern(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
+#ifndef ENGLISH_MODE
 	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"시각경보/비상방송");
+#else
+	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"STROBE/P.ADDRESS");
+#endif
 	CheckAddPatternSystem(pInfo, 생성_동_전층, m_visualalarmPattern, sPatternName);
 }
 
@@ -244,7 +262,11 @@ void CPatternManager::AddVisualAlarmPattern(SYSTEM_INFO_* pInfo)
 void CPatternManager::AddAlarmPatternUp(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
+#ifndef ENGLISH_MODE
 	sPatternName = MakePatternName(pInfo, 생성_동_계단_층, L"경종/방송/시각");
+#else
+	sPatternName = MakePatternName(pInfo, 생성_동_계단_층, L"BELL/P.ADDRESS/STROBE");
+#endif
 	CheckAddPatternSystem(pInfo, 생성_동_계단_층, m_alarmPatternUp, sPatternName);
 }
 
@@ -252,7 +274,11 @@ void CPatternManager::AddAlarmPatternUp(SYSTEM_INFO_* pInfo)
 void CPatternManager::AddAlarmPatternDown(SYSTEM_INFO_* pInfo)
 {
 	CString sTemp;
+#ifndef ENGLISH_MODE
 	m_alarmPatternDown.sPatternName = L"경종/비상방송 지하";
+#else
+	m_alarmPatternDown.sPatternName = L"BELL/P.ADDRESS BASEMENT";
+#endif
 	bool bBroad = (pInfo->nSystem == 99) ? true : false;
 	if (bBroad) {
 		sTemp.Format(L"%d", pInfo->nNo);
@@ -268,7 +294,11 @@ void CPatternManager::AddAlarmPatternDown(SYSTEM_INFO_* pInfo)
 void CPatternManager::AddDoorPattern(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
+#ifndef ENGLISH_MODE
 	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"폐쇄/개폐");
+#else
+	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"CLOSE/OPEN");
+#endif
 	CheckAddPatternSystem(pInfo, 생성_동_전층, m_doorPattern, sPatternName);
 }
 
@@ -276,7 +306,11 @@ void CPatternManager::AddDoorPattern(SYSTEM_INFO_* pInfo)
 void CPatternManager::AddDoorPatternStair(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
+#ifndef ENGLISH_MODE
 	sPatternName = MakePatternName(pInfo, 생성_동_계단별, L"폐쇄/개폐");
+#else
+	sPatternName = MakePatternName(pInfo, 생성_동_계단별, L"CLOSE/OPEN");
+#endif
 	CheckAddPatternSystem(pInfo, 생성_동_계단별, m_doorPatternStair, sPatternName);
 }
 
@@ -284,7 +318,11 @@ void CPatternManager::AddDoorPatternStair(SYSTEM_INFO_* pInfo)
 void CPatternManager::AddDamperPattern(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
+#ifndef ENGLISH_MODE
 	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"급기댐퍼");
+#else
+	sPatternName = MakePatternName(pInfo, 생성_동_전층, L"SSMD");
+#endif
 	CheckAddPatternSystem(pInfo, 생성_동_전층, m_damperPatternAll, sPatternName);
 }
 
@@ -292,7 +330,11 @@ void CPatternManager::AddDamperPattern(SYSTEM_INFO_* pInfo)
 void CPatternManager::AddDamperPatternStair(SYSTEM_INFO_* pInfo)
 {
 	CString sPatternName;
+#ifndef ENGLISH_MODE
 	sPatternName = MakePatternName(pInfo, 생성_동_계단별, L"급기댐퍼");
+#else
+	sPatternName = MakePatternName(pInfo, 생성_동_계단별, L"SSMD");
+#endif
 	CheckAddPatternSystem(pInfo, 생성_동_계단별, m_damperPatternStair, sPatternName);
 }
 
@@ -311,14 +353,24 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 	}
 	switch (nType) {
 	case 생성_동_전층: // 패턴 동 전층
+#ifndef ENGLISH_MODE
 		if (wcslen(pInfo->szBlock) > 0) {
 			sPatternName.Format(L"%s %s동 전층", sName, pInfo->szBlock);
 		}
 		else {
 			sPatternName.Format(L"%s 전층", sName);
 		}
+#else
+		if (wcslen(pInfo->szBlock) > 0) {
+			sPatternName.Format(L"%s %sB.BLCK ALL FLOOR", sName, pInfo->szBlock);
+		}
+		else {
+			sPatternName.Format(L"%s ALL FLOOR", sName);
+		}
+#endif
 		break;
 	case 생성_동_계단별: // 패턴 동 계단
+#ifndef ENGLISH_MODE
 		if (wcslen(pInfo->szBlock) > 0) {
 			if (pInfo->bRooftop)		// 옥탑층
 			{	
@@ -339,8 +391,31 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 				sPatternName.Format(L"%s %d계단", sName, nStair);
 			}
 		}
+#else
+		if (wcslen(pInfo->szBlock) > 0) {
+			if (pInfo->bRooftop)		// 옥탑층
+			{
+				sPatternName.Format(L"%s %sB.BLCK %s", sName, pInfo->szBlock, strRooftop);
+			}
+			else
+			{
+				sPatternName.Format(L"%s %sB.BLCK %dLINE", sName, pInfo->szBlock, nStair);
+			}
+		}
+		else {
+			if (pInfo->bRooftop)		// 옥탑층
+			{
+				sPatternName.Format(L"%s %s", sName, strRooftop);
+			}
+			else
+			{
+				sPatternName.Format(L"%s %dLINE", sName, nStair);
+			}
+		}
+#endif
 		break;
 	case 생성_동_계단_층: // 패턴 동 계단, 층
+#ifndef ENGLISH_MODE
 		if (wcslen(pInfo->szBlock) == 0) {
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
 				if (pInfo->bRooftop)	// 옥탑층
@@ -386,6 +461,53 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 				sPatternName.Format(L"%s", sName);
 			}
 		}
+#else
+		if (wcslen(pInfo->szBlock) == 0) {
+			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
+				if (pInfo->bRooftop)	// 옥탑층
+				{
+					sPatternName.Format(L"%s %dLINE %s", sName, pInfo->nStair, strRooftop);
+				}
+				else
+				{
+					sPatternName.Format(L"%s %dLINE %s%dF", sName, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				}
+			}
+			else {
+				sPatternName.Format(L"%s %s%dF", sName, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+			}
+		}
+		else if (wcslen(pInfo->szBlock) > 0) {
+			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
+				if (pInfo->bRooftop)	// 옥탑층
+				{
+					sPatternName.Format(L"%s %sB.BLCK %dLINE %s", sName, pInfo->szBlock, pInfo->nStair, strRooftop);
+				}
+				else
+				{
+					sPatternName.Format(L"%s %sB.BLCK %dLINE %s%dF", sName, pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				}
+			}
+			else {
+				if (pInfo->bRooftop)	// 옥탑층
+				{
+					sPatternName.Format(L"%s %sB.BLCK %s", sName, pInfo->szBlock, strRooftop);
+				}
+				else
+				{
+					sPatternName.Format(L"%s %sB.BLCK %s%dF", sName, pInfo->szBlock, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+				}
+			}
+		}
+		else {
+			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
+				sPatternName.Format(L"%s %dLINE", sName, pInfo->nStair);
+			}
+			else {
+				sPatternName.Format(L"%s", sName);
+			}
+		}
+#endif
 		break;
 	default:
 		break;

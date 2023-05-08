@@ -55,10 +55,18 @@ bool CCommonState::GetResult(int nIndex)
 
 void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 {
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
+
 	CString sBlock, sStair, sTemp, sFloor, sCircuitName;
 	int nCount = 0;
 	bool bExit = false;
@@ -67,11 +75,19 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 	{
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndexBlock);
+#ifndef ENGLISH_MODE
 			sBlock += L"동";
+#else
+			sBlock += L"B.BLCK";
+#endif
 
 			for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) 
 			{
+#ifndef ENGLISH_MODE
 				sStair.Format(L"%d계단", nIndex + 1);
+#else
+				sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 
 				//지하층
 				for (int nIndexBasement = CCircuitBasicInfo::Instance()->m_nBasement; nIndexBasement > 0; nIndexBasement--)
@@ -241,10 +257,17 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 
 void CCommonState::InitSelectCircuitRepeaterList(int nSystem)
 {
+#ifndef ENGLISH_MODE
 	CString sSystem = L"0 계통";
 	if (nSystem == 1) {
 		sSystem = L"1 계통";
 	}
+#else
+	CString sSystem = L"LOOP 0";
+	if (nSystem == 1) {
+		sSystem = L"LOOP 1";
+	}
+#endif
 	CString sBlock, sStair, sTemp, sFloor, sCircuitName;
 	int nCount = 0;
 	bool bExit = false;
@@ -253,12 +276,18 @@ void CCommonState::InitSelectCircuitRepeaterList(int nSystem)
 	{
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndexBlock);
+#ifndef ENGLISH_MODE
 			sBlock += L"동";
-
+#else
+			sBlock += L"B.BLCK";
+#endif
 			for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++)
 			{
+#ifndef ENGLISH_MODE
 				sStair.Format(L"%d계단", nIndex + 1);
-
+#else
+				sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 				//지하층
 				for (int nIndexBasement = CCircuitBasicInfo::Instance()->m_nBasement; nIndexBasement > 0; nIndexBasement--)
 				{

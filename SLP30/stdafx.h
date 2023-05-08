@@ -19,8 +19,6 @@
 #include <afxwin.h>         // MFC 핵심 및 표준 구성 요소입니다.
 #include <afxext.h>         // MFC 확장입니다.
 
-//#define		ENGLISH_MODE	// 영어로 프로그램을 빌드 시 활성화, 그렇지 않으면 비활성화
-
 #define		MAX_CIRCUIT		250
 
 //#define		CIRCUIT_PARENT	16

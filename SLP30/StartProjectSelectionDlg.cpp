@@ -28,7 +28,11 @@ CStartProjectSelectionDlg::CStartProjectSelectionDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
+#ifndef ENGLISH_MODE
 		_T("굴림")); // lpszFacename 
+#else
+		_T("arial")); // lpszFacename 
+#endif
 	m_font1.CreateFont(16, // nHeight 
 		0, // nWidth 
 		0, // nEscapement 
@@ -42,7 +46,11 @@ CStartProjectSelectionDlg::CStartProjectSelectionDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
+#ifndef ENGLISH_MODE
 		_T("돋움")); // lpszFacename 
+#else
+		_T("arial")); // lpszFacename 
+#endif
 
 	m_bInit = false;
 	m_bFirst = true;
@@ -161,7 +169,11 @@ void CStartProjectSelectionDlg::OnTimer(UINT_PTR nIDEvent)
 void CStartProjectSelectionDlg::OnNewProjectClick()
 {
 	if (!m_bFirst) {
-		CMessagePopup popup(L"신규 프로젝트 생성", L"\n\n\n새로운 작업을 시작합니까?\n\n기존 프로젝트는 초기화됨", MB_YESNO, this);
+#ifndef ENGLISH_MODE
+		CMessagePopup popup(L"신규 프로젝트 생성", L"\n\n\n새로운 작업을 시작합니까?", MB_YESNO, this);
+#else
+		CMessagePopup popup(L"Create a New Project", L"\n\n\nDo you want to start a new Project?", MB_YESNO, this);
+#endif
 		UINT nResult = popup.DoModal();
 		if (nResult == IDOK) {
 			GetParent()->PostMessage(SELECTION_PROJECT, 0, 1);
@@ -176,8 +188,13 @@ void CStartProjectSelectionDlg::OnNewProjectClick()
 
 void CStartProjectSelectionDlg::OnLoadProjectClick()
 {
+#ifndef ENGLISH_MODE
 	CString str = _T("SLP 파일(*.slp)|*.slp|");
 	CFileDialog dlg(true, _T("*.slp"), _T("편집정보.slp"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#else
+	CString str = _T("SLP File(*.slp)|*.slp|");
+	CFileDialog dlg(true, _T("*.slp"), _T("Edit Info.slp"), /*OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT*/NULL, str, this);
+#endif
 	CString strPathName;
 	if (dlg.DoModal() == IDOK) {
 		strPathName = dlg.GetPathName();
@@ -190,7 +207,11 @@ void CStartProjectSelectionDlg::OnLoadProjectClick()
 		GetParent()->PostMessage(SELECTION_PROJECT, 10, 0);
 	}
 	else {
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"파일 열기 실패", L"\n\n파일 열기에 실패함\n\n다시 시도해 주세요.", MB_OK, this);
+#else
+		CMessagePopup popup(L"Failed to open File", L"\n\n\nFailed to open File\n\nPlease try again.", MB_OK, this);
+#endif
 		popup.DoModal();
 		return;
 	}
@@ -258,6 +279,7 @@ void CStartProjectSelectionDlg::Redisplay()
 	rt.top -= 2;
 	CCommonDisplay::DrawRect(&memDC, true , RGB(255, 255, 255), RGB(255, 255, 255), rt);
 
+#ifndef ENGLISH_MODE
 	CCommonDisplay::DrawImage(&memDC, IDB_BMP_NEWPROJECT, (rt.Width() / 4) - 123, rt.top + 100);
 	CCommonDisplay::DrawLine(&memDC, rt.Width() / 4 - 163, rt.top + 158, rt.Width() / 4 + 163, rt.top + 158, PS_DOT, 1, RGB(112, 0, 14));
 	CCommonDisplay::DrawImage(&memDC, IDB_BMP_LOADPROJECT, (rt.Width() / 4 * 3) - 140, rt.top + 100);
@@ -267,6 +289,17 @@ void CStartProjectSelectionDlg::Redisplay()
 	CCommonDisplay::DrawImage(&memDC, IDB_BMP_LOADEX, (rt.Width() / 4) * 3 - 85, rt.bottom - 100);
 	CCommonDisplay::DrawLine(&memDC, rt.Width() / 4 - 163, rt.top + 158, rt.Width() / 4 + 163, rt.top + 158, PS_DOT, 1, RGB(112, 0, 14));
 	CCommonDisplay::DrawLine(&memDC, (rt.Width() / 4 * 3) - 180, rt.top + 158, (rt.Width() / 4 * 3) + 180, rt.top + 158, PS_DOT, 1, RGB(112, 0, 14));
+#else
+	CCommonDisplay::DrawImage(&memDC, IDB_BMP_NEWPROJECT_EN, (rt.Width() / 4) - 123, rt.top + 100);
+	CCommonDisplay::DrawLine(&memDC, rt.Width() / 4 - 163, rt.top + 158, rt.Width() / 4 + 163, rt.top + 158, PS_DOT, 1, RGB(112, 0, 14));
+	CCommonDisplay::DrawImage(&memDC, IDB_BMP_LOADPROJECT_EN, (rt.Width() / 4 * 3) - 140, rt.top + 100);
+	CCommonDisplay::DrawLine(&memDC, (rt.Width() / 4 * 3) - 180, rt.top + 158, (rt.Width() / 4 * 3) + 180, rt.top + 158, PS_DOT, 1, RGB(112, 0, 14));
+
+	CCommonDisplay::DrawImage(&memDC, IDB_BMP_NEWEX_EN, (rt.Width() / 4) - 80, rt.bottom - 100);
+	CCommonDisplay::DrawImage(&memDC, IDB_BMP_LOADEX_EN, (rt.Width() / 4) * 3 - 85, rt.bottom - 100);
+	CCommonDisplay::DrawLine(&memDC, rt.Width() / 4 - 163, rt.top + 158, rt.Width() / 4 + 163, rt.top + 158, PS_DOT, 1, RGB(112, 0, 14));
+	CCommonDisplay::DrawLine(&memDC, (rt.Width() / 4 * 3) - 180, rt.top + 158, (rt.Width() / 4 * 3) + 180, rt.top + 158, PS_DOT, 1, RGB(112, 0, 14));
+#endif
 
 	_pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
 

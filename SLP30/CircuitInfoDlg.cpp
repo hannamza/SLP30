@@ -61,13 +61,21 @@ BOOL CCircuitInfoDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+#ifndef ENGLISH_MODE
 	m_pTabButton[0] = new CTextTabBtn(0, L"0 계통", this);
+#else
+	m_pTabButton[0] = new CTextTabBtn(0, L"LOOP 0", this);
+#endif
 	m_pTabButton[0]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pTabButton[0]->MoveWindow(20, 14, 89, 37);
 
 	m_pTabButton[0]->SetCheck(true);
 
+#ifndef ENGLISH_MODE
 	m_pTabButton[1] = new CTextTabBtn(1, L"1 계통", this);
+#else
+	m_pTabButton[1] = new CTextTabBtn(1, L"LOOP 1", this);
+#endif
 	m_pTabButton[1]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pTabButton[1]->MoveWindow(115, 14, 89, 37);
 
@@ -79,9 +87,15 @@ BOOL CCircuitInfoDlg::OnInitDialog()
 	m_pSetupDlg[1]->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pSetupDlg[1]->ShowWindow(SW_HIDE);
 
+#ifndef ENGLISH_MODE
 	m_btnNext.Create(IDB_BMP_NEXT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
 	m_btnPrev.Create(IDB_BMP_PREV, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
 	m_btnCircuitListInit.Create(IDB_BMP_CIRCUIT_LIST_INIT, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#else
+	m_btnNext.Create(IDB_BMP_NEXT_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON1);
+	m_btnPrev.Create(IDB_BMP_PREV_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON2);
+	m_btnCircuitListInit.Create(IDB_BMP_CIRCUIT_LIST_INIT_EN, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_COMMON_BUTTON3);
+#endif
 
 	m_btnCircuitListInit.ShowWindow(FALSE);
 
@@ -314,8 +328,11 @@ void CCircuitInfoDlg::OnNextClick()
 	//20221018 GBM start - 중계기 일람표가 회로정보가 확정되어 처음 작성될 때 사용자에게 이후의 설비 변경 사항은 추가일 경우 현재 중계기 일람표 아래에 추가되고 삭제일 경우 기존 요소가 공란으로 대체됨을 알려야 함
 	if (CCommonState::ie()->m_bInitCircuit)
 	{
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"중계기 일람표 확정", L"\n설비 설정을 적용하여 중계기 일람표 확정됨\n\n중계기 일람표 확정 이후\n설비 추가인 경우 기존 중계기 일람표 하단에 추가,\n설비 삭제인 경우 중계기 일람표에서 설비가 제거됨\n\n계속하시겠습니까?", MB_YESNO, this);
-		
+#else
+		CMessagePopup popup(L"Confirmation of\nModule Table", L"\n\nModule Table is finalized\napplying the current Equipment Settings.\nAfter confirmation, If Equipment is added,\nit will be added to the bottom of Module Table,\nIf Equipment is deleted,\nthe device will be deleted from Module Table.", MB_YESNO, this);
+#endif
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
 			return;
@@ -369,8 +386,11 @@ void CCircuitInfoDlg::OnNextClick()
 #if 1
 		if (!CCommonState::ie()->m_bInitCircuit) 
 		{
+#ifndef ENGLISH_MODE
 			CMessagePopup popup(L"중계기 일람표 변경", L"\n설비 설정 변경이 중계기 일람표에 적용됨\n\n설비 추가 시: 중계기 일람표 하단 추가,\n설비 삭제 시: 설비 설정에서 삭제된 갯수만큼\n중계기 일람표 상 역순으로 설비 삭제", MB_YESNO, this);
-
+#else
+			CMessagePopup popup(L"Change of Module Table", L"\nChange to Equipment Settings\nareapplied to Module Table.\nIn case of Equipment Addition:\nAt the bottom of Module Table\nIn case of Equipment Deletion:\nEquipment is deleted\nin reverse order on Module Table.", MB_YESNO, this);
+#endif
 			UINT nResult = popup.DoModal();
 			if (nResult == IDOK)
 			{
@@ -399,18 +419,34 @@ void CCircuitInfoDlg::OnNextClick()
 
 					if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 					{
+#ifndef ENGLISH_MODE
 						strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, MAX_CIRCUIT);
+#else
+						strMsg.Format(L"\n\nThe number of Equipment Settings(%d) of Loop 0\nexceeded the maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit0, MAX_CIRCUIT);
+#endif
 					}
 					else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 					{
+#ifndef ENGLISH_MODE
 						strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit1, MAX_CIRCUIT);
+#else
+						strMsg.Format(L"\n\nThe number of Equipment Settings(%d) of Loop 1\nexceeded the maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit1, MAX_CIRCUIT);
+#endif
 					}
 					else
 					{
+#ifndef ENGLISH_MODE
 						strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복\n(현재 중계기 일람표 기준)", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+#else
+						strMsg.Format(L"\n\nThe number of Equipment Settings(%d, %d)\nof Loop 0 and Loop 1 exceeded\nthe maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+#endif
 					}
 
+#ifndef ENGLISH_MODE
 					CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
+#else
+					CMessagePopup popup(L"Exceed the maximum\nnumber of Circuit", strMsg, MB_OK, this);
+#endif
 					popup.DoModal();
 
 					// 설비 정보를 확인 후 이전 값을 롤백함
@@ -543,18 +579,34 @@ void CCircuitInfoDlg::OnNextClick()
 
 				if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 				{
+#ifndef ENGLISH_MODE
 					strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
+#else
+					strMsg.Format(L"\n\nThe number of Equipment Settings(%d) of Loop 0\nexceeded the maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit0, MAX_CIRCUIT);
+#endif
 				}
 				else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 				{
+#ifndef ENGLISH_MODE
 					strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
+#else
+					strMsg.Format(L"\n\nThe number of Equipment Settings(%d) of Loop 1\nexceeded the maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit1, MAX_CIRCUIT);
+#endif
 				}
 				else
 				{
+#ifndef ENGLISH_MODE
 					strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+#else
+					strMsg.Format(L"\n\nThe number of Equipment Settings(%d, %d)\nof Loop 0 and Loop 1 exceeded\nthe maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+#endif
 				}
 
+#ifndef ENGLISH_MODE
 				CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
+#else
+				CMessagePopup popup(L"Exceed the maximum\nnumber of Circuit", strMsg, MB_OK, this);
+#endif
 				popup.DoModal();
 
 				// 설비 정보를 확인 후 이전 값을 롤백함
@@ -700,18 +752,34 @@ void CCircuitInfoDlg::OnPrevClick()
 
 		if (!bCheckMaxCircuit1 && bCheckMaxCircuit2)
 		{
+#ifndef ENGLISH_MODE
 			strMsg.Format(L"\n\n0 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, MAX_CIRCUIT);
+#else
+			strMsg.Format(L"\n\nThe number of Equipment Settings(%d) of Loop 0\nexceeded the maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit0, MAX_CIRCUIT);
+#endif
 		}
 		else if (bCheckMaxCircuit1 && !bCheckMaxCircuit2)
 		{
+#ifndef ENGLISH_MODE
 			strMsg.Format(L"\n\n1 계통 설비의 설정수(%d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit1, MAX_CIRCUIT);
+#else
+			strMsg.Format(L"\n\nThe number of Equipment Settings(%d) of Loop 1\nexceeded the maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit1, MAX_CIRCUIT);
+#endif
 		}
 		else
 		{
+#ifndef ENGLISH_MODE
 			strMsg.Format(L"\n\n0 계통, 1 계통 설비의 설정수(%d, %d)가\n최대 회로수(%d)를 초과함\n\n기존 설비수로 원복", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+#else
+			strMsg.Format(L"\n\nThe number of Equipment Settings(%d, %d)\nof Loop 0 and Loop 1 exceeded\nthe maximum number of Circuit(%d).\n\nReturn to the number of existed Equipment Settings\nbased on the current Module Table", nTotalCircuit0, nTotalCircuit1, MAX_CIRCUIT);
+#endif
 		}
 
+#ifndef ENGLISH_MODE
 		CMessagePopup popup(L"최대 회로 개수 초과", strMsg, MB_OK, this);
+#else
+		CMessagePopup popup(L"Exceed the maximum\nnumber of Circuit", strMsg, MB_OK, this);
+#endif
 		popup.DoModal();
 
 		m_pSetupDlg[0]->InitCircuitInfo(0);
@@ -799,7 +867,11 @@ void CCircuitInfoDlg::Redisplay()
 
 void CCircuitInfoDlg::OnCircuitListInit()
 {
+#ifndef ENGLISH_MODE
 	CMessagePopup popup(L"중계기 일람표 초기화", L"\n중계기 일람표가 초기화됨\n\n※ 경고 : [확인] 선택 시\n기존에 생성된 중계기 일람표가 모두 삭제되어\n다시 중계기 일람표를 확정해도\n[새 회로번호]가 적용됩니다.\n신중히 선택하세요.", MB_YESNO, this);
+#else
+	CMessagePopup popup(L"Initialization\nof Module Table", L"\n\nThe Module Table will be initialized\n\n※ Warning : When [OK] is selected,\nAll of created Module Table is deleted,\nso even if Module Table is confirmed again,\n[New Circuit Number] will be applied.", MB_YESNO, this);
+#endif
 
 	UINT nResult = popup.DoModal();
 	if (nResult != IDOK)

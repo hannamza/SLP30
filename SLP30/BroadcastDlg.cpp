@@ -27,7 +27,11 @@ CBroadcastDlg::CBroadcastDlg(CWnd* pParent /*=NULL*/)
 		0,                              // nClipPrecision 
 		ANTIALIASED_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
-		_T("굴림")); // lpszFacename 
+#ifndef ENGLISH_MODE
+		_T("굴림")); // lpszFacename
+#else
+		_T("arial")); // lpszFacename
+#endif
 
 	m_pListCtrl = NULL;
 
@@ -62,8 +66,12 @@ BEGIN_MESSAGE_MAP(CBroadcastDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // CBroadcastDlg 메시지 처리기입니다.
+#ifndef ENGLISH_MODE
+	const TCHAR* g_editHeaderB[] = { _T("번호"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("방송정보"), NULL };
+#else
+	const TCHAR* g_editHeaderB[] = { _T("No."), _T("B.NAME"), _T("B.BLOCK"), _T("LINE"), _T("FLOOR"), _T("PA.INFO"), NULL };
+#endif
 
-const TCHAR* g_editHeaderB[] = { _T("번호"), _T("건물명"), _T("동"), _T("계단"), _T("층"), _T("방송정보"), NULL };
 const int g_editSizeB[] = { 90, 180, 100, 100, 100, 220, 0 }; // pixel
 
 	//20230419 GBM start - 방송정보를 제외한 컬럼은 임의 수정 불가
@@ -106,7 +114,11 @@ BOOL CBroadcastDlg::OnInitDialog()
 
 	m_pListCtrl->SendMessage(WM_INITIALUPDATE);
 
+#ifndef ENGLISH_MODE
 	CString sCaption = L"12바이트 통신";
+#else
+	CString sCaption = L"12 BYTE";
+#endif
 	m_pRadioBtn1 = new CRadioTextBtn(0, sCaption, this);
 	m_pRadioBtn1->Create(IDD_COMMON_CHILD_DIALOG, this);
 	int nX = 495;
@@ -114,14 +126,22 @@ BOOL CBroadcastDlg::OnInitDialog()
 	nX += m_pRadioBtn1->GetWidthExtent(sCaption) + 15;
 	m_pRadioBtn1->ShowWindow(SW_SHOW);
 
+#ifndef ENGLISH_MODE
 	sCaption = L"10바이트 통신";
+#else
+	sCaption = L"10 BYTE";
+#endif
 	m_pRadioBtn2 = new CRadioTextBtn(1, sCaption, this);
 	m_pRadioBtn2->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pRadioBtn2->MoveWindow(nX, 5, m_pRadioBtn2->GetWidthExtent(sCaption), 22);
 	nX += m_pRadioBtn2->GetWidthExtent(sCaption) + 15;
 	m_pRadioBtn2->ShowWindow(SW_SHOW);
 
+#ifndef ENGLISH_MODE
 	sCaption = L"접점출력";
+#else
+	sCaption = L"REL OUT";
+#endif
 	m_pRadioBtn3 = new CRadioTextBtn(2, sCaption, this);
 	m_pRadioBtn3->Create(IDD_COMMON_CHILD_DIALOG, this);
 	m_pRadioBtn3->MoveWindow(nX, 5, m_pRadioBtn3->GetWidthExtent(sCaption), 22);
@@ -232,7 +252,11 @@ bool CBroadcastDlg::SaveInformation()
 		m_pListCtrl->GetItemText(nIndex, 4, sFloor);
 		m_pListCtrl->GetItemText(nIndex, 5, sBRContent);
 
+#ifndef ENGLISH_MODE
 		sStair.Replace(L"계단", L"");
+#else
+		sStair.Replace(L"LINE", L"");
+#endif
 		nStair = _wtoi(sStair.GetBuffer(0));
 
 		if (sFloor.Find(L"B") >= 0) {
@@ -252,7 +276,11 @@ bool CBroadcastDlg::SaveInformation()
 			}			
 		}
 
+#ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
+#else
+		sBlock.Replace(L"B.BLCK", L"");
+#endif
 
 		CSaveManager::ie()->SetBroadcast(sBlock, nStair, nFloor, sBRContent.GetBuffer(0));
 	}
@@ -269,14 +297,22 @@ void CBroadcastDlg::SetupPopupList()
 	for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nBlock; nIndex++) {
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 1) {
 			sTemp = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nIndex);
+#ifndef ENGLISH_MODE
 			sTemp += L"동";
+#else
+			sTemp += L"B.BLCK";
+#endif
 			m_pListCtrl->AddPopupListItem(2, sTemp);
 		}
 	}
 	m_pListCtrl->RemovePopupListItem(3);
 	if (nStairCount > 1) {
 		for (int nIndex = 0; nIndex < nStairCount; nIndex++) {
+#ifndef ENGLISH_MODE
 			sTemp.Format(L"%d계단", nIndex + 1);
+#else
+			sTemp.Format(L"%dLINE", nIndex + 1);
+#endif
 			m_pListCtrl->AddPopupListItem(3, sTemp);
 		}
 	}
@@ -322,10 +358,18 @@ void CBroadcastDlg::DisplayLoadFile()
 		pInfo = CSaveManager::ie()->m_listBC.GetAt(CSaveManager::ie()->m_listBC.FindIndex(nIndex));
 
 		m_pListCtrl->SetItemText(nIndex, 1, CCircuitBasicInfo::Instance()->m_sBuildingName);
+
+#ifndef ENGLISH_MODE
 		sBlock.Format(L"%s동", pInfo->szBlock);
 		m_pListCtrl->SetItemText(nIndex, 2, sBlock);
 		sStair.Format(L"%d계단", pInfo->nStair);
 		m_pListCtrl->SetItemText(nIndex, 3, sStair);
+#else
+		sBlock.Format(L"%sB.BLCK", pInfo->szBlock);
+		m_pListCtrl->SetItemText(nIndex, 2, sBlock);
+		sStair.Format(L"%dLINE", pInfo->nStair);
+		m_pListCtrl->SetItemText(nIndex, 3, sStair);
+#endif
 		if (pInfo->nFloor > 0) {
 			if (pInfo->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑층
 			{
@@ -382,11 +426,19 @@ void CBroadcastDlg::DisplayListItem()
 		}
 		if (CCircuitBasicInfo::Instance()->m_nBlock > 0) {
 			sBlock = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex);
+#ifndef ENGLISH_MODE
 			sBlock += L"동";
+#else
+			sBlock += L"B.BLCK";
+#endif
 		}
 		++nBlockIndex;
 		for (int nIndex = 0; nIndex < nStairCount; nIndex++) {
+#ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
+#else
+			sStair.Format(L"%dLINE", nIndex + 1);
+#endif
 			for (int i = nBasement; i > 0; i--) {
 				sTemp.Format(L"B%dF", i);
 				m_pListCtrl->SetItemText(nListItem, 1, CCircuitBasicInfo::Instance()->m_sBuildingName);
@@ -443,6 +495,8 @@ void CBroadcastDlg::BroadcastStandard()
 int CBroadcastDlg::GetStairValue(CString sStair)
 {
 	int nStair = -1;
+
+#ifndef ENGLISH_MODE
 	if (sStair.Compare(L"1계단") == 0) {
 		nStair = 1;
 	}
@@ -452,6 +506,18 @@ int CBroadcastDlg::GetStairValue(CString sStair)
 	else if (sStair.Compare(L"3계단") == 0) {
 		nStair = 3;
 	}
+#else
+	if (sStair.Compare(L"1LINE") == 0) {
+		nStair = 1;
+	}
+	else if (sStair.Compare(L"2LINE") == 0) {
+		nStair = 2;
+	}
+	else if (sStair.Compare(L"3LINE") == 0) {
+		nStair = 3;
+	}
+#endif
+
 	return nStair;
 }
 
@@ -512,7 +578,11 @@ void CBroadcastDlg::BroadcastStandardType1()
 		if (nFloor == 0) {
 			continue;
 		}
+#ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
+#else
+		sBlock.Replace(L"B.BLCK", L"");
+#endif
 		nBlock = 1;
 		for (int i = 0; i < CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount(); i++) {
 			sTemp = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(i);
@@ -548,7 +618,11 @@ void CBroadcastDlg::BroadcastStandardType2()
 		if (nFloor == 0) {
 			continue;
 		}
+#ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
+#else
+		sBlock.Replace(L"B.BLCK", L"");
+#endif
 		nBlock = 1;
 		for (int i = 0; i < CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount(); i++) {
 			sTemp = CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(i);
