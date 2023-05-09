@@ -362,7 +362,7 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 		}
 #else
 		if (wcslen(pInfo->szBlock) > 0) {
-			sPatternName.Format(L"%s %sB.BLCK ALL FLOOR", sName, pInfo->szBlock);
+			sPatternName.Format(L"%s B.BLCK %s ALL FLOOR", sName, pInfo->szBlock);
 		}
 		else {
 			sPatternName.Format(L"%s ALL FLOOR", sName);
@@ -395,11 +395,11 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 		if (wcslen(pInfo->szBlock) > 0) {
 			if (pInfo->bRooftop)		// ¿ÁÅ¾Ãþ
 			{
-				sPatternName.Format(L"%s %sB.BLCK %s", sName, pInfo->szBlock, strRooftop);
+				sPatternName.Format(L"%s B.BLCK %s %s", sName, pInfo->szBlock, strRooftop);
 			}
 			else
 			{
-				sPatternName.Format(L"%s %sB.BLCK %dLINE", sName, pInfo->szBlock, nStair);
+				sPatternName.Format(L"%s B.BLCK %s LINE %d", sName, pInfo->szBlock, nStair);
 			}
 		}
 		else {
@@ -409,7 +409,7 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 			}
 			else
 			{
-				sPatternName.Format(L"%s %dLINE", sName, nStair);
+				sPatternName.Format(L"%s LINE %d", sName, nStair);
 			}
 		}
 #endif
@@ -466,11 +466,11 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
 				if (pInfo->bRooftop)	// ¿ÁÅ¾Ãþ
 				{
-					sPatternName.Format(L"%s %dLINE %s", sName, pInfo->nStair, strRooftop);
+					sPatternName.Format(L"%s LINE %d %s", sName, pInfo->nStair, strRooftop);
 				}
 				else
 				{
-					sPatternName.Format(L"%s %dLINE %s%dF", sName, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+					sPatternName.Format(L"%s LINE %d %s%dF", sName, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
 				}
 			}
 			else {
@@ -481,27 +481,27 @@ CString CPatternManager::MakePatternName(SYSTEM_INFO_* pInfo, int nType, CString
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
 				if (pInfo->bRooftop)	// ¿ÁÅ¾Ãþ
 				{
-					sPatternName.Format(L"%s %sB.BLCK %dLINE %s", sName, pInfo->szBlock, pInfo->nStair, strRooftop);
+					sPatternName.Format(L"%s B.BLCK %s LINE %d %s", sName, pInfo->szBlock, pInfo->nStair, strRooftop);
 				}
 				else
 				{
-					sPatternName.Format(L"%s %sB.BLCK %dLINE %s%dF", sName, pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+					sPatternName.Format(L"%s B.BLCK %s LINE %d %s%dF", sName, pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
 				}
 			}
 			else {
 				if (pInfo->bRooftop)	// ¿ÁÅ¾Ãþ
 				{
-					sPatternName.Format(L"%s %sB.BLCK %s", sName, pInfo->szBlock, strRooftop);
+					sPatternName.Format(L"%s B.BLCK %s %s", sName, pInfo->szBlock, strRooftop);
 				}
 				else
 				{
-					sPatternName.Format(L"%s %sB.BLCK %s%dF", sName, pInfo->szBlock, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
+					sPatternName.Format(L"%s B.BLCK %s %s%dF", sName, pInfo->szBlock, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor));
 				}
 			}
 		}
 		else {
 			if (CCircuitBasicInfo::Instance()->m_nStair > 1) {
-				sPatternName.Format(L"%s %dLINE", sName, pInfo->nStair);
+				sPatternName.Format(L"%s LINE %d", sName, pInfo->nStair);
 			}
 			else {
 				sPatternName.Format(L"%s", sName);

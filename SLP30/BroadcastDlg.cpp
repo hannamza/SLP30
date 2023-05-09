@@ -112,6 +112,8 @@ BOOL CBroadcastDlg::OnInitDialog()
 	m_pListCtrl->FixHeaderSize(false);
 	m_pListCtrl->EnableLastInsertRow(true, true);
 
+	m_pListCtrl->SetDisableMenu(true);
+
 	m_pListCtrl->SendMessage(WM_INITIALUPDATE);
 
 #ifndef ENGLISH_MODE
@@ -255,7 +257,7 @@ bool CBroadcastDlg::SaveInformation()
 #ifndef ENGLISH_MODE
 		sStair.Replace(L"계단", L"");
 #else
-		sStair.Replace(L"LINE", L"");
+		sStair.Replace(L"LINE ", L"");
 #endif
 		nStair = _wtoi(sStair.GetBuffer(0));
 
@@ -279,7 +281,7 @@ bool CBroadcastDlg::SaveInformation()
 #ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
 #else
-		sBlock.Replace(L"B.BLCK", L"");
+		sBlock.Replace(L"B.BLCK ", L"");
 #endif
 
 		CSaveManager::ie()->SetBroadcast(sBlock, nStair, nFloor, sBRContent.GetBuffer(0));
@@ -300,7 +302,7 @@ void CBroadcastDlg::SetupPopupList()
 #ifndef ENGLISH_MODE
 			sTemp += L"동";
 #else
-			sTemp += L"B.BLCK";
+			sTemp += L"B.BLCK ";
 #endif
 			m_pListCtrl->AddPopupListItem(2, sTemp);
 		}
@@ -311,7 +313,7 @@ void CBroadcastDlg::SetupPopupList()
 #ifndef ENGLISH_MODE
 			sTemp.Format(L"%d계단", nIndex + 1);
 #else
-			sTemp.Format(L"%dLINE", nIndex + 1);
+			sTemp.Format(L"LINE %d", nIndex + 1);
 #endif
 			m_pListCtrl->AddPopupListItem(3, sTemp);
 		}
@@ -365,9 +367,9 @@ void CBroadcastDlg::DisplayLoadFile()
 		sStair.Format(L"%d계단", pInfo->nStair);
 		m_pListCtrl->SetItemText(nIndex, 3, sStair);
 #else
-		sBlock.Format(L"%sB.BLCK", pInfo->szBlock);
+		sBlock.Format(L"B.BLCK %s", pInfo->szBlock);
 		m_pListCtrl->SetItemText(nIndex, 2, sBlock);
-		sStair.Format(L"%dLINE", pInfo->nStair);
+		sStair.Format(L"LINE %d", pInfo->nStair);
 		m_pListCtrl->SetItemText(nIndex, 3, sStair);
 #endif
 		if (pInfo->nFloor > 0) {
@@ -429,7 +431,7 @@ void CBroadcastDlg::DisplayListItem()
 #ifndef ENGLISH_MODE
 			sBlock += L"동";
 #else
-			sBlock += L"B.BLCK";
+			sBlock = L"B.BLCK " + sBlock;
 #endif
 		}
 		++nBlockIndex;
@@ -437,7 +439,7 @@ void CBroadcastDlg::DisplayListItem()
 #ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
 #else
-			sStair.Format(L"%dLINE", nIndex + 1);
+			sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 			for (int i = nBasement; i > 0; i--) {
 				sTemp.Format(L"B%dF", i);
@@ -507,13 +509,13 @@ int CBroadcastDlg::GetStairValue(CString sStair)
 		nStair = 3;
 	}
 #else
-	if (sStair.Compare(L"1LINE") == 0) {
+	if (sStair.Compare(L"LINE 1") == 0) {
 		nStair = 1;
 	}
-	else if (sStair.Compare(L"2LINE") == 0) {
+	else if (sStair.Compare(L"LINE 2") == 0) {
 		nStair = 2;
 	}
-	else if (sStair.Compare(L"3LINE") == 0) {
+	else if (sStair.Compare(L"LINE 3") == 0) {
 		nStair = 3;
 	}
 #endif
@@ -581,7 +583,7 @@ void CBroadcastDlg::BroadcastStandardType1()
 #ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
 #else
-		sBlock.Replace(L"B.BLCK", L"");
+		sBlock.Replace(L"B.BLCK ", L"");
 #endif
 		nBlock = 1;
 		for (int i = 0; i < CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount(); i++) {
@@ -621,7 +623,7 @@ void CBroadcastDlg::BroadcastStandardType2()
 #ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
 #else
-		sBlock.Replace(L"B.BLCK", L"");
+		sBlock.Replace(L"B.BLCK ", L"");
 #endif
 		nBlock = 1;
 		for (int i = 0; i < CCircuitBasicInfo::Instance()->m_arrayBlockName.GetCount(); i++) {

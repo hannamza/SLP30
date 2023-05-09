@@ -401,7 +401,7 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 #ifndef ENGLISH_MODE
 		sStair.Replace(L"계단", L"");
 #else
-		sStair.Replace(L"LINE", L"");
+		sStair.Replace(L"LINE ", L"");
 #endif
 
 		nStair = _wtoi(sStair.GetBuffer(0));
@@ -431,7 +431,7 @@ bool CCircuitChartDlg::SaveInformation(int nChartIndex)
 #ifndef ENGLISH_MODE
 		sBlock.Replace(L"동", L"");
 #else
-		sBlock.Replace(L"B.BLCK", L"");
+		sBlock.Replace(L"B.BLCK ", L"");
 #endif
 
 		CSaveManager::ie()->SetSystemInfo(sBDName.GetBuffer(0), sCircuitName.GetBuffer(0), sRoomName.GetBuffer(0), sBlock.GetBuffer(0),
@@ -457,7 +457,7 @@ void CCircuitChartDlg::SetupPopupList()
 #ifndef ENGLISH_MODE
 			sTemp += L"동";
 #else
-			sTemp += L"B.BLCK";
+			sTemp = L"B.BLCK " + sTemp;
 #endif
 			m_pListCtrl->AddPopupListItem(4, sTemp);
 		}
@@ -466,7 +466,7 @@ void CCircuitChartDlg::SetupPopupList()
 #ifndef ENGLISH_MODE
 		sTemp.Format(L"%d계단", nIndex + 1);
 #else
-		sTemp.Format(L"%dLINE", nIndex + 1);
+		sTemp.Format(L"LINE %d", nIndex + 1);
 #endif
 		m_pListCtrl->AddPopupListItem(5, sTemp);
 	}
@@ -512,7 +512,7 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 #ifndef ENGLISH_MODE
 			sTemp.Format(L"%s동", pInfo->szBlock);
 #else
-			sTemp.Format(L"%sB.BLCK", pInfo->szBlock);
+			sTemp.Format(L"B.BLCK %s", pInfo->szBlock);
 #endif
 		}
 		else {
@@ -524,7 +524,7 @@ void CCircuitChartDlg::DisplayLoadFile(int nChartIndex)
 #ifndef ENGLISH_MODE
 			sTemp.Format(L"%d계단", (int)pInfo->nStair);
 #else
-			sTemp.Format(L"%dLINE", (int)pInfo->nStair);
+			sTemp.Format(L"LINE %d", (int)pInfo->nStair);
 #endif
 		}
 		else {

@@ -141,7 +141,7 @@ BOOL CCustomItem::PreTranslateMessage(MSG* pMsg)
 		if (m_bReadOnlyState)
 		{	
 #ifndef ENGLISH_MODE
-			CMessagePopup popup(L"건물 정보 변경 불가", L"\n\n\n건물 정보는 이미 결정되었으므로 변경할 수 없습니다.", MB_OK, this);
+			CMessagePopup popup(L"건물 정보 변경 불가", L"\n\n\n건물 정보는 확정되어 변경 불가능함", MB_OK, this);
 #else
 			CMessagePopup popup(L"Building Information\ncannot be changed", L"\n\n\n\nBuilding information is already finalized\nand cannot be changed.", MB_OK, this);
 #endif

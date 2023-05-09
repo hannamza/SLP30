@@ -159,7 +159,7 @@ bool CDataLinkManager::LcdContentsWrite(SYSTEM_INFO_* pInfo, FILE* f, long & lSi
 #ifndef ENGLISH_MODE
 	sText.Format(L"%s동 %d계단 %s%s%s", pInfo->szBlock, pInfo->nStair, sFloor, strTxt, pInfo->szCircuitName);
 #else
-	sText.Format(L"%sB.BLCK %dLINE %s%s%s", pInfo->szBlock, pInfo->nStair, sFloor, strTxt, pInfo->szCircuitName);
+	sText.Format(L"B.BLCK %s LINE %d %s%s%s", pInfo->szBlock, pInfo->nStair, sFloor, strTxt, pInfo->szCircuitName);
 #endif
 	if (pInfo->nCircuitNo > 0) {
 		strTxt.Format(L"%s-%d", sText, pInfo->nCircuitNo);
@@ -1056,9 +1056,9 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 			sTemp.Format(L"%s동 %d계단", pInfo->szBlock, pInfo->nStair);
 			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
 #else
-			sTemp.Format(L"%sB.BLCK%dLINE %s", pInfo->szBlock, pInfo->nStair, pInfo->szCircuitName);
+			sTemp.Format(L"B.BLCK %s LINE %d %s", pInfo->szBlock, pInfo->nStair, pInfo->szCircuitName);
 			XL.SetCellValue(5, 2 + (nIndex * 2), sTemp);
-			sTemp.Format(L"%sB.BLCK %dLINE", pInfo->szBlock, pInfo->nStair);
+			sTemp.Format(L"B.BLCK %s LINE %d", pInfo->szBlock, pInfo->nStair);
 			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
 #endif
 		}
@@ -1073,9 +1073,9 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 			sTemp.Format(L"%d계단", pInfo->nStair);
 			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
 #else
-			sTemp.Format(L"%dLINE %s", pInfo->nStair, pInfo->szCircuitName);
+			sTemp.Format(L"LINE %d %s", pInfo->nStair, pInfo->szCircuitName);
 			XL.SetCellValue(5, 2 + (nIndex * 2), sTemp);
-			sTemp.Format(L"%dLINE", pInfo->nStair);
+			sTemp.Format(L"LINE %d", pInfo->nStair);
 			XL.SetCellValue(27, 2 + (nIndex * 2), sTemp);
 #endif
 		}
@@ -1098,7 +1098,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 #ifndef ENGLISH_MODE
 				sTemp.Format(L"%s동 %d계단 %s%s%s", pInfo->szBlock, pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
 #else
-				sTemp.Format(L"%sB.BLCK %dLINE %s%s%s", pInfo->szBlock, pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
+				sTemp.Format(L"B.BLCK %s LINE %d %s%s%s", pInfo->szBlock, pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
 #endif
 			}
 			else
@@ -1106,7 +1106,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 #ifndef ENGLISH_MODE
 				sTemp.Format(L"%s동 %d계단 %s%dF%s%s", pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
 #else
-				sTemp.Format(L"%sB.BLCK %dLINE %s%dF%s%s", pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+				sTemp.Format(L"B.BLCK %s LINE %d %s%dF%s%s", pInfo->szBlock, pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
 #endif
 			}
 		}
@@ -1126,7 +1126,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 #ifndef ENGLISH_MODE
 				sTemp.Format(L"%d계단 %s%s%s", pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
 #else
-				sTemp.Format(L"%dLINE %s%s%s", pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
+				sTemp.Format(L"LINE %d %s%s%s", pInfo->nStair, strRooftop, sInput, pInfo->szCircuitName);
 #endif
 			}
 			else
@@ -1134,7 +1134,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 #ifndef ENGLISH_MODE
 				sTemp.Format(L"%d계단 %s%dF%s%s", pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
 #else
-				sTemp.Format(L"%dLINE %s%dF%s%s", pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
+				sTemp.Format(L"LINE %d %s%dF%s%s", pInfo->nStair, (pInfo->nFloor < 0) ? L"B" : L"", abs(pInfo->nFloor), sInput, pInfo->szCircuitName);
 #endif
 			}
 		}
@@ -1206,7 +1206,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 #ifndef ENGLISH_MODE
 			sTemp.Format(L"%s동 %s", pBc->szBlock, strRooftop);
 #else
-			sTemp.Format(L"%sB.BLCK %s", pBc->szBlock, strRooftop);
+			sTemp.Format(L"B.BLCK %s %s", pBc->szBlock, strRooftop);
 #endif
 		}
 		else
@@ -1214,7 +1214,7 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 #ifndef ENGLISH_MODE
 			sTemp.Format(L"%s동 %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
 #else
-			sTemp.Format(L"%sB.BLCK %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			sTemp.Format(L"B.BLCK %s %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
 #endif
 		}
 		

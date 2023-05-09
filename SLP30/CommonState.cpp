@@ -78,7 +78,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 #ifndef ENGLISH_MODE
 			sBlock += L"동";
 #else
-			sBlock += L"B.BLCK";
+			sBlock = L"B.BLCK " + sBlock;
 #endif
 
 			for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++) 
@@ -86,7 +86,7 @@ void CCommonState::InitSelectCircuitCompInfo(int nSystem)
 #ifndef ENGLISH_MODE
 				sStair.Format(L"%d계단", nIndex + 1);
 #else
-				sStair.Format(L"%dLINE", nIndex + 1);
+				sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 
 				//지하층
@@ -279,14 +279,14 @@ void CCommonState::InitSelectCircuitRepeaterList(int nSystem)
 #ifndef ENGLISH_MODE
 			sBlock += L"동";
 #else
-			sBlock += L"B.BLCK";
+			sBlock = L"B.BLCK " + sBlock;
 #endif
 			for (int nIndex = 0; nIndex < CCircuitBasicInfo::Instance()->m_nStair; nIndex++)
 			{
 #ifndef ENGLISH_MODE
 				sStair.Format(L"%d계단", nIndex + 1);
 #else
-				sStair.Format(L"%dLINE", nIndex + 1);
+				sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 				//지하층
 				for (int nIndexBasement = CCircuitBasicInfo::Instance()->m_nBasement; nIndexBasement > 0; nIndexBasement--)

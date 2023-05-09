@@ -96,7 +96,11 @@ BEGIN_MESSAGE_MAP(CCustomList, CScrollView)
 	ON_WM_RBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_RBUTTONUP()
+#ifndef ENGLISH_MODE
 	ON_COMMAND(ID_LIST_CIRCUIT_NO_CHANGE, &CCustomList::OnListCircuitNoChange)
+#else
+	ON_COMMAND(ID_LIST_CIRCUIT_NO_CHANGE_EN, &CCustomList::OnListCircuitNoChange)
+#endif
 END_MESSAGE_MAP()
 
 
@@ -1038,6 +1042,8 @@ LRESULT CCustomList::OnListRButtonClick(WPARAM wParam, LPARAM lParam)
 
 	//20221026 GBM start - 회로번호 이동 메뉴로 대체
 #if 1
+
+#ifndef ENGLISH_MODE
 	muTemp.LoadMenu(IDR_MENU_MOVE);				// 메뉴는 정의해 놓은 것 중 원하는 것
 	pContextMenu = muTemp.GetSubMenu(0);
 	pContextMenu->EnableMenuItem(ID_LIST_CIRCUIT_NO_CHANGE, MF_BYCOMMAND | MF_ENABLED);
@@ -1046,6 +1052,17 @@ LRESULT CCustomList::OnListRButtonClick(WPARAM wParam, LPARAM lParam)
 		pContextMenu->TrackPopupMenu(TPM_LEFTALIGN, pt.x, pt.y, this);
 		CCommonState::ie()->m_bMenu = false;
 	}
+#else
+	muTemp.LoadMenu(IDR_MENU_MOVE_EN);				// 메뉴는 정의해 놓은 것 중 원하는 것
+	pContextMenu = muTemp.GetSubMenu(0);
+	pContextMenu->EnableMenuItem(ID_LIST_CIRCUIT_NO_CHANGE_EN, MF_BYCOMMAND | MF_ENABLED);
+	if (!m_bDisable) {
+		CCommonState::ie()->m_bMenu = true;
+		pContextMenu->TrackPopupMenu(TPM_LEFTALIGN, pt.x, pt.y, this);
+		CCommonState::ie()->m_bMenu = false;
+	}
+#endif
+
 #else
 	muTemp.LoadMenu(IDR_MENU_LIST);				// 메뉴는 정의해 놓은 것 중 원하는 것
 	pContextMenu = muTemp.GetSubMenu(0);
@@ -1521,7 +1538,7 @@ void CCustomList::OnListCircuitNoChange()
 #ifndef ENGLISH_MODE
 			CMessagePopup popup(L"회로 번호 오류", L"\n\n회로 번호는 1 ~ 250번까지 입력 가능함", MB_OK, this);
 #else
-			CMessagePopup popup(L"Circuit Number\nError", L"\n\n\n\nCircuit Number from 1 to 250\ncan be entered.", MB_OK, this);
+			CMessagePopup popup(L"Circuit Number\nError", L"\n\n\n\nCircuit Numbers from 1 to 250\ncan be entered.", MB_OK, this);
 #endif
 			popup.DoModal();
 			return;

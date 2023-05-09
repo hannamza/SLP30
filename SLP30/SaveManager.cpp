@@ -603,7 +603,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 #ifndef ENGLISH_MODE
 			sTemp += L"동";
 #else
-			sTemp += L"B.BLCK";
+			sTemp = L"B.BLCK " + sTemp;
 #endif
 			XL.SetCellValue(nColumn + 6, 4 + nRow, sTemp); // 동(건물명)
 		}
@@ -620,7 +620,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 #ifndef ENGLISH_MODE
 			sTemp.Format(L"%d계단", pInfo->nStair);
 #else
-			sTemp.Format(L"%dLINE", pInfo->nStair);
+			sTemp.Format(L"LINE %d", pInfo->nStair);
 #endif
 		}
 		XL.SetCellValue(nColumn + 8, 4 + nRow, sTemp.GetBuffer(0)); // 계단
@@ -680,21 +680,21 @@ int CSaveManager::ExcelFileSave(CString sPath)
 		if (wcslen(pInfo->szBlock) > 0) {
 			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑
 			{
-				sTemp.Format(L"%sB.BLCK %dLINE %s", pBc->szBlock, pBc->nStair, strRooftop);
+				sTemp.Format(L"B.BLCK %s LINE %d %s", pBc->szBlock, pBc->nStair, strRooftop);
 			}
 			else
 			{
-				sTemp.Format(L"%sB.BLCK %dLINE %s%dF", pBc->szBlock, pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+				sTemp.Format(L"B.BLCK %s LINE %d %s%dF", pBc->szBlock, pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
 			}
 		}
 		else {
 			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑
 			{
-				sTemp.Format(L"%dLINE %s", pBc->nStair, strRooftop);
+				sTemp.Format(L"LINE %d %s", pBc->nStair, strRooftop);
 			}
 			else
 			{
-				sTemp.Format(L"%dLINE %s%dF", pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+				sTemp.Format(L"LINE %d %s%dF", pBc->nStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
 			}
 		}
 #endif
@@ -839,10 +839,10 @@ void CSaveManager::DeleteSystemInfo()
 							sSystem.Format(L"LOOP %d", pSI->nSystem);
 
 							//동
-							sBlock.Format(L"%sB.BLCK", pSI->szBlock);
+							sBlock.Format(L"B.BLCK %s", pSI->szBlock);
 
 							//계단
-							sStair.Format(L"%dLINE", pSI->nStair);
+							sStair.Format(L"LINE %d", pSI->nStair);
 #endif
 
 							//층
@@ -916,10 +916,10 @@ void CSaveManager::DeleteSystemInfo()
 						sSystem.Format(L"LOOP %d", pSI->nSystem);
 
 						//동
-						sBlock.Format(L"%sB.BLCK", pSI->szBlock);
+						sBlock.Format(L"B.BLCK %s", pSI->szBlock);
 
 						//계단
-						sStair.Format(L"%dLINE", pSI->nStair);
+						sStair.Format(L"LINE %d", pSI->nStair);
 #endif
 
 						//층
@@ -1048,9 +1048,9 @@ void CSaveManager::AddSystemInfo()
 						sBlock.Replace(L"동", L"");
 #else
 						sStair = iterSCCR->sStair;
-						sStair.Replace(L"LINE", L"");
+						sStair.Replace(L"LINE ", L"");
 						nStair = _wtoi(sStair.GetBuffer(0));
-						sBlock.Replace(L"B.BLCK", L"");
+						sBlock.Replace(L"B.BLCK ", L"");
 #endif
 
 						sFloor = iterSCCR->sFloor;
@@ -1143,9 +1143,9 @@ void CSaveManager::AddSystemInfo()
 					sBlock.Replace(L"동", L"");
 #else
 					sStair = iterSCCR->sStair;
-					sStair.Replace(L"LINE", L"");
+					sStair.Replace(L"LINE ", L"");
 					nStair = _wtoi(sStair.GetBuffer(0));
-					sBlock.Replace(L"B.BLCK", L"");
+					sBlock.Replace(L"B.BLCK ", L"");
 #endif
 
 					sFloor = iterSCCR->sFloor;

@@ -60,7 +60,7 @@ BOOL CCircuitSetupDlg::OnInitDialog()
 #ifndef ENGLISH_MODE
 		sText.Format(L"%d계단", nIndex + 1);
 #else
-		sText.Format(L"%dLINE", nIndex + 1);
+		sText.Format(L"LINE %d", nIndex + 1);
 #endif
 		m_pTabButton[nIndex] = new CTextTabBtn(nIndex, sText, this);
 		m_pTabButton[nIndex]->Create(IDD_COMMON_CHILD_DIALOG, this);
@@ -256,7 +256,7 @@ void CCircuitSetupDlg::FillDataInCircuitListCtrl(int nSystem)
 #ifndef ENGLISH_MODE
 			sBlock += L"동";
 #else
-			sBlock += L"B.BLCK";
+			sBlock = L"B.BLCK " + sBlock;
 #endif
 		}
 		++nBlockIndex;
@@ -265,7 +265,7 @@ void CCircuitSetupDlg::FillDataInCircuitListCtrl(int nSystem)
 #ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
 #else
-			sStair.Format(L"%dLINE", nIndex + 1);
+			sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 
 			pList = m_p_List[nStairIndex];
@@ -395,14 +395,14 @@ CCustomListCtrl* CCircuitSetupDlg::GetStairValue(CString sBlock, CString sStair)
 #ifndef ENGLISH_MODE
 		sTemp += L"동";
 #else
-		sTemp += L"B.BLCK";
+		sTemp = L"B.BLCK " + sTemp;
 #endif
 		if (sTemp == sBlock) {
 			for (int i = 0; i < CCircuitBasicInfo::Instance()->m_nStair; i++) {
 #ifndef ENGLISH_MODE
 				sTemp1.Format(L"%d계단", i + 1);
 #else
-				sTemp1.Format(L"%dLINE", i + 1);
+				sTemp1.Format(L"LINE %d", i + 1);
 #endif
 				if (sTemp1 == sStair) {
 					int nValue = (nIndex * CCircuitBasicInfo::Instance()->m_nStair) + i;
@@ -675,7 +675,7 @@ bool CCircuitSetupDlg::CompareNewCircuitInfo(int nSystem)
 #ifndef ENGLISH_MODE
 			sBlock += L"동";
 #else
-			sBlock += L"B.BLCK";
+			sBlock = L"B.BLCK " + sBlock;
 #endif
 		}
 		++nBlockIndex;
@@ -684,7 +684,7 @@ bool CCircuitSetupDlg::CompareNewCircuitInfo(int nSystem)
 #ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
 #else
-			sStair.Format(L"%dLINE", nIndex + 1);
+			sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 
 			pList = m_p_List[nStairIndex];
@@ -800,7 +800,7 @@ bool CCircuitSetupDlg::CompareNewCircuitInfoNeo(int nSystem)
 #ifndef ENGLISH_MODE
 			sBlock += L"동";
 #else
-			sBlock += L"B.BLCK";
+			sBlock = L"B.BLCK " + sBlock;
 #endif
 		}
 		++nBlockIndex;
@@ -809,7 +809,7 @@ bool CCircuitSetupDlg::CompareNewCircuitInfoNeo(int nSystem)
 #ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
 #else
-			sStair.Format(L"%dLINE", nIndex + 1);
+			sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 
 			pList = m_p_List[nStairIndex];
@@ -934,7 +934,7 @@ bool CCircuitSetupDlg::SaveCircuitInfo(int nSystem)
 #ifndef ENGLISH_MODE
 			sBlock += L"동";
 #else
-			sBlock += L"B.BLCK";
+			sBlock = L"B.BLCK " + sBlock;
 #endif
 		}
 		++nBlockIndex;
@@ -943,7 +943,7 @@ bool CCircuitSetupDlg::SaveCircuitInfo(int nSystem)
 #ifndef ENGLISH_MODE
 			sStair.Format(L"%d계단", nIndex + 1);
 #else
-			sStair.Format(L"%dLINE", nIndex + 1);
+			sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 
 			pList = m_p_List[nStairIndex];
@@ -1020,7 +1020,7 @@ void CCircuitSetupDlg::Redisplay()
 					CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex)
 					, ((nIndex > 0) ? (nIndex % CCircuitBasicInfo::Instance()->m_nStair) : 0) + 1);
 #else
-				sStair.Format(L"%sB.BLCK %dLINE",
+				sStair.Format(L"B.BLCK %s LINE %d",
 					CCircuitBasicInfo::Instance()->m_arrayBlockName.GetAt(nBlockIndex)
 					, ((nIndex > 0) ? (nIndex % CCircuitBasicInfo::Instance()->m_nStair) : 0) + 1);
 #endif
@@ -1029,7 +1029,7 @@ void CCircuitSetupDlg::Redisplay()
 #ifndef ENGLISH_MODE
 				sStair.Format(L"%d계단", nIndex + 1);
 #else
-				sStair.Format(L"%dLINE", nIndex + 1);
+				sStair.Format(L"LINE %d", nIndex + 1);
 #endif
 			}
 			m_pTabButton[nIndex]->SetCaption(sStair);
