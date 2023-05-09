@@ -69,7 +69,7 @@ const int g_editAlignPS[] = { DT_CENTER, DT_CENTER, DT_CENTER, -1 }; // option, 
 const int g_editLimitPS[] = { 0, 0, 0, -1 }; // 0: 무제한, > 0 : 텍스트 사이즈 제한
 
 #ifndef ENGLISH_MODE
-const TCHAR* g_editHeaderPump[] = { _T("번호"), _T("펌프"), _T("사용여부"), _T("기동램프출력"), NULL };
+const TCHAR* g_editHeaderPump[] = { _T("번호"), _T("펌프"), _T("사용여부"), _T("기동램프 출력"), NULL };
 #else
 const TCHAR* g_editHeaderPump[] = { _T("No."), _T("PUMP"), _T("USE"), _T("P/L ON"), NULL };
 #endif

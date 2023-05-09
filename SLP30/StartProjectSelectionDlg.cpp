@@ -170,7 +170,7 @@ void CStartProjectSelectionDlg::OnNewProjectClick()
 {
 	if (!m_bFirst) {
 #ifndef ENGLISH_MODE
-		CMessagePopup popup(L"신규 프로젝트 생성", L"\n\n\n새로운 작업을 시작합니까?", MB_YESNO, this);
+		CMessagePopup popup(L"신규 프로젝트 생성", L"\n\n\n신규 프로젝트를 시작합니까?", MB_YESNO, this);
 #else
 		CMessagePopup popup(L"Create a New Project", L"\n\n\nDo you want to start a new Project?", MB_YESNO, this);
 #endif
