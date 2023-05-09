@@ -331,7 +331,7 @@ void CCircuitInfoDlg::OnNextClick()
 #ifndef ENGLISH_MODE
 		CMessagePopup popup(L"중계기 일람표 확정", L"\n설비 설정을 적용하여 중계기 일람표 확정됨\n\n중계기 일람표 확정 이후\n설비 추가인 경우 기존 중계기 일람표 하단에 추가,\n설비 삭제인 경우 중계기 일람표에서 설비가 제거됨\n\n계속하시겠습니까?", MB_YESNO, this);
 #else
-		CMessagePopup popup(L"Confirmation of\nModule Table", L"\n\nModule Table is finalized\napplying the current Equipment Settings.\nAfter confirmation, If Equipment is added,\nit will be added to the bottom of Module Table,\nIf Equipment is deleted,\nthe device will be deleted from Module Table.", MB_YESNO, this);
+		CMessagePopup popup(L"Confirmation of\nModule Table", L"\n\nModule Table is finalized\napplying the current Equipment Settings.\nAfter confirmation, If Equipment is added,\nit will be added to the bottom of Module Table,\nIf Equipment is deleted,\nthe Equipment will be deleted from Module Table.", MB_YESNO, this);
 #endif
 		UINT nResult = popup.DoModal();
 		if (nResult != IDOK) {
