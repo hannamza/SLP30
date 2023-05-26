@@ -446,6 +446,7 @@ void CSaveManager::ReleaseExcelWaitPopup()
 	}
 }
 
+//중계기 일람표 엑셀 저장
 int CSaveManager::ExcelFileSave(CString sPath)
 {
 	CString strRooftop;
@@ -656,7 +657,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 	for (int nIndex = 0; nIndex < m_listBC.GetCount(); nIndex++) {
 		pBc = m_listBC.GetAt(m_listBC.FindIndex(nIndex));
 #ifndef ENGLISH_MODE
-		if (wcslen(pInfo->szBlock) > 0) {
+		if (wcslen(pBc->szBlock) > 0) {
 			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑
 			{
 				sTemp.Format(L"%s동 %d계단 %s", pBc->szBlock, pBc->nStair, strRooftop);
@@ -677,7 +678,7 @@ int CSaveManager::ExcelFileSave(CString sPath)
 			}
 		}
 #else
-		if (wcslen(pInfo->szBlock) > 0) {
+		if (wcslen(pBc->szBlock) > 0) {
 			if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑
 			{
 				sTemp.Format(L"B.BLCK %s LINE %d %s", pBc->szBlock, pBc->nStair, strRooftop);

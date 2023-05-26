@@ -900,6 +900,7 @@ CString CDataLinkManager::GetCircuitNo(int nNum)
 	return sTemp;
 }
 
+//연동데이터 엑셀 저장
 int CDataLinkManager::MakeExcelData(CString sPath)
 {
 	WCHAR wszPath[2048];
@@ -1201,20 +1202,29 @@ int CDataLinkManager::MakeExcelData(CString sPath)
 	for (int nIndex = 0; nIndex < nCount; nIndex++) {
 		pBc = CSaveManager::Instance()->m_listBC.GetAt(CSaveManager::Instance()->m_listBC.FindIndex(nIndex));
 
+		CString strStair = _T("");
 		if (pBc->nFloor == CCircuitBasicInfo::Instance()->m_nFloor + 1)	//옥탑층
 		{
 #ifndef ENGLISH_MODE
-			sTemp.Format(L"%s동 %s", pBc->szBlock, strRooftop);
+			if (pBc->nStair != 0)
+				strStair.Format(_T("%d계단 "), pBc->nStair);
+			sTemp.Format(L"%s동 %s%s", pBc->szBlock, strStair, strRooftop);
 #else
-			sTemp.Format(L"B.BLCK %s %s", pBc->szBlock, strRooftop);
+			if (pBc->nStair != 0)
+				strStair.Format(_T("LINE %d "), pBc->nStair);
+			sTemp.Format(L"B.BLCK %s %s%s", pBc->szBlock, strStair, strRooftop);
 #endif
 		}
 		else
 		{
 #ifndef ENGLISH_MODE
-			sTemp.Format(L"%s동 %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			if (pBc->nStair != 0)
+				strStair.Format(_T("%d계단 "), pBc->nStair);
+			sTemp.Format(L"%s동 %s%s%dF", pBc->szBlock, strStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
 #else
-			sTemp.Format(L"B.BLCK %s %s%dF", pBc->szBlock, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
+			if (pBc->nStair != 0)
+				strStair.Format(_T("LINE %d "), pBc->nStair);
+			sTemp.Format(L"B.BLCK %s %s%s%dF", pBc->szBlock, strStair, (pBc->nFloor < 0) ? L"B" : L"", abs(pBc->nFloor));
 #endif
 		}
 		
