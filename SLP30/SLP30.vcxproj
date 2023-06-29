@@ -222,8 +222,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <OutputFile>$(OutDir)\GFSR$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(OutDir)\GFSR.pdb</ProgramDatabaseFile>
+      <OutputFile>$(OutDir)\RLP1$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)\RLP1.pdb</ProgramDatabaseFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Midl>
@@ -248,8 +248,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <OutputFile>$(OutDir)\GFSR$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(OutDir)\GFSR.pdb</ProgramDatabaseFile>
+      <OutputFile>$(OutDir)\RLP1$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)\RLP1.pdb</ProgramDatabaseFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Midl>
@@ -338,8 +338,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <OutputFile>$(OutDir)\GFSR$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(OutDir)\GFSR.pdb</ProgramDatabaseFile>
+      <OutputFile>$(OutDir)\RLP1$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)\RLP1.pdb</ProgramDatabaseFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Midl>
@@ -368,8 +368,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <OutputFile>$(OutDir)\GFSR$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(OutDir)\GFSR.pdb</ProgramDatabaseFile>
+      <OutputFile>$(OutDir)\RLP1$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)\RLP1.pdb</ProgramDatabaseFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Midl>
