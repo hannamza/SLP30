@@ -87,7 +87,8 @@ bool CDataLinkManager::MakeEmerData(FILE* f)
 			::DeleteFile(sPath);
 			return false;
 		}
-		fclose(f);
+		//접점 방식일 때는 비상방송 정보가 없으므로 그냥 리턴시켜서 다음 정보가 이어지도록 한다. (파일 닫으면 안됨)
+		//fclose(f);
 		return true;
 	}
 	BC_INFO* pInfo = NULL;

@@ -179,6 +179,7 @@ int CPatternManager::CheckType(int nType, SYSTEM_INFO_* pInfo)
 	return false;
 }
 
+// 패턴 번호를 0부터 루프를 돌면서 지하 패턴 개수를 확인하고 아래 순서대로 번호가 매겨지는데 각 동별/계단별/층별은 건물 구성에 따라 가변적으로 개수가 설정되므로 이부분까지 계산
 // 1: m_alarmPatternDown
 // 2~ m_alarmPattern
 // 3~ m_visualalarmPattern
